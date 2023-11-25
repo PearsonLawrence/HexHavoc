@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638364684726252335
-    m_Hash: 1361303881
+      ticks: 638364813628347412
+    m_Hash: 2484107320
   m_LockFileStatus:
     m_FilePath: E:/Dev/HexHavoc/HHProj/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638364684726992303
-    m_Hash: 2947160410
+      ticks: 638364813628347412
+    m_Hash: 3119954969
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
