@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 2289702106601729941}
   - component: {fileID: -8669271902046998815}
   - component: {fileID: -5557976470904037479}
+  - component: {fileID: 7558574191062310787}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -333,6 +334,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: -8669271902046998815}
+--- !u!114 &7558574191062310787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4178198813324975648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca9d4b93f76d9948a44d508149517c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballPrefab: {fileID: 3328912551264360234, guid: 569ea0d702b929046bd45b5b726b67b3, type: 3}
 --- !u!1 &4249642059008848845
 GameObject:
   m_ObjectHideFlags: 0

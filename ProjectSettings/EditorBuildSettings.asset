@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Pearson/Scenes/Base.unity
     guid: b88e76a29ea6a564494fa24f8b07bec5
+  - enabled: 1
+    path: Assets/Brandon/Scenes/BrandonTest.unity
+    guid: 00347f8dbacd44a46b0d9f5678edbb7c
   m_configObjects: {}
