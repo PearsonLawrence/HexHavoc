@@ -48,6 +48,8 @@ public class PlayerNetwork : NetworkBehaviour
         {
             Transform spwanedObjectTransform = Instantiate(SpawnedObjectPrefab);
             spwanedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+            
+            
             //TestClientRpc(new ClientRpcParams {  Send = new ClientRpcSendParams {TargetClientIds = new List<ulong> { 1 } } });
             //TestServerRpc(new ServerRpcParams());
             /*randomNumber.Value = new MyCustomData
