@@ -14,6 +14,12 @@ public class PlayerLength_Test : NetworkBehaviour
     private Collider thisCollider;
     public override void OnNetworkSpawn()
     {
+        if (IsOwner) return;
+
+        for (int i = 0; i < length.Value - 1; ++i)
+
+            InstantiateTail();
+
         base.OnNetworkSpawn();
         _tails = new List<GameObject>();
         _lastTail = transform;
@@ -23,7 +29,7 @@ public class PlayerLength_Test : NetworkBehaviour
 
     [ContextMenu("Add Length")]
     //Only called by server
-    private void AddLength()
+    public void AddLength()
     {
         length.Value += 1;
         InstantiateTail();
