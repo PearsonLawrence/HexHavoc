@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
 public class NetworkManagerUI : MonoBehaviour
 {
     [SerializeField] private Button server_Button;
@@ -27,4 +27,4 @@ public class NetworkManagerUI : MonoBehaviour
             NetworkManager.Singleton.StartClient();
         });
     }
-}
+}*/
