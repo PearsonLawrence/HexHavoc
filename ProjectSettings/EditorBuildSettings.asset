@@ -5,16 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Brandon/Scenes/Brandon_NetworkTest.unity
-    guid: 8802db0d88f0f0c45b7f5edc84470056
-  - enabled: 0
-    path: Assets/Pearson/Scenes/NetworkTest2.unity
-    guid: e89e3db6b7f86d64e885554fd183dac0
   - enabled: 0
     path: Assets/Pearson/Scenes/Base.unity
     guid: b88e76a29ea6a564494fa24f8b07bec5
-  - enabled: 0
-    path: Assets/Brandon/Scenes/BrandonTest.unity
-    guid: 00347f8dbacd44a46b0d9f5678edbb7c
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/HexHavoc-mason.unity
+    guid: b2748a328f64e2f4d8690e16fa407cb8
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9103ac44796fbf0409b9d797d8d79312, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c72f4077f9b401a458273958990973fc, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 12c37e11b074d7a46ba8e54913edd515, type: 2}
