@@ -5,14 +5,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static PlayerNetwork;
 
-public class CollisionManager : NetworkBehaviour
+public class collisionManager : NetworkBehaviour
 {
     [SerializeField] private SpellComponent spell;
     [SerializeField] private bool isSpell = false;
-    private bool hasCollided = false; // Boolean to track whether a spell has collided
 
     private MatchManager matchManager;
-
     public SpellComponent getSpell()
     {
         return spell;
@@ -22,7 +20,6 @@ public class CollisionManager : NetworkBehaviour
     {
         spell = temp;
     }
-
     void Start()
     {
         // Find the MatchManager GameObject in the hierarchy
@@ -42,15 +39,17 @@ public class CollisionManager : NetworkBehaviour
         {
             Debug.LogError("MatchManager GameObject not found in the hierarchy. Make sure it's active and tagged appropriately.");
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isSpell && !hasCollided) // Check if it's a spell and has not collided yet
+        if (isSpell)
         {
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
             if (tempSpell)
             {
+                //Debug.Log("Have Spell");
                 GameObject tempSpellOwner = tempSpell.getOwner();
                 GameObject spellOwner = spell.getOwner();
 
@@ -59,14 +58,14 @@ public class CollisionManager : NetworkBehaviour
                     switch (tempSpell.spellType)
                     {
                         case SpellType.wall:
-                            Debug.Log("Hit wall collision");
+                            Debug.Log("hit wall collision");
                             WallSpell tempWall = (WallSpell)tempSpell;
                             tempWall.DoSpellImpact();
                             break;
                         case SpellType.fireball:
                             fireball fireball = (fireball)tempSpell;
                             fireball.DoImpact();
-                            Debug.Log("Wrong fireball poof");
+                            Debug.Log("Wrong fireball poooooooooooooooof");
                             break;
                     }
 
@@ -80,8 +79,6 @@ public class CollisionManager : NetworkBehaviour
                             fireballSelf.DoImpact();
                             break;
                     }
-
-                    hasCollided = true; // Set the flag to true after the first collision
                 }
             }
             else if (other.CompareTag("Player"))
@@ -98,10 +95,10 @@ public class CollisionManager : NetworkBehaviour
                         matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, other.GetComponent<HealthManager>().Health.Value);
                         fireball fireballSelf = (fireball)spell;
                         fireballSelf.DoImpact();
-                        hasCollided = true; // Set the flag to true after the first collision
                         break;
                 }
             }
         }
     }
 }
+

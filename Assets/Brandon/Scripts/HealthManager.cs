@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HealthManager : NetworkBehaviour
 {
-    public NetworkVariable<int> Health = new NetworkVariable<int>();
+    public NetworkVariable<int> Health = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
