@@ -30,6 +30,14 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (IsLocalPlayer)
+        {
+            RegisterPlayerOnServerRpc(OwnerClientId);
+        }
+    }
+
     // Update is called once per frame
     public override void OnNetworkSpawn()
     {
@@ -94,4 +102,11 @@ public class PlayerNetwork : NetworkBehaviour
     {
         Debug.Log("testClientRpc");
     }
+
+    [ServerRpc]
+    private void RegisterPlayerOnServerRpc(ulong clientId)
+    {
+        MatchManager.Instance.RegisterPlayer(clientId);
+    }
+
 }
