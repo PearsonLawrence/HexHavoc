@@ -144,8 +144,8 @@ public class SpellManager : NetworkBehaviour
         if (castedSpells.Count > 0)
         {
             Transform toDestroy = castedSpells[0];
-            toDestroy.GetComponent<NetworkObject>().Despawn();
             castedSpells.Remove(toDestroy);
+            toDestroy.GetComponent<NetworkObject>().Despawn();
             Destroy(toDestroy);
         }
         else
