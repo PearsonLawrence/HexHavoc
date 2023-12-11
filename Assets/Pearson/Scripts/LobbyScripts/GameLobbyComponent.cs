@@ -5,6 +5,8 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 
 public class GameLobbyComponent : MonoBehaviour
@@ -23,11 +25,28 @@ public class GameLobbyComponent : MonoBehaviour
     [SerializeField] private GameObject lobbyInfoPrefab;
     [SerializeField] private GameObject playerLobbyInfoPrefab;
     [SerializeField] private LobbyInfoComponent selectedLobby;
+    [SerializeField] private gameRelayComponent currentRelay;
 
     public TMP_Text textTemp;
     public TMP_Text lobbyCountText;
     public TMP_InputField CodeInputField;
+    private bool isLobbyStart;
+    private string playerID;
     bool isCreated = false;
+    public bool getIsLobbyStart()
+    {
+        return isLobbyStart;
+    }
+    public Lobby getJoinedLobby()
+    {
+        return joinedLobby;
+    }
+
+    public string getPlayerID()
+    {
+        return playerID;
+    }
+
     public LobbyInfoComponent getSelectedLobby()
     {
         return selectedLobby;
@@ -43,7 +62,8 @@ public class GameLobbyComponent : MonoBehaviour
 
         AuthenticationService.Instance.SignedIn += () =>
         {
-            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
+            playerID = AuthenticationService.Instance.PlayerId;
+            Debug.Log("Signed in " + playerID);
         };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         playerName = "TestName" + UnityEngine.Random.Range(0, 1000);
@@ -77,6 +97,7 @@ public class GameLobbyComponent : MonoBehaviour
                 {
                     { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "Duel", DataObject.IndexOptions.S1) },
                     { "Map", new DataObject(DataObject.VisibilityOptions.Public, "Arena1", DataObject.IndexOptions.S2) },
+                    { "StartGame", new DataObject(DataObject.VisibilityOptions.Member, "0", DataObject.IndexOptions.S3) },
                 }
 
             };
@@ -97,6 +118,38 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(e);
         }
     }
+
+    public async void StartGame()
+    {
+        Debug.Log("Run");
+        Debug.Log(joinedLobby.HostId);
+        Debug.Log(playerID);
+        if (joinedLobby.HostId == playerID)
+        {
+            Debug.Log("IsHost");
+            try
+            {
+                Debug.Log("StartGame");
+                string relayCode = await currentRelay.CreateRelay();
+
+                Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+                {
+                    Data = new Dictionary<string, DataObject>
+                    {
+                        { "StartGame", new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
+                    }
+                });
+                joinedLobby = lobby;
+                isLobbyStart = true;
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+                isLobbyStart = false;
+            }
+        }
+    }
+
     private void setLobbyCode(string code)
     {
         tempCode = code;
@@ -189,7 +242,7 @@ public class GameLobbyComponent : MonoBehaviour
 
     public void setupLobby(Lobby lobbyJoinedInfo)
     {
-        Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
+       // Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
         foreach (Player player in lobbyJoinedInfo.Players)
         {
             PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, lobbyListContainer.transform).GetComponent<PlayerInfoCardComponent>();
@@ -216,6 +269,22 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(e);
         }
     }
+    public void JoinSelectedLobby()
+    {
+        JoinLobbyByLobby(selectedLobby.getCurrentLobby());
+    }
+    private async void JoinLobbyByLobby(Lobby lobby)
+    {
+        Player player = GetPlayer();
+
+        Lobby tempLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions { Player = player });
+        joinedLobby = tempLobby;
+        PrintPlayers(joinedLobby);
+        Debug.Log("joined lobby with code " + joinedLobby.LobbyCode);
+
+
+    }
+
     private async void handleLobbyHeartbeat()
     {
         if (hostLobby != null)
@@ -298,6 +367,19 @@ public class GameLobbyComponent : MonoBehaviour
                 lobbyUpdateTimer = lobbyUpdateTimerMax;
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
                 joinedLobby = lobby;
+
+                if (joinedLobby.Data["StartGame"].Value != "0")
+                {
+                    if (playerID != lobby.HostId)
+                    {
+                        isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value);
+                        
+                    }
+
+                    joinedLobby = null;
+
+                }
+
                 RefreshLobby();
             }
         }
@@ -344,7 +426,7 @@ public class GameLobbyComponent : MonoBehaviour
                 HostId = joinedLobby.Players[1].Id,
             });
             joinedLobby = hostLobby;
-            PrintPlayers();
+            //PrintPlayers();
         }
         catch (LobbyServiceException e)
         {

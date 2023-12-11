@@ -10,6 +10,7 @@ using UnityEngine;
 public class LobbyUIManager : MonoBehaviour
 {
     public GameLobbyComponent gameLobby;
+    public GameObject gameLobbyParent;
     public GameObject defaultScreen, joinLobbyScreen, lobbyScreen;
    public void selectCreateLobby()
     {
@@ -26,7 +27,13 @@ public class LobbyUIManager : MonoBehaviour
     }
     public void lobbyPlayStart()
     {
-       
+        if (gameLobby.getJoinedLobby().HostId == gameLobby.getPlayerID())
+        {
+            gameLobby.StartGame();
+            gameLobbyParent.gameObject.SetActive(false);
+        }
+
+
     }
     public void QuitLobby()
     {
@@ -49,9 +56,15 @@ public class LobbyUIManager : MonoBehaviour
                 gameLobby.QuickJoin();
                 break;
             case 2:
-                gameLobby.LobbyJoin();
+                gameLobby.JoinSelectedLobby();
                 break;
         }
     }
-
+    private void Update()
+    {
+        if(gameLobby.getIsLobbyStart())
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
 }

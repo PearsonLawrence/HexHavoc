@@ -13,11 +13,15 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private GameLobbyComponent GameLobby;
     [SerializeField] private TMP_Text info;
     [SerializeField] private Image privateIndicator;
-    [SerializeField] private Lobby lobbyInfo;
+    [SerializeField] private Lobby currentLobbyInfo;
 
     private int playerCount, maxPlayerCount;
     [SerializeField] private string lobbyCode;
 
+    public Lobby getCurrentLobby()
+    {
+        return currentLobbyInfo;
+    }
     public int getPlayerCount()
     {
         return playerCount;
@@ -40,12 +44,12 @@ public class LobbyInfoComponent : MonoBehaviour
     }
     public void setLobby(Lobby lobby)
     {
-        lobbyInfo = lobby;
-        maxPlayerCount = lobbyInfo.MaxPlayers;
-        playerCount = lobbyInfo.Players.Count;
+        currentLobbyInfo = lobby;
+        maxPlayerCount = currentLobbyInfo.MaxPlayers;
+        playerCount = currentLobbyInfo.Players.Count;
         lobbyCode = lobby.LobbyCode;
 
-        if (lobbyInfo.IsPrivate)
+        if (currentLobbyInfo.IsPrivate)
             privateIndicator.color = new Color(100,0,0);
         else
             privateIndicator.color = new Color(0, 100, 0);
