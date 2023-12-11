@@ -51,7 +51,8 @@ public class PlayerNetwork : NetworkBehaviour
             
             
             //TestClientRpc(new ClientRpcParams {  Send = new ClientRpcSendParams {TargetClientIds = new List<ulong> { 1 } } });
-            //TestServerRpc(new ServerRpcParams());
+            //TestServerRpc(new Se
+            //rverRpcParams());
             /*randomNumber.Value = new MyCustomData
             {
                 _int = Random.Range(0, 100),

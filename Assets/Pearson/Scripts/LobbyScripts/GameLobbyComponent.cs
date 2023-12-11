@@ -7,13 +7,36 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-public class TestLobby : MonoBehaviour
+public class GameLobbyComponent : MonoBehaviour
 {
     private Lobby hostLobby;
     private Lobby joinedLobby;
     private float heartbeatTimer;
     private float lobbyUpdateTimer = 1.1f;
     public string playerName;
+    private string tempCode;
+
+    [SerializeField] private GameObject listContainer;
+    [SerializeField] private GameObject lobbyListContainer;
+    [SerializeField] private List<GameObject> lobbyUIList;
+    [SerializeField] private List<GameObject> playerLobbyUIList;
+    [SerializeField] private GameObject lobbyInfoPrefab;
+    [SerializeField] private GameObject playerLobbyInfoPrefab;
+    [SerializeField] private LobbyInfoComponent selectedLobby;
+
+    public TMP_Text textTemp;
+    public TMP_Text lobbyCountText;
+    public TMP_InputField CodeInputField;
+    bool isCreated = false;
+    public LobbyInfoComponent getSelectedLobby()
+    {
+        return selectedLobby;
+    }
+
+    public void setSelectedLobby(LobbyInfoComponent select)
+    {
+        selectedLobby = select;
+    }
     private async void Start()
     {
         await UnityServices.InitializeAsync();
@@ -27,7 +50,6 @@ public class TestLobby : MonoBehaviour
         Debug.Log(playerName);
     }
 
-    private string tempCode;
     private void PrintPlayers(Lobby lobby)
     {
         Debug.Log("Players in lobby " + lobby.Name + " " + lobby.Data["GameMode"].Value + " " + lobby.Data["Map"].Value);
@@ -40,7 +62,8 @@ public class TestLobby : MonoBehaviour
     {
         PrintPlayers(joinedLobby);
     }
-    private async void CreateLobby()
+
+    public async void CreateLobby()
     {
         try
         {
@@ -53,15 +76,16 @@ public class TestLobby : MonoBehaviour
                 Data = new Dictionary<string, DataObject>
                 {
                     { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "Duel", DataObject.IndexOptions.S1) },
-                    { "Map", new DataObject(DataObject.VisibilityOptions.Public, "Arena1", DataObject.IndexOptions.S2) }
+                    { "Map", new DataObject(DataObject.VisibilityOptions.Public, "Arena1", DataObject.IndexOptions.S2) },
                 }
 
             };
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
             setLobbyCode(lobby.LobbyCode);
+
             
-            Debug.Log("Created Lobby! " + lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Id + " " + lobby.LobbyCode) ;
+            Debug.Log("Created Lobby! " + lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Id + " " + lobby.LobbyCode);
 
             hostLobby = lobby;
             joinedLobby = hostLobby;
@@ -77,7 +101,32 @@ public class TestLobby : MonoBehaviour
     {
         tempCode = code;
     }
-    private async void ListLobbies()
+
+    public void Refresh()
+    {
+        while (lobbyUIList.Count > 0)
+        {
+            GameObject temp = lobbyUIList[0];
+            lobbyUIList.Remove(temp);
+            Destroy(temp);
+        }
+        
+        ListLobbies();
+    }
+    public void RefreshLobby()
+    {
+        while (playerLobbyUIList.Count > 0)
+        {
+            GameObject temp = playerLobbyUIList[0];
+            playerLobbyUIList.Remove(temp);
+            Destroy(temp);
+        }
+        if (joinedLobby == null) return;
+
+        setupLobby(joinedLobby);
+        lobbyCountText.text = playerLobbyUIList.Count + "/" + joinedLobby.MaxPlayers;
+    }
+    public async void ListLobbies()
     {
         try
         {
@@ -85,30 +134,41 @@ public class TestLobby : MonoBehaviour
             {
                 Count = 25,
                 Filters = new List<QueryFilter>
-                {
-                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT),
-                },
+            {
+                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT),
+            },
                 Order = new List<QueryOrder>
-                {
-                    new QueryOrder(false, QueryOrder.FieldOptions.Created)
-                }
+            {
+                new QueryOrder(false, QueryOrder.FieldOptions.Created)
+            }
             };
-            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+
+            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions);
 
             Debug.Log("Lobbies found: " + queryResponse.Results.Count);
 
+            // Iterate through each lobby in the response
             foreach (Lobby lobby in queryResponse.Results)
             {
-                Debug.Log(lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Data["GameMode"].Value);
+                // Handle cases where the lobby code is not available
+                string lobbyCode = string.IsNullOrEmpty(lobby.LobbyCode) ? "Not Available" : lobby.LobbyCode;
+                Debug.Log("Lobby Name: " + lobby.Name + ", Lobby Code: " + lobbyCode);
+
+                // Instantiate and setup the LobbyInfoComponent
+                LobbyInfoComponent temp = Instantiate(lobbyInfoPrefab, listContainer.transform).GetComponent<LobbyInfoComponent>();
+                temp.setLobby(lobby);
+                lobbyUIList.Add(temp.gameObject);
+                temp.setGameLobby(this);
             }
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
+            Debug.LogError("Error querying lobbies: " + e);
         }
 
 
     }
+
     private Player GetPlayer()
     {
         return new Player
@@ -119,6 +179,25 @@ public class TestLobby : MonoBehaviour
                     }
         };
     }
+    public void LobbyJoin()
+    {
+        JoinLobbyByCode(selectedLobby.getLobbyCode());
+    }public void JoinLobbyByCodeInputUI()
+    {
+        JoinLobbyByCode(CodeInputField.text);
+    }
+
+    public void setupLobby(Lobby lobbyJoinedInfo)
+    {
+        Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
+        foreach (Player player in lobbyJoinedInfo.Players)
+        {
+            PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, lobbyListContainer.transform).GetComponent<PlayerInfoCardComponent>();
+            temp.setPlayerInfo(player);
+            playerLobbyUIList.Add(temp.gameObject);
+            temp.setGameLobby(this);
+        }
+    }
     private async void JoinLobbyByCode(string lobbyCode)
     {
         try
@@ -127,7 +206,7 @@ public class TestLobby : MonoBehaviour
             {
                 Player = GetPlayer(),
             };
-            Lobby lobby =  await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions);
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions);
             joinedLobby = lobby;
             PrintPlayers(joinedLobby);
             Debug.Log("joined lobby with code " + lobbyCode);
@@ -139,16 +218,21 @@ public class TestLobby : MonoBehaviour
     }
     private async void handleLobbyHeartbeat()
     {
-        if(hostLobby != null)
+        if (hostLobby != null)
         {
             heartbeatTimer -= Time.deltaTime;
-            if(heartbeatTimer < 0f)
+            if (heartbeatTimer < 0f)
             {
                 float heartbeatTimerMax = 15f;
                 heartbeatTimer = heartbeatTimerMax;
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
             }
         }
+    }
+
+    public void QuickJoin()
+    {
+        QuickJoinLobby();
     }
 
     private async void QuickJoinLobby()
@@ -163,11 +247,11 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-   private async void UpdateLobbyGameMode(string gameMode)
+    private async void UpdateLobbyGameMode(string gameMode)
     {
         try
         {
-            
+
 
             hostLobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
             {
@@ -210,19 +294,27 @@ public class TestLobby : MonoBehaviour
             lobbyUpdateTimer -= Time.deltaTime;
             if (lobbyUpdateTimer < 0f)
             {
-                float lobbyUpdateTimerMax = 1.1f;
+                float lobbyUpdateTimerMax = 2f;
                 lobbyUpdateTimer = lobbyUpdateTimerMax;
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
                 joinedLobby = lobby;
+                RefreshLobby();
             }
         }
     }
-
+    public void quitLobby()
+    {
+        LeaveLobby();
+    }
     private async void LeaveLobby()
     {
         try
-        { 
+        {
             await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+            joinedLobby = null;
+            hostLobby = null;
+            Refresh();
+            RefreshLobby();
         }
         catch (LobbyServiceException e)
         {
@@ -271,51 +363,11 @@ public class TestLobby : MonoBehaviour
             Debug.Log(e);
         }
     }
-public TMP_Text textTemp;
-    public TMP_InputField IP;
-    bool isCreated = false;
     private void Update()
     {
         handleLobbyHeartbeat();
         HandleLobbyPollForUpdates();
         textTemp.text = tempCode;
-        if (Input.GetKey(KeyCode.Comma))
-        {
-            if (Input.GetKeyDown(KeyCode.C) && !isCreated)
-            {
-                CreateLobby();
-                isCreated = true;
-            }
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                ListLobbies();
-            }
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                JoinLobbyByCode(IP.text);
-            }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                PrintPlayers();
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                UpdateLobbyGameMode("TesterMode");
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                string tempName = "newName" + Random.Range(0, 100);
-                UpdatePlayerName(tempName);
-            }
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                LeaveLobby();
-            }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                KickPlayer(1);
-            }
-        }
        
     }
 
