@@ -1197,7 +1197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 0
+  m_ProtocolType: 1
   m_MaxPacketQueueSize: 128
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
@@ -2164,6 +2164,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 27161813773046942, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 267045540604567990, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.172
@@ -2171,6 +2175,10 @@ PrefabInstance:
     - target: {fileID: 753934749193808841, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1247835504
+      objectReference: {fileID: 0}
+    - target: {fileID: 809593522840345815, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 946703422071476323, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       propertyPath: m_InteractionManager
@@ -2265,6 +2273,14 @@ PrefabInstance:
     - {fileID: 4344072207604511378, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
     - {fileID: 1392782396602405958, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
     - {fileID: 8546581244100157930, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 5395638681790060045, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 4630111108160982864, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 7488194788887192907, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 8227078198004790355, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 7441344967945778167, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 110386876065194514, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 8323670544537194440, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+    - {fileID: 230144945765987377, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
