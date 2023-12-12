@@ -22,7 +22,7 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
         {
             for (int i = 0; i < componentsToDisable.Count; i++)
             {
-               // componentsToDisable[i].enabled = false;
+               componentsToDisable[i].enabled = false;
             }
             if (controller)
             {

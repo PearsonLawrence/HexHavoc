@@ -686,6 +686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5537628728276797681}
   - component: {fileID: 3847609209432007488}
+  - component: {fileID: 1026904452147806709}
   m_Layer: 0
   m_Name: Camera Offset
   m_TagString: Untagged
@@ -741,6 +742,26 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &1026904452147806709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822676342406525428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &3380073325500103590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +1044,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3380073325500103590}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
@@ -1264,7 +1285,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6330292106194015804}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
@@ -2439,7 +2460,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8200084929263166158}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
@@ -2930,16 +2951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headObj: {fileID: 6330292106194015804}
-  componentsToDisable:
-  - {fileID: 7340801510028558333}
-  - {fileID: 1383426090922240210}
-  - {fileID: 2993193836679479284}
-  - {fileID: 1713681575783885187}
-  - {fileID: 3798975359506430483}
-  - {fileID: 6309234545036240578}
-  - {fileID: 7211627084840694060}
-  - {fileID: 6095231903506765177}
-  - {fileID: 1311937010018379321}
+  componentsToDisable: []
   controller: {fileID: 2952755204801692994}
 --- !u!1001 &6229324536562221496
 PrefabInstance:
