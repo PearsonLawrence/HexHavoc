@@ -153,5 +153,4 @@ public class SpellManager : NetworkBehaviour
             Debug.LogWarning("Trying to destroy a spell, but the list of casted spells is empty.");
         }
     }
-
 }

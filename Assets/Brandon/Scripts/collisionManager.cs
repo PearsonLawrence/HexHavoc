@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static PlayerNetwork;
 
 public class collisionManager : NetworkBehaviour
 {
     [SerializeField] private SpellComponent spell;
     [SerializeField] private bool isSpell = false;
 
+    private bool collisionHandled = false; // New boolean flag
+
     private MatchManager matchManager;
+
     public SpellComponent getSpell()
     {
         return spell;
@@ -20,6 +22,7 @@ public class collisionManager : NetworkBehaviour
     {
         spell = temp;
     }
+
     void Start()
     {
         // Find the MatchManager GameObject in the hierarchy
@@ -40,11 +43,13 @@ public class collisionManager : NetworkBehaviour
             Debug.LogError("MatchManager GameObject not found in the hierarchy. Make sure it's active and tagged appropriately.");
         }
 
+        // Reset the collisionHandled flag to false when the script starts
+        collisionHandled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isSpell)
+        if (!collisionHandled && isSpell)
         {
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
             if (tempSpell)
@@ -80,6 +85,9 @@ public class collisionManager : NetworkBehaviour
                             break;
                     }
                 }
+
+                // Set the collisionHandled flag to true after handling the collision
+                collisionHandled = true;
             }
             else if (other.CompareTag("Player"))
             {
@@ -97,8 +105,19 @@ public class collisionManager : NetworkBehaviour
                         fireballSelf.DoImpact();
                         break;
                 }
+
+                // Set the collisionHandled flag to true after handling the collision
+                collisionHandled = true;
             }
+
+            // Reset the collisionHandled flag at the end of the collision handling
+            collisionHandled = false;
         }
     }
-}
 
+    // Reset the collisionHandled flag when the spell is reset or reused
+    public void ResetCollisionHandled()
+    {
+        collisionHandled = false;
+    }
+}
