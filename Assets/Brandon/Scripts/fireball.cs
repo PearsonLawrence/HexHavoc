@@ -40,9 +40,10 @@ public class fireball : SpellComponent
     public void DoImpact()
     {
         GameObject temp =  Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+        Destroy(temp, 3);
+
         GetComponent<NetworkObject>().Despawn();
 
-        Destroy(temp, 3);
         Destroy(gameObject);
     }
 }

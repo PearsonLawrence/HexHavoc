@@ -24,8 +24,8 @@ public class WallSpell : SpellComponent
         {
             GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-            GetComponent<NetworkObject>().Despawn();
             Destroy(temp, 3);
+            GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
     }
@@ -37,9 +37,9 @@ public class WallSpell : SpellComponent
         if (spellsTanked > 2)
         {
             GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
-            
-            GetComponent<NetworkObject>().Despawn();
+
             Destroy(temp, 3);
+            GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
 
         }
