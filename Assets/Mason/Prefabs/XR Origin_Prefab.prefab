@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6748890264787628596}
   - component: {fileID: 7594225977627432076}
   - component: {fileID: 8595913408375951100}
+  - component: {fileID: 5481589923535568527}
   m_Layer: 0
   m_Name: Right Teleportation Ray
   m_TagString: Untagged
@@ -657,6 +658,24 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &5481589923535568527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633461277523452298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf224d1d6b23e4542b94f557bd940ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headObj: {fileID: 0}
+  componentsToDisable:
+  - {fileID: 1601212461716925820}
+  - {fileID: 2891790633707594440}
+  - {fileID: 7594225977627432076}
+  controller: {fileID: 0}
 --- !u!1 &1822676342406525428
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5537628728276797681}
+  - component: {fileID: 3847609209432007488}
   m_Layer: 0
   m_Name: Camera Offset
   m_TagString: Untagged
@@ -691,6 +711,36 @@ Transform:
   - {fileID: 1315448690819704275}
   m_Father: {fileID: 1206983058583533305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3847609209432007488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822676342406525428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0aecb3eb806804b94eb482126dd45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &3380073325500103590
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +754,7 @@ GameObject:
   - component: {fileID: 2605153335550480132}
   - component: {fileID: 4251722289706614135}
   - component: {fileID: 4591099524938082510}
+  - component: {fileID: 7706785122061856472}
   m_Layer: 0
   m_Name: Right Controller
   m_TagString: Untagged
@@ -1003,9 +1054,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -1015,6 +1066,22 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7706785122061856472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3380073325500103590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf224d1d6b23e4542b94f557bd940ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headObj: {fileID: 0}
+  componentsToDisable:
+  - {fileID: 1775610459971591479}
+  controller: {fileID: 0}
 --- !u!1 &6330292106194015804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +1092,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1315448690819704275}
   - component: {fileID: 3093498301081082145}
-  - component: {fileID: 5995317013599755998}
+  - component: {fileID: 3089011310986653546}
+  - component: {fileID: 6831539026201069787}
+  - component: {fileID: 4474668157265253205}
   m_Layer: 0
   m_Name: CameraHolder
   m_TagString: Untagged
@@ -1158,7 +1227,57 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
---- !u!114 &5995317013599755998
+--- !u!114 &3089011310986653546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330292106194015804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ecd530d3a69394c9890b49d19f22f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &6831539026201069787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330292106194015804}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &4474668157265253205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1171,6 +1290,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headObj: {fileID: 0}
+  componentsToDisable:
+  - {fileID: 3093498301081082145}
+  controller: {fileID: 0}
 --- !u!1 &6763194433414418882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,6 +1307,7 @@ GameObject:
   - component: {fileID: 9168660448746383257}
   - component: {fileID: 3939915664463747003}
   - component: {fileID: 861456235044499561}
+  - component: {fileID: 5668636799186118828}
   m_Layer: 0
   m_Name: Left Teleportation Ray
   m_TagString: Untagged
@@ -1828,6 +1951,24 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &5668636799186118828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763194433414418882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf224d1d6b23e4542b94f557bd940ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headObj: {fileID: 0}
+  componentsToDisable:
+  - {fileID: 2091821441154119719}
+  - {fileID: 4664028296835370238}
+  - {fileID: 3939915664463747003}
+  controller: {fileID: 0}
 --- !u!1 &7150118742065755863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,6 +2170,7 @@ GameObject:
   - component: {fileID: 3213309545963976803}
   - component: {fileID: 8202064348007394831}
   - component: {fileID: 3058438677094267350}
+  - component: {fileID: 5277473139513681370}
   m_Layer: 0
   m_Name: Left Controller
   m_TagString: Untagged
@@ -2328,9 +2470,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -2340,6 +2482,22 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5277473139513681370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200084929263166158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf224d1d6b23e4542b94f557bd940ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headObj: {fileID: 0}
+  componentsToDisable:
+  - {fileID: 5819060374004251088}
+  controller: {fileID: 0}
 --- !u!1 &8218207211385325599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,7 +2864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 1206983058583533305}
-  head: {fileID: 0}
+  head: {fileID: 1315448690819704275}
   leftHand: {fileID: 260940528780456731}
   rightHand: {fileID: 4982386694274148965}
 --- !u!114 &5182564626139494228
@@ -2772,6 +2930,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headObj: {fileID: 6330292106194015804}
+  componentsToDisable:
+  - {fileID: 7340801510028558333}
+  - {fileID: 1383426090922240210}
+  - {fileID: 2993193836679479284}
+  - {fileID: 1713681575783885187}
+  - {fileID: 3798975359506430483}
+  - {fileID: 6309234545036240578}
+  - {fileID: 7211627084840694060}
+  - {fileID: 6095231903506765177}
+  - {fileID: 1311937010018379321}
+  controller: {fileID: 2952755204801692994}
 --- !u!1001 &6229324536562221496
 PrefabInstance:
   m_ObjectHideFlags: 0

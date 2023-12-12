@@ -131,6 +131,7 @@ public class GameLobbyComponent : MonoBehaviour
             try
             {
                 if (XR_Player)
+
                     XR_Player.SetActive(false);
                 Debug.Log("StartGame");
                 string relayCode = await currentRelay.CreateRelay();
@@ -374,6 +375,9 @@ public class GameLobbyComponent : MonoBehaviour
 
                 if (joinedLobby.Data["StartGame"].Value != "0")
                 {
+                    if (XR_Player)
+                        XR_Player.SetActive(false);
+
                     if (playerID != lobby.HostId)
                     {
                         isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value);

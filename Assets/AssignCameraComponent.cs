@@ -15,7 +15,10 @@ public class AssignCameraComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tempCam.transform.position = CameraHeadPos.transform.position;
-        tempCam.transform.rotation = CameraHeadPos.transform.rotation;
+        if(this.enabled)
+        {
+            tempCam.transform.position = CameraHeadPos.transform.position;
+            tempCam.transform.rotation = CameraHeadPos.transform.rotation;
+        }
     }
 }
