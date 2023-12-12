@@ -39,21 +39,21 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if(IsOwner)
         {
-            Debug.Log("update");
-            root.position = VRRigReferences.Singleton.root.position;
-            root.rotation = VRRigReferences.Singleton.root.rotation;
 
-            head.position = VRRigReferences.Singleton.head.position;
-            head.rotation = VRRigReferences.Singleton.head.rotation;
+            if (root) root.position = VRRigReferences.Singleton.root.position;
+            if (root) root.rotation = VRRigReferences.Singleton.root.rotation;
+
+            if (head) head.position = VRRigReferences.Singleton.head.position;
+            if (head) head.rotation = VRRigReferences.Singleton.head.rotation;
 
             //body.position = VRRigReferences.Singleton.body.position;
             //body.rotation = VRRigReferences.Singleton.body.rotation;
 
-            leftHand.position = VRRigReferences.Singleton.leftHand.position;
-            leftHand.rotation = VRRigReferences.Singleton.leftHand.rotation;
+            if (leftHand) leftHand.position = VRRigReferences.Singleton.leftHand.position;
+            if (leftHand) leftHand.rotation = VRRigReferences.Singleton.leftHand.rotation;
 
-            rightHand.position = VRRigReferences.Singleton.rightHand.position;
-            rightHand.rotation = VRRigReferences.Singleton.rightHand.rotation;
+            if (rightHand) rightHand.position = VRRigReferences.Singleton.rightHand.position;
+            if (rightHand) rightHand.rotation = VRRigReferences.Singleton.rightHand.rotation;
         }
     }
 }
