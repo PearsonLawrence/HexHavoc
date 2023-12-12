@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.InputSystem.XR;
+
 public class AssignNetworkCameraComponent : NetworkBehaviour
 {
     public GameObject headObj;
     public List<MonoBehaviour> componentsToDisable;
+    public TrackedPoseDriver headDriver;
     public CharacterController controller;
+    private bool isDone = false;
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
@@ -30,19 +34,25 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
             }
         }
     }
+
     public void Start()
     {
-        if (!IsOwner && !headObj)
-        {
-            
-            for (int i = 0; i < componentsToDisable.Count; i++)
-            {
-                componentsToDisable[i].enabled = false;
-            }
-            if (controller)
-            {
-                // controller.enabled = false;
-            }
-        }
+        
+    }
+    public void Update()
+    {
+        //if (!IsOwner)
+        //{
+        //    if (!isDone)
+        //    {
+        //        for (int i = 0; i < componentsToDisable.Count; i++)
+        //        {
+        //            componentsToDisable[i].enabled = false;
+
+        //        }
+        //        isDone = true;
+        //    }
+
+        //}
     }
 }
