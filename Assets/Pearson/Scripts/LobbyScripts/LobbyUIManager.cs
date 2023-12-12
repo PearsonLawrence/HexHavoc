@@ -66,5 +66,16 @@ public class LobbyUIManager : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+
+    }
+    public void enableLobbyOptions(){
+        defaultScreen.SetActive(true);
+        joinLobbyScreen.SetActive(false);
+        lobbyScreen.SetActive(false);
+    }
+    public void disableLobbyOptions(){
+        defaultScreen.SetActive(false);
+        joinLobbyScreen.SetActive(false);
+        lobbyScreen.SetActive(false);
     }
 }
