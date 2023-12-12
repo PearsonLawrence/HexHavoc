@@ -7,6 +7,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject optionsMenuPanel;
     public GameObject aboutMenuPanel;
+    public GameObject canvas;
     
 
     public Button startButton;
@@ -18,10 +19,15 @@ public class MainMenuManager : MonoBehaviour
 
     public Button exitButton; 
 
+    public LobbyUIManager lobbyManager;
 
+    public Button leaveLobby;
+    
     void Start()
     {
-        SetMenuState(true, false, false);
+        SetMenuState(true, false, false, true);
+
+        lobbyManager.disableLobbyOptions();
 
         if (startButton != null)
         {
@@ -50,7 +56,10 @@ public class MainMenuManager : MonoBehaviour
         {
             exitButton.onClick.AddListener(ExitGame);
         }
-        
+        if (leaveLobby != null)
+        {
+            leaveLobby.onClick.AddListener(BackToMainMenu);
+        }
     }
 
     void Update()
@@ -68,32 +77,36 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("YourMainGameScene");
+        lobbyManager.enableLobbyOptions();
+        SetMenuState(false, false, false, false);
+        
     }
 
     public void ShowOptionsMenu()
     {
-        SetMenuState(false, true, false);
+        SetMenuState(false, true, false, true);
     }
 
     public void ShowAboutMenu()
     {
-        SetMenuState(false, false, true );
+        SetMenuState(false, false, true, true );
     }
 
     public void OpenOptionsSettings()
     {
-        SetMenuState(false, false, false );
+        SetMenuState(false, true, false,true );
     }
 
     public void CloseOptionsSettings()
     {
-        SetMenuState(false, true, false);
+        SetMenuState(false, true, false, true);
     }
 
     public void BackToMainMenu()
     {
-        SetMenuState(true, false, false);
+        SetMenuState(true, false, false, true);
+        lobbyManager.disableLobbyOptions();
+
     }
 
     public void ExitGame()
@@ -104,7 +117,7 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
     #endif
     }
-    private void SetMenuState(bool mainMenuActive, bool optionsMenuActive, bool aboutMenuActive)
+    private void SetMenuState(bool mainMenuActive, bool optionsMenuActive, bool aboutMenuActive,bool canvasActive)
     {
         if (mainMenuPanel != null)
         {
@@ -120,7 +133,10 @@ public class MainMenuManager : MonoBehaviour
         {
             aboutMenuPanel.SetActive(aboutMenuActive);
         }
-
+        if (canvas != null)
+        {
+            canvas.SetActive(mainMenuActive);
+        }
        
     }
 }
