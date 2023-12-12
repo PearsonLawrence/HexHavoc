@@ -9,35 +9,39 @@ public class WallSpell : SpellComponent
     public SpellManager parent;
     public float lifeTime = 20f;
     public int spellsTanked;
+    public GameObject explodePrefab;
 
     void Start()
     {
         spellsTanked = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        StartCoroutine(DestroyAfterDelay());
+        lifeTime -= Time.deltaTime;
 
-        if(spellsTanked >= 2)
+        if(lifeTime < 0)
         {
-            parent.DestroyServerRpc();
-        }
-    }
+            GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-    private IEnumerator DestroyAfterDelay()
-    {
-        yield return new WaitForSeconds(lifeTime);
-
-        if (parent != null && parent.NetworkObject != null && parent.NetworkObject.IsSpawned)
-        {
-            parent.DestroyServerRpc();
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(temp, 3);
+            Destroy(gameObject);
         }
     }
 
     public void DoSpellImpact()
     {
-        spellsTanked++; 
+        spellsTanked++;
+
+        if (spellsTanked > 2)
+        {
+            GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+            
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(temp, 3);
+            Destroy(gameObject);
+
+        }
     }
 }

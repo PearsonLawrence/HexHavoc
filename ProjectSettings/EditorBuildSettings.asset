@@ -17,9 +17,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Pearson/Scenes/NetworkTest2.unity
     guid: e89e3db6b7f86d64e885554fd183dac0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Brady/New folder/Scenes/BradyNetworkTest_01.unity
     guid: 3307a567b39b3434490b8e4afe0270c5
+  - enabled: 1
+    path: Assets/Mason/Scenes/HexHavocBuildTest.unity
+    guid: c02e571b23150e848b61d2b8fcd6221e
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9103ac44796fbf0409b9d797d8d79312, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c72f4077f9b401a458273958990973fc, type: 2}

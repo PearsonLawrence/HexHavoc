@@ -1,19 +1,22 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class fireball : SpellComponent
 {
     public SpellManager parent;
     public float speed;
+    public float maxspeed;
     public float amplitude = 2f;
     public float lifeTime = 3f;
+    public float maxlifeTime;
     private Vector3 moveDirection;
-
+    public GameObject destroyPrefab;
     void Start()
     {
-        speed = 2f;
-        StartCoroutine(DestroyAfterDelay());
+        speed = maxspeed;
+        lifeTime = maxlifeTime;
     }
 
     void Update()
@@ -21,10 +24,12 @@ public class fireball : SpellComponent
         Vector3 newPosition = transform.position + moveDirection * speed * Time.deltaTime;
         transform.position = newPosition;
 
-        /*if(getOwner() != null)
+        lifeTime -= Time.deltaTime;
+
+        if(lifeTime < 0)
         {
-            Debug.Log("Has Owner");
-        }*/
+            DoImpact();
+        }
     }
 
     public void SetDirection(Vector3 direction)
@@ -32,44 +37,12 @@ public class fireball : SpellComponent
         moveDirection = direction.normalized;
     }
 
-    /*private void OnTriggerEnter(Collider other)
-    {
-        //if (!IsOwner) return;
-        Debug.Log("collision");
-        if (other.CompareTag("Player"))
-        {
-            NetworkObject networkObject = other.GetComponent<NetworkObject>();
-
-            Debug.Log("Hit Player" + networkObject.OwnerClientId);
-            parent.DestroyServerRpc();
-            StopCoroutine(DestroyAfterDelay());
-        }
-
-        if (other.CompareTag("Wall")) 
-        {
-            parent.DestroyServerRpc();
-            WallSpell wall = other.GetComponent<WallSpell>();
-            Debug.Log("Hit Wall");
-
-            wall.spellsTanked = wall.spellsTanked + 1;
-        }
-        
-    }*/
-
-    private IEnumerator DestroyAfterDelay()
-    {
-        yield return new WaitForSeconds(lifeTime);
-
-        // Check if the parent object is still networked before calling DestroyServerRpc
-        if (parent != null && parent.NetworkObject != null && parent.NetworkObject.IsSpawned)
-        {
-            parent.DestroyServerRpc();
-        }
-    }
-
     public void DoImpact()
     {
-        parent.DestroyServerRpc();
-        Debug.Log("Fireball Deleted");
+        GameObject temp =  Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+        GetComponent<NetworkObject>().Despawn();
+
+        Destroy(temp, 3);
+        Destroy(gameObject);
     }
 }

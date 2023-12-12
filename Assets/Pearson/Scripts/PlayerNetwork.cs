@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-
     [SerializeField] private Transform SpawnedObjectPrefab;
+
+    private MatchManager matchManager;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
         new MyCustomData
@@ -15,7 +16,7 @@ public class PlayerNetwork : NetworkBehaviour
             _int = 56,
             _bool = true,
         }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        
+
 
     public struct MyCustomData : INetworkSerializable
     {
@@ -30,13 +31,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (IsLocalPlayer)
-        {
-            RegisterPlayerOnServerRpc(OwnerClientId);
-        }
-    }
+ 
 
     // Update is called once per frame
     public override void OnNetworkSpawn()
@@ -45,32 +40,41 @@ public class PlayerNetwork : NetworkBehaviour
         {
             Debug.Log(OwnerClientId + "; " + newVal._int + "; " + newVal._bool + "; " + newVal.message);
         };
-        base.OnNetworkSpawn(); 
+        base.OnNetworkSpawn();
     }
-    
+
+   
+
+    [ServerRpc]
+    private void TestServerRpc(ServerRpcParams serverRpcParams)
+    {
+        Debug.Log("TestServerRpc " + OwnerClientId + "; " + serverRpcParams.Receive.SenderClientId);
+    }
+
+    [ClientRpc]
+    private void TestClientRpc(ClientRpcParams clientRpcParams)
+    {
+        Debug.Log("testClientRpc");
+    }
+    private void Start()
+    {
+        if (IsLocalPlayer)
+        {
+            RegisterPlayerOnServerRpc(OwnerClientId);
+        }
+        PlacePlayers();
+    }
     void Update()
     {
         if (!IsOwner) return;
-        
-        if(Input.GetKeyDown(KeyCode.T))
+
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Transform spwanedObjectTransform = Instantiate(SpawnedObjectPrefab);
             spwanedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
-            
-            
-            //TestClientRpc(new ClientRpcParams {  Send = new ClientRpcSendParams {TargetClientIds = new List<ulong> { 1 } } });
-            //TestServerRpc(new Se
-            //rverRpcParams());
-            /*randomNumber.Value = new MyCustomData
-            {
-                _int = Random.Range(0, 100),
-                _bool = false,
-                message = "Muahahahaha!",
-            };*/
-
         }
 
-        if(Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             Destroy(SpawnedObjectPrefab.gameObject);
         }
@@ -87,26 +91,57 @@ public class PlayerNetwork : NetworkBehaviour
         if (Input.GetKey(KeyCode.D)) moveDir.x = +1f;
         if (Input.GetKey(KeyCode.A)) moveDir.x = -1f;
 
-        float moveSpeed = 3f;
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
-    }
 
-    [ServerRpc]
-    private void TestServerRpc(ServerRpcParams serverRpcParams)
-    {
-        Debug.Log("TestServerRpc " + OwnerClientId + "; " + serverRpcParams.Receive.SenderClientId);
-    }
+        if (MatchManager.Instance.isRoundReset.Value)
+        {
+            PlacePlayers();
+        }
+        else
+        {
+            float moveSpeed = 3f;
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
+        }
 
-    [ClientRpc]
-    private void TestClientRpc(ClientRpcParams clientRpcParams)
-    {
-        Debug.Log("testClientRpc");
-    }
+        if (MatchManager.Instance.isThereWinner.Value)
+        {
+            DeclareWinner(MatchManager.Instance.loserId);
+        }
 
+    }
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
         MatchManager.Instance.RegisterPlayer(clientId);
     }
+
+    public void PlacePlayers()
+    {
+        if (OwnerClientId == 0)
+        {
+            transform.position = MatchManager.Instance.spawnPosition1.position;
+        }
+        if (OwnerClientId == 1)
+        {
+            transform.position = MatchManager.Instance.spawnPosition2.position;
+        }
+    }
+
+    public void DeclareWinner(ulong clientId)
+    {
+
+        Debug.Log($"Local Player ID: {OwnerClientId}, Winner ID: {clientId}");
+
+        if (clientId == OwnerClientId)
+        {
+           // CanvasManager.Instance.ShowWinnerCanvas();
+        }
+        else
+        {
+           // CanvasManager.Instance.ShowLosserCanvas();
+        }
+
+        MatchManager.Instance.isThereWinner.Value = true;
+    }
+
 
 }

@@ -13,7 +13,7 @@ public class SpellManager : NetworkBehaviour
     [SerializeField] private Transform fireballPrefab;
     [SerializeField] private Transform wallPrefab;
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
-
+    public Transform LeftHandPos, RightHandPos;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -50,20 +50,43 @@ public class SpellManager : NetworkBehaviour
             }
         }
     }
-
-    [ServerRpc]
-    private void RequestSpawnFireballServerRpc()
+    public void fireBall(Transform transPos)
     {
+        RequestSpawnFireballServerRpc();
+        if (IsServer)
+        {
+            SpawnFireball();
+        }
+        else
+        {
+            RequestSpawnFireballServerRpc();
+        }
+    }
+    public void fireWall(Transform transPos)
+    {
+        if (IsServer)
+        {
+            spawnWall();
+        }
+        else
+        {
+            RequestSpawnWallServerRpc();
+        }
+    }
+    [ServerRpc]
+    public void RequestSpawnFireballServerRpc()
+    {
+        Debug.Log("RPCFIREBALL");
         SpawnFireball();
     }
 
-    private void SpawnFireball()
+    public void SpawnFireball()
     {
         // Define the distance in front of the player where the fireball will spawn
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = transform.position + Camera.main.transform.forward * spawnDistance;
+        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance ;
 
         // Instantiate the fireball at the calculated spawn position
         fireball Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<fireball>();
@@ -77,7 +100,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            Fireball.SetDirection(playerForward);
+            Fireball.SetDirection(RightHandPos.forward);
         }
         else
         {
@@ -100,12 +123,13 @@ public class SpellManager : NetworkBehaviour
     }
 
 
-    private void spawnWall()
+    public void spawnWall()
     {
+        Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = transform.position + Camera.main.transform.forward * spawnDistance;
+        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
 
-        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, Quaternion.identity).GetComponent<WallSpell>();
+        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<WallSpell>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         WallSpell wallComponent = wallSpell.transform.GetComponent<WallSpell>();

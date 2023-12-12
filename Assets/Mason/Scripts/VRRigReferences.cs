@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 //using UnityEngine.Netcode;
 //using Unity.Services.Authentication;
 //using Unity.Services.Core;
@@ -17,6 +18,8 @@ public class VRRigReferences : MonoBehaviour
     //public Transform body;
     public Transform leftHand;
     public Transform rightHand;
+    public InputActionProperty leftGripProperty;
+    public InputActionProperty rightGripProperty;
 
     private void Awake()
     {

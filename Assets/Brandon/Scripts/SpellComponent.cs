@@ -8,7 +8,7 @@ public class SpellComponent : NetworkBehaviour
     public SpellType spellType;
 
     [SerializeField]
-    private NetworkVariable<NetworkObjectReference> networkedOwner = new NetworkVariable<NetworkObjectReference>();
+    private NetworkVariable<NetworkObjectReference> networkedOwner = new NetworkVariable<NetworkObjectReference>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public GameObject getOwner()
     {
