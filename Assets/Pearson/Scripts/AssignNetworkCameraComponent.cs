@@ -30,5 +30,19 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
             }
         }
     }
-
+    public void Start()
+    {
+        if (!IsOwner && !headObj)
+        {
+            
+            for (int i = 0; i < componentsToDisable.Count; i++)
+            {
+                componentsToDisable[i].enabled = false;
+            }
+            if (controller)
+            {
+                // controller.enabled = false;
+            }
+        }
+    }
 }
