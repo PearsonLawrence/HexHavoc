@@ -18,21 +18,21 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
         if (IsOwner && headObj)
         {
             GameObject temp = Camera.main.gameObject;
-            temp.transform.parent = headObj.transform;
-            temp.transform.localPosition = Vector3.zero;
-            temp.transform.localRotation = Quaternion.identity;
+            //temp.transform.parent = headObj.transform;
+            //temp.transform.localPosition = Vector3.zero;
+            //temp.transform.localRotation = Quaternion.identity;
         }
-        else
-        {
-            for (int i = 0; i < componentsToDisable.Count; i++)
-            {
-               componentsToDisable[i].enabled = false;
-            }
-            if (controller)
-            {
-               // controller.enabled = false;
-            }
-        }
+        //else
+        //{
+        //    for (int i = 0; i < componentsToDisable.Count; i++)
+        //    {
+        //       componentsToDisable[i].enabled = false;
+        //    }
+        //    if (controller)
+        //    {
+        //       // controller.enabled = false;
+        //    }
+        //}
     }
 
     public void Start()
