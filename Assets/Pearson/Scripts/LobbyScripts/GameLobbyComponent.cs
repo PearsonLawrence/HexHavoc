@@ -19,6 +19,7 @@ public class GameLobbyComponent : MonoBehaviour
     private string tempCode;
 
     [SerializeField] private GameObject listContainer;
+    [SerializeField] private GameObject XR_Player;
     [SerializeField] private GameObject lobbyListContainer;
     [SerializeField] private List<GameObject> lobbyUIList;
     [SerializeField] private List<GameObject> playerLobbyUIList;
@@ -129,6 +130,7 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log("IsHost");
             try
             {
+
                 Debug.Log("StartGame");
                 string relayCode = await currentRelay.CreateRelay();
 
@@ -141,6 +143,7 @@ public class GameLobbyComponent : MonoBehaviour
                 });
                 joinedLobby = lobby;
                 isLobbyStart = true;
+
             }
             catch (LobbyServiceException e)
             {
@@ -370,6 +373,7 @@ public class GameLobbyComponent : MonoBehaviour
 
                 if (joinedLobby.Data["StartGame"].Value != "0")
                 {
+
                     if (playerID != lobby.HostId)
                     {
                         isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value);

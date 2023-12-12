@@ -7,21 +7,30 @@ public class NetworkPlayer : NetworkBehaviour
 {
     public Transform root;
     public Transform head;
-    public Transform body;
+    //public Transform body;
     public Transform leftHand;
     public Transform rightHand;
+
+    public GameObject headObj;
 
     public Renderer[] meshToDisable;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        Debug.Log("WTFFFFFFFFFFFFFFFFFFF");
         if (IsOwner)
         {
+            Debug.Log("SHIIIIIIIIIIIIIIT");
             foreach (var item in meshToDisable)
             {
+                Debug.Log("poo");
                 item.enabled = false;
             }
+            //GameObject temp = Camera.main.gameObject;
+            //temp.transform.parent = headObj.transform;
+            //temp.transform.position = Vector3.zero;
+            //temp.transform.rotation = Quaternion.identity;
         }
     }
 
@@ -30,20 +39,21 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if(IsOwner)
         {
-            root.position = VRRigReferences.Singleton.root.position;
-            root.rotation = VRRigReferences.Singleton.root.rotation;
 
-            head.position = VRRigReferences.Singleton.head.position;
-            head.rotation = VRRigReferences.Singleton.head.rotation;
+            if (root) root.position = VRRigReferences.Singleton.root.position;
+            if (root) root.rotation = VRRigReferences.Singleton.root.rotation;
 
-            body.position = VRRigReferences.Singleton.body.position;
-            body.rotation = VRRigReferences.Singleton.body.rotation;
+            if (head) head.position = VRRigReferences.Singleton.head.position;
+            if (head) head.rotation = VRRigReferences.Singleton.head.rotation;
 
-            leftHand.position = VRRigReferences.Singleton.leftHand.position;
-            leftHand.rotation = VRRigReferences.Singleton.leftHand.rotation;
+            //body.position = VRRigReferences.Singleton.body.position;
+            //body.rotation = VRRigReferences.Singleton.body.rotation;
 
-            rightHand.position = VRRigReferences.Singleton.rightHand.position;
-            rightHand.rotation = VRRigReferences.Singleton.rightHand.rotation;
+            if (leftHand) leftHand.position = VRRigReferences.Singleton.leftHand.position;
+            if (leftHand) leftHand.rotation = VRRigReferences.Singleton.leftHand.rotation;
+
+            if (rightHand) rightHand.position = VRRigReferences.Singleton.rightHand.position;
+            if (rightHand) rightHand.rotation = VRRigReferences.Singleton.rightHand.rotation;
         }
     }
 }
