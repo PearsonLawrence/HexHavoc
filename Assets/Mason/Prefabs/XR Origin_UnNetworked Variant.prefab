@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1026904452147806709, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 1206983058583533305, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,9 +60,21 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3089011310986653546, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4251722289706614135, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4251722289706614135, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 951099334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474668157265253205, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4591099524938082510, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: m_Enabled
@@ -76,6 +92,18 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
+    - target: {fileID: 5277473139513681370, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5481589923535568527, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668636799186118828, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5705158393163773705, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: CameraHeadPos
       value: 
@@ -85,6 +113,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6256998948007058557, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831539026201069787, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831539026201069787, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706785122061856472, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8202064348007394831, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
