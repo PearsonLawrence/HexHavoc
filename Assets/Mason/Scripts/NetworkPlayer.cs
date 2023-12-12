@@ -11,6 +11,8 @@ public class NetworkPlayer : NetworkBehaviour
     public Transform leftHand;
     public Transform rightHand;
 
+    public GameObject headObj;
+
     public Renderer[] meshToDisable;
 
     public override void OnNetworkSpawn()
@@ -22,6 +24,9 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 item.enabled = false;
             }
+            GameObject temp = Camera.main.gameObject;
+            temp.transform.parent = headObj.transform;
+            temp.transform.position = Vector3.zero;
         }
     }
 

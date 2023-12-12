@@ -5,7 +5,7 @@ using UnityEngine;
 //using Unity.Services.Authentication;
 //using Unity.Services.Core;
 
-public class VRRigReferences : NetworkBehaviour
+public class VRRigReferences : MonoBehaviour
 {
     public static VRRigReferences Singleton;
 
