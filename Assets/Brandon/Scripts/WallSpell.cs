@@ -1,3 +1,7 @@
+//Author: Brandon(Ri) Yu
+//Purpose: This script is attached to the wall gameobject and gives it its logic. It creates a timer til it is
+//destroyed along with keeling track of how many spells it has blocked.
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
