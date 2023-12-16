@@ -1,3 +1,5 @@
+//Developed by Mason Smith
+//Only activates teleport rays on trigger press, instead of always being active.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

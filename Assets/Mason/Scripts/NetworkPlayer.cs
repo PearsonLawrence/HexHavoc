@@ -1,4 +1,4 @@
-//Authoer:Mason and Pearson
+//Authoer: Mason Smith and Pearson Lawrence
 //Purpose: this script is used for adjusting the body that the player posseses and replicates it over the netwrok. Ensures that the two players can see eachothers body and gestures.
 using System.Collections;
 using System.Collections.Generic;
