@@ -1,3 +1,5 @@
+//Author:Pearson Lawrence
+//The purpose of this script was used to display lobbies and their information inside of the lobbies list that was available when searching for games. This script allows for all the information to be stored so a lobby can be joined easily.
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

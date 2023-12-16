@@ -1,3 +1,6 @@
+
+//Author: Pearson Lawrence
+//Purpose: Was meant to assign camera to network player. But obsolete
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,41 +21,8 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
         if (IsOwner && headObj)
         {
             GameObject temp = Camera.main.gameObject;
-            //temp.transform.parent = headObj.transform;
-            //temp.transform.localPosition = Vector3.zero;
-            //temp.transform.localRotation = Quaternion.identity;
         }
-        //else
-        //{
-        //    for (int i = 0; i < componentsToDisable.Count; i++)
-        //    {
-        //       componentsToDisable[i].enabled = false;
-        //    }
-        //    if (controller)
-        //    {
-        //       // controller.enabled = false;
-        //    }
-        //}
+       
     }
 
-    public void Start()
-    {
-        
-    }
-    public void Update()
-    {
-        //if (!IsOwner)
-        //{
-        //    if (!isDone)
-        //    {
-        //        for (int i = 0; i < componentsToDisable.Count; i++)
-        //        {
-        //            componentsToDisable[i].enabled = false;
-
-        //        }
-        //        isDone = true;
-        //    }
-
-        //}
-    }
 }

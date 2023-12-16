@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence
+//purpose: Connect to unity relay, allowing players to connect between PC's. Used in tandum with menu UI to establish connections after joining lobbies
+//Utilized Code monkeys tutorial to gain understanding on Relay funcitonality, and then created UI system that utilized and modified it.
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;

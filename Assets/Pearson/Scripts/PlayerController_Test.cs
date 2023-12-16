@@ -1,3 +1,6 @@
+
+//Author: Pearson
+//Tutorial script used created gain understanding on unity netcode, tutorial provided by samyam on youtube
 using System;
 using Unity.Netcode;
 using UnityEngine;

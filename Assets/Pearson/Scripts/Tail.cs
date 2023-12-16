@@ -1,3 +1,5 @@
+//Author Pearson
+//Obsolete, utilized tutorial from samyam to understand how networking was utilized
 using UnityEngine;
 
 public class Tail : MonoBehaviour

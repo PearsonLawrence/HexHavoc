@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Obsolete, used for tutorial purposes of understanding unity netcode
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;

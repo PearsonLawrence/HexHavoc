@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: This script displays all the information of players once they join a lobby
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

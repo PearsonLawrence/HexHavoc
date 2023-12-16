@@ -1,3 +1,5 @@
+//Authoer:Mason and Pearson
+//Purpose: this script is used for adjusting the body that the player posseses and replicates it over the netwrok. Ensures that the two players can see eachothers body and gestures.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,10 +23,8 @@ public class NetworkPlayer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        Debug.Log("WTFFFFFFFFFFFFFFFFFFF");
         if (IsOwner)
         {
-            Debug.Log("SHIIIIIIIIIIIIIIT");
             foreach (var item in meshToDisable)
             {
                 Debug.Log("poo");

@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: This script handles the player interaction to Unity lobby execution. It gives players the tools to join or create whatever game they want. This is the main component that handles the corraspondance between the user and lobby.
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

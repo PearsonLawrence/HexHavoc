@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence, Brandon Yu
+//Purpose: established network logic for player characters. Managed the players game states depending on which networked player has won the round. 
+//Utilized Code Monkeys tutorial from youtube to build basic structure and understanding before expanding
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;

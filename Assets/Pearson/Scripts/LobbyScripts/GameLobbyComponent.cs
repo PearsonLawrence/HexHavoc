@@ -1,3 +1,6 @@
+//Author: Pearson
+//Purpose: Utilized Unity lobby and UI elements to allow players to create lobbies, and join them. This script contains the main functionality behind managing networked lobbies and opening relays to begin matches.
+//Utilized basic tutorial from code monkey to understand fundamentals and then added on and created entire UI system from scratch.
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

@@ -1,3 +1,5 @@
+//Author: Pearson
+//Tutorial script used created gain understanding on unity netcode. Tutorial provided by samyam on youtube
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

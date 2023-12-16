@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: Call script to spawn spells over network using RPCs utilizing the spellmanager script developed by Brandon
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
