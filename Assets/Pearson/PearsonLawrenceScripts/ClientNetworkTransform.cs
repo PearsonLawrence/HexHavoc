@@ -1,4 +1,7 @@
 
+//Author: Unity
+//This is a script provided by unity to implement, changes the authority of the transform so the client can move it in client host connections
+
 using Unity.Netcode.Components;
 using UnityEngine;
 
