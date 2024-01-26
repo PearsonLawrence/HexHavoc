@@ -1,3 +1,7 @@
+//Author: Brandon
+//Purpose: This is a parent class that sll other spells will inherit from. This class has the functions to set
+//and get who spawmed a spell along with getting what type of spell was spawned.
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,8 +11,9 @@ public class SpellComponent : NetworkBehaviour
 {
     public SpellType spellType;
 
+    //networked variable that shows the owner of the spell
     [SerializeField]
-    private NetworkVariable<NetworkObjectReference> networkedOwner = new NetworkVariable<NetworkObjectReference>();
+    private NetworkVariable<NetworkObjectReference> networkedOwner = new NetworkVariable<NetworkObjectReference>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public GameObject getOwner()
     {

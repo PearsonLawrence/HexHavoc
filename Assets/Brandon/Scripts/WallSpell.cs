@@ -1,3 +1,7 @@
+//Author: Brandon(Ri) Yu
+//Purpose: This script is attached to the wall gameobject and gives it its logic. It creates a timer til it is
+//destroyed along with keeling track of how many spells it has blocked.
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -8,36 +12,42 @@ public class WallSpell : SpellComponent
 {
     public SpellManager parent;
     public float lifeTime = 20f;
-    public int spellsTanked;
+    public int spellsTanked; //Can take up to 3 spells before destroyed
+    [SerializeField] private int maxSpellsToAbsorb = 3;
+    public GameObject explodePrefab;
 
     void Start()
     {
         spellsTanked = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        StartCoroutine(DestroyAfterDelay());
+        lifeTime -= Time.deltaTime;
 
-        if(spellsTanked >= 2)
+        if(lifeTime < 0)
         {
-            parent.DestroyServerRpc();
+            GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+
+            Destroy(temp, 3);
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(gameObject);
         }
     }
 
-    private IEnumerator DestroyAfterDelay()
-    {
-        yield return new WaitForSeconds(lifeTime);
-
-        if (parent != null && parent.NetworkObject != null && parent.NetworkObject.IsSpawned)
-        {
-            parent.DestroyServerRpc();
-        }
-    }
-
+    //instantiate destroy particle effect and despawn from network
     public void DoSpellImpact()
     {
-        spellsTanked++; 
+        spellsTanked++;
+        //TODO: Only call this function if 1. it does not collide with a spell from the player
+        if (spellsTanked > maxSpellsToAbsorb)
+        {
+            GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+
+            Destroy(temp, 3);
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(gameObject);
+
+        }
     }
 }

@@ -1,3 +1,7 @@
+//Author:Brandon(Ri) Yu
+//Purpose: Detect collsions within the game and determining what hit what. i.e a fireball hit the player or
+//a fireball hitting the wall
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -8,8 +12,6 @@ public class collisionManager : NetworkBehaviour
 {
     [SerializeField] private SpellComponent spell;
     [SerializeField] private bool isSpell = false;
-
-    private bool collisionHandled = false; // New boolean flag
 
     private MatchManager matchManager;
 
@@ -26,12 +28,12 @@ public class collisionManager : NetworkBehaviour
     void Start()
     {
         // Find the MatchManager GameObject in the hierarchy
-        GameObject matchManagerObject = GameObject.FindWithTag("MatchManager");
+        MatchManager matchManagerObject = MatchManager.Instance;
 
         if (matchManagerObject != null)
         {
             // Get the MatchManager component from the GameObject
-            matchManager = matchManagerObject.GetComponent<MatchManager>();
+            matchManager = matchManagerObject;
 
             if (matchManager == null)
             {
@@ -42,14 +44,11 @@ public class collisionManager : NetworkBehaviour
         {
             Debug.LogError("MatchManager GameObject not found in the hierarchy. Make sure it's active and tagged appropriately.");
         }
-
-        // Reset the collisionHandled flag to false when the script starts
-        collisionHandled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!collisionHandled && isSpell)
+        if (isSpell)
         {
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
             if (tempSpell)
@@ -86,8 +85,6 @@ public class collisionManager : NetworkBehaviour
                     }
                 }
 
-                // Set the collisionHandled flag to true after handling the collision
-                collisionHandled = true;
             }
             else if (other.CompareTag("Player"))
             {
@@ -99,25 +96,15 @@ public class collisionManager : NetworkBehaviour
                         NetworkObject networkObject = other.GetComponent<NetworkObject>();
 
                         Debug.Log("Hit Player" + networkObject.OwnerClientId);
-                        other.GetComponent<HealthManager>().Health.Value -= 20;
-                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, other.GetComponent<HealthManager>().Health.Value);
+                        HealthManager tmepManager = other.GetComponent<HealthManager>();
+
+                        tmepManager.Health.Value -= 20;
+                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, tmepManager.Health.Value);
                         fireball fireballSelf = (fireball)spell;
                         fireballSelf.DoImpact();
                         break;
                 }
-
-                // Set the collisionHandled flag to true after handling the collision
-                collisionHandled = true;
             }
-
-            // Reset the collisionHandled flag at the end of the collision handling
-            collisionHandled = false;
         }
-    }
-
-    // Reset the collisionHandled flag when the spell is reset or reused
-    public void ResetCollisionHandled()
-    {
-        collisionHandled = false;
     }
 }
