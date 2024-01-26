@@ -1,3 +1,4 @@
+//Created by Mason Smith. Used to check for mouse left click inputs in Unity on PC. Not necessary to gameplay.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

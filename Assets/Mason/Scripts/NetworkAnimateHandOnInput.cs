@@ -1,3 +1,4 @@
+//Created by Mason Smith. Performs the same operations as AnimateHandOnInput.cs, but allows for animations to be seen over the network between players.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,4 @@
+//Created by Pearson Lawrence and Mason Smith. Creates player avatar over network so other players can see one another in game.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

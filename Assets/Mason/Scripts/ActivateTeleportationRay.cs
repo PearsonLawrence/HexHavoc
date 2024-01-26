@@ -1,3 +1,4 @@
+//Created by Mason Smith. Activates teleportation ray originating from hand on trigger pull of controllers.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class ActivateTeleportationRay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //If trigger is pulled on controller, as long as the pull value is >0.1, it activates the teleportation.
         leftTeleportation.SetActive(leftCancel.action.ReadValue<float>() == 0 && leftActivate.action.ReadValue<float>() > 0.1f);
         rightTeleportation.SetActive(leftCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
     }

@@ -1,3 +1,4 @@
+//Created by Pearson Lawrence and Mason Smith. Creates objects for XROrigin to reference to help create Player models and control the Player's POV.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
