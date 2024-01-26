@@ -6,13 +6,16 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-
+//TODO: REFACTOR
 public class PlayerNetwork : NetworkBehaviour
 {
+    
     [SerializeField] private Transform SpawnedObjectPrefab;
 
     private MatchManager matchManager;
 
+
+    //This is an instantiation of a network variable. Used for understanding the network variable concept (Obsolete)
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
         new MyCustomData
         {
@@ -21,11 +24,12 @@ public class PlayerNetwork : NetworkBehaviour
         }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
 
+    //This is an instantiation of a network variable. Used for understanding the network variable concept (Obsolete)
     public struct MyCustomData : INetworkSerializable
     {
         public int _int;
         public bool _bool;
-        public FixedString128Bytes message;
+        public FixedString128Bytes message; //Determines how much data is sent over the network
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref _int);
@@ -37,6 +41,7 @@ public class PlayerNetwork : NetworkBehaviour
  
 
     // Update is called once per frame
+    //When this is spawned on the network
     public override void OnNetworkSpawn()
     {
         randomNumber.OnValueChanged += (MyCustomData previousVal, MyCustomData newVal) =>

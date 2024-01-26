@@ -27,18 +27,20 @@ public class gameRelayComponent : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();*/
     }
 
+
+    //Open a relay to connect clients between remote pc's
     public async Task<string> CreateRelay()
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2);
-            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2); //Create relay allocation on unity services
+            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId); //Gets join code for relay
             Debug.Log(joinCode);
 
-            RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+            RelayServerData relayServerData = new RelayServerData(allocation, "dtls"); 
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData); //using a singleton update server data across network manager
+            NetworkManager.Singleton.StartHost(); //Starts host on singleton for all instances on pc
             return joinCode;
         }
         catch( RelayServiceException e)
@@ -47,32 +49,25 @@ public class gameRelayComponent : MonoBehaviour
             return null;
         }
     }
+    //handles joining an existing relay by relay code
     public async Task<bool> JoinRelay(string joinCode)
     {
         try
         {
             Debug.Log("Joining Relay with code: " + joinCode);
-            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode); //wait for client to establish connection to relay of code
 
 
-            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
+            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls"); //dtls is the predefined code type
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-            NetworkManager.Singleton.StartClient();
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData); //connect over transport layer using unity services on network manager
+            NetworkManager.Singleton.StartClient(); //initiate client on relay to transmit data between pcs
             return true;
         }
         catch(RelayServiceException e)
         {
             Debug.Log(e);
             return false;
-        }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            CreateRelay();
         }
     }
 }

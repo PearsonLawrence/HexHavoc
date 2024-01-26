@@ -19,13 +19,14 @@ public class fireball : SpellComponent
         lifeTime = maxlifeTime;
     }
 
+    //update the fireballs position in launch direction
     void Update()
     {
         Vector3 newPosition = transform.position + moveDirection * speed * Time.deltaTime;
         transform.position = newPosition;
 
         lifeTime -= Time.deltaTime;
-
+        //delete spell after certain amount of time
         if(lifeTime < 0)
         {
             DoImpact();
@@ -37,6 +38,7 @@ public class fireball : SpellComponent
         moveDirection = direction.normalized;
     }
 
+    //instantiate particle effect and despawn from network
     public void DoImpact()
     {
         GameObject temp =  Instantiate(destroyPrefab, transform.position, Quaternion.identity);

@@ -65,6 +65,7 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
+    //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int health)
     {
@@ -86,7 +87,11 @@ public class MatchManager : NetworkBehaviour
             isRoundReset.Value = true;
             resetTime = maxResetTime;
         }
-
+        //update round with winner depending on who loses all HP first. 
+        //TODO: make rounds properly work
+        //TODO: Create end condition with max rounds to win
+        //TODO: return to lobby after match
+        //TODO: Update leaderboard???????
         if (pTwoWinTally >= 1)
         {
             isThereWinner.Value = true;

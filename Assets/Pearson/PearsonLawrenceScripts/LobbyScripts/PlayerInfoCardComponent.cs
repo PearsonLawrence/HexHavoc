@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
-
+//TODO: Dispaly steam name instead of this
 public class PlayerInfoCardComponent : MonoBehaviour
 {
     [SerializeField] private Button selectLobbyButton;

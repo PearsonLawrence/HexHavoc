@@ -10,15 +10,17 @@ using Unity.Services.Lobbies;
 
 public class LobbyInfoComponent : MonoBehaviour
 {
-
+    //UI elements
     [SerializeField] private Button selectLobbyButton;
-    [SerializeField] private GameLobbyComponent GameLobby;
     [SerializeField] private TMP_Text info;
     [SerializeField] private Image privateIndicator;
-    [SerializeField] private Lobby currentLobbyInfo;
+
+    //Lobby elements
+    [SerializeField] private GameLobbyComponent GameLobby; //stores all of the information of the lobby listed
+    [SerializeField] private Lobby currentLobbyInfo; // Current selected lobby
 
     private int playerCount, maxPlayerCount;
-    [SerializeField] private string lobbyCode;
+    [SerializeField] private string lobbyCode; //This is the lobby code that will update the users desired join lobby
 
     public Lobby getCurrentLobby()
     {
@@ -44,6 +46,8 @@ public class LobbyInfoComponent : MonoBehaviour
     {
         GameLobby.setSelectedLobby(this);
     }
+
+    //updates the lobby information of the displayed (this) lobby in the lobby list.
     public void setLobby(Lobby lobby)
     {
         currentLobbyInfo = lobby;
@@ -51,12 +55,14 @@ public class LobbyInfoComponent : MonoBehaviour
         playerCount = currentLobbyInfo.Players.Count;
         lobbyCode = lobby.LobbyCode;
 
+        //TODO: Get to work and allow private matches
         if (currentLobbyInfo.IsPrivate)
             privateIndicator.color = new Color(100,0,0);
         else
             privateIndicator.color = new Color(0, 100, 0);
 
-        info.text = lobby.Data["GameMode"].Value + " | " + lobby.Data["Map"].Value + " | " + playerCount + "/" + maxPlayerCount;
+        info.text = lobby.Data["GameMode"].Value + " | " + lobby.Data["Map"].Value + " | " + playerCount + "/" + maxPlayerCount; //Displaying info
+        //TODO: Make pretty, and display lobby name
     }
     public void setMaxPlayerCount(int count)
     {

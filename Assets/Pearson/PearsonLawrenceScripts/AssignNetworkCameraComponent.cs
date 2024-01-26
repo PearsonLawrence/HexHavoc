@@ -17,6 +17,7 @@ public class AssignNetworkCameraComponent : NetworkBehaviour
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
+        //Sets the players head to correct camera
         base.OnNetworkSpawn();
         if (IsOwner && headObj)
         {

@@ -8,7 +8,8 @@ public class WallSpell : SpellComponent
 {
     public SpellManager parent;
     public float lifeTime = 20f;
-    public int spellsTanked;
+    public int spellsTanked; //Can take up to 3 spells before destroyed
+    [SerializeField] private int maxSpellsToAbsorb = 3;
     public GameObject explodePrefab;
 
     void Start()
@@ -30,11 +31,12 @@ public class WallSpell : SpellComponent
         }
     }
 
+    //instantiate destroy particle effect and despawn from network
     public void DoSpellImpact()
     {
         spellsTanked++;
-
-        if (spellsTanked > 2)
+        //TODO: Only call this function if 1. it does not collide with a spell from the player
+        if (spellsTanked > maxSpellsToAbsorb)
         {
             GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 

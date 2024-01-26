@@ -18,8 +18,9 @@ public class GameLobbyComponent : MonoBehaviour
     private Lobby joinedLobby;
     private float heartbeatTimer;
     private float lobbyUpdateTimer = 1.1f;
-    public string playerName;
     private string tempCode;
+
+    public string playerName;
 
     [SerializeField] private GameObject listContainer;
     [SerializeField] private GameObject XR_Player;
@@ -30,13 +31,15 @@ public class GameLobbyComponent : MonoBehaviour
     [SerializeField] private GameObject playerLobbyInfoPrefab;
     [SerializeField] private LobbyInfoComponent selectedLobby;
     [SerializeField] private gameRelayComponent currentRelay;
-
+    [SerializeField] private float lobbyHeartbeatTimerMax = 15f;
+    [SerializeField] private float lobbyUpdateTimerMax = 2f;
     public TMP_Text textTemp;
     public TMP_Text lobbyCountText;
     public TMP_InputField CodeInputField;
+    
     private bool isLobbyStart;
     private string playerID;
-    bool isCreated = false;
+    //bool isCreated = false;
     public bool getIsLobbyStart()
     {
         return isLobbyStart;
@@ -60,20 +63,29 @@ public class GameLobbyComponent : MonoBehaviour
     {
         selectedLobby = select;
     }
+
+    //Async start when lobby is created
     private async void Start()
     {
+        //await for initialize from unity services
         await UnityServices.InitializeAsync();
 
+        //Get user signed in authentication (Return player id not name)
         AuthenticationService.Instance.SignedIn += () =>
         {
             playerID = AuthenticationService.Instance.PlayerId;
             Debug.Log("Signed in " + playerID);
         };
+
+        //signs the user in as an anonymous user (Without going through steam authentication)
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        //assign player random name (Temporary) TODO: implement steam names or custom names
         playerName = "TestName" + UnityEngine.Random.Range(0, 1000);
         Debug.Log(playerName);
     }
 
+    //debug to output current players in lobby
     private void PrintPlayers(Lobby lobby)
     {
         Debug.Log("Players in lobby " + lobby.Name + " " + lobby.Data["GameMode"].Value + " " + lobby.Data["Map"].Value);
@@ -82,36 +94,41 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(player.Id + " " + player.Data["PlayerName"].Value);
         }
     }
+
     private void PrintPlayers()
     {
         PrintPlayers(joinedLobby);
     }
 
+    //Create instance of lobby over unity lobbies that people can find
     public async void CreateLobby()
     {
         try
         {
-            string lobbyName = "MyLobby";
-            int maxPlayers = 4;
+            string lobbyName = "MyLobby"; //TODO: Custom lobby name input instead of mylobby
+            int maxPlayers = 4; //TODO: User sets value to max of game requirements
+
+
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = false,
                 Player = GetPlayer(),
                 Data = new Dictionary<string, DataObject>
                 {
-                    { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "Duel", DataObject.IndexOptions.S1) },
-                    { "Map", new DataObject(DataObject.VisibilityOptions.Public, "Arena1", DataObject.IndexOptions.S2) },
-                    { "StartGame", new DataObject(DataObject.VisibilityOptions.Member, "0", DataObject.IndexOptions.S3) },
+                    { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "Duel", DataObject.IndexOptions.S1) }, //TODO: Allow player to choose mode
+                    { "Map", new DataObject(DataObject.VisibilityOptions.Public, "Arena1", DataObject.IndexOptions.S2) }, //TODO: Allow player to choose MAP
+                    { "StartGame", new DataObject(DataObject.VisibilityOptions.Member, "0", DataObject.IndexOptions.S3) }, //TODO: Remember what this is (Relay code?)
                 }
 
             };
 
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
-            setLobbyCode(lobby.LobbyCode);
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions); //wait for lobby to be created
+            setLobbyCode(lobby.LobbyCode); //Creates lobby code and stores it in class variable
 
             
             Debug.Log("Created Lobby! " + lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Id + " " + lobby.LobbyCode);
 
+            //sync up host and joined lobby across clients in lobby
             hostLobby = lobby;
             joinedLobby = hostLobby;
             PrintPlayers(hostLobby);
@@ -123,20 +140,24 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //When start is clicked connect lobby clients to relay
     public async void StartGame()
     {
         Debug.Log("Run");
         Debug.Log(joinedLobby.HostId);
         Debug.Log(playerID);
-        if (joinedLobby.HostId == playerID)
+
+        //if Host of lobby (So other players cant press start)
+        if (joinedLobby.HostId == playerID) //TODO: Remove UI "Start" Button for non host players
         {
             Debug.Log("IsHost");
             try
             {
 
                 Debug.Log("StartGame");
-                string relayCode = await currentRelay.CreateRelay();
+                string relayCode = await currentRelay.CreateRelay(); //Create a relay to connect clients to host 
 
+                //Update lobby options for all players. Update relay code to allow users to connect to correct relay
                 Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
                 {
                     Data = new Dictionary<string, DataObject>
@@ -144,8 +165,9 @@ public class GameLobbyComponent : MonoBehaviour
                         { "StartGame", new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
                     }
                 });
+
                 joinedLobby = lobby;
-                isLobbyStart = true;
+                isLobbyStart = true; //If true this will intiate connecting to host relay on next tick
 
             }
             catch (LobbyServiceException e)
@@ -156,13 +178,16 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //Sets the lobby code variable to store and display
     private void setLobbyCode(string code)
     {
         tempCode = code;
     }
 
-    public void Refresh()
+    //Updates the list of open lobbies that players can join that are not full
+    public void RefreshLobbyList()
     {
+        //remove lobbies from list to update
         while (lobbyUIList.Count > 0)
         {
             GameObject temp = lobbyUIList[0];
@@ -170,25 +195,46 @@ public class GameLobbyComponent : MonoBehaviour
             Destroy(temp);
         }
         
-        ListLobbies();
+        ListLobbies();//Re-add lobbies to list
     }
-    public void RefreshLobby()
+    //Create ui elements with players joined in lobby
+    public void setupLobby(Lobby lobbyJoinedInfo)
     {
+        // Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
+        foreach (Player player in lobbyJoinedInfo.Players)
+        {
+            PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, lobbyListContainer.transform).GetComponent<PlayerInfoCardComponent>();
+            temp.setPlayerInfo(player);
+            playerLobbyUIList.Add(temp.gameObject);
+            temp.setGameLobby(this);
+        }
+    }
+
+    //Updates list of current players connected to lobby
+    //TODO: Refactor out into sperate class that manages the lobby once connected
+    public void RefreshPlayerList()
+    {
+        //if we have not joined a lobby do nothing
+        if (joinedLobby == null) return;
+        //while there are players in the lobby, update
         while (playerLobbyUIList.Count > 0)
         {
             GameObject temp = playerLobbyUIList[0];
             playerLobbyUIList.Remove(temp);
             Destroy(temp);
         }
-        if (joinedLobby == null) return;
 
+        //add players to UI list
         setupLobby(joinedLobby);
+
+        //Display how many players are connected
         lobbyCountText.text = playerLobbyUIList.Count + "/" + joinedLobby.MaxPlayers;
     }
     public async void ListLobbies()
     {
         try
         {
+            //Gets lobbies that are open with available slots
             QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
             {
                 Count = 25,
@@ -196,15 +242,15 @@ public class GameLobbyComponent : MonoBehaviour
             {
                 new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT),
             },
-                Order = new List<QueryOrder>
+                Order = new List<QueryOrder> //TODO: Remember what dis do
             {
                 new QueryOrder(false, QueryOrder.FieldOptions.Created)
             }
             };
 
-            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions);
+            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions); //Getting the query to all available lobbies
 
-            Debug.Log("Lobbies found: " + queryResponse.Results.Count);
+            Debug.Log("Lobbies found: " + queryResponse.Results.Count); //shows how many lobbies are found
 
             // Iterate through each lobby in the response
             foreach (Lobby lobby in queryResponse.Results)
@@ -214,7 +260,7 @@ public class GameLobbyComponent : MonoBehaviour
                 Debug.Log("Lobby Name: " + lobby.Name + ", Lobby Code: " + lobbyCode);
 
                 // Instantiate and setup the LobbyInfoComponent
-                LobbyInfoComponent temp = Instantiate(lobbyInfoPrefab, listContainer.transform).GetComponent<LobbyInfoComponent>();
+                LobbyInfoComponent temp = Instantiate(lobbyInfoPrefab, listContainer.transform).GetComponent<LobbyInfoComponent>(); //TODO: Refactor out
                 temp.setLobby(lobby);
                 lobbyUIList.Add(temp.gameObject);
                 temp.setGameLobby(this);
@@ -228,6 +274,7 @@ public class GameLobbyComponent : MonoBehaviour
 
     }
 
+    //returns player data
     private Player GetPlayer()
     {
         return new Player
@@ -238,25 +285,19 @@ public class GameLobbyComponent : MonoBehaviour
                     }
         };
     }
+    //Function to be called on button click event to join selected lobby
     public void LobbyJoin()
     {
         JoinLobbyByCode(selectedLobby.getLobbyCode());
-    }public void JoinLobbyByCodeInputUI()
+    }
+
+    //TODO: Create VR keyboard to allow joining by code
+    public void JoinLobbyByCodeInputUI() // manually joins by entered code
     {
         JoinLobbyByCode(CodeInputField.text);
     }
 
-    public void setupLobby(Lobby lobbyJoinedInfo)
-    {
-       // Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
-        foreach (Player player in lobbyJoinedInfo.Players)
-        {
-            PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, lobbyListContainer.transform).GetComponent<PlayerInfoCardComponent>();
-            temp.setPlayerInfo(player);
-            playerLobbyUIList.Add(temp.gameObject);
-            temp.setGameLobby(this);
-        }
-    }
+    //Connects client to desired lobby by specified code passed into function
     private async void JoinLobbyByCode(string lobbyCode)
     {
         try
@@ -264,8 +305,9 @@ public class GameLobbyComponent : MonoBehaviour
             JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
             {
                 Player = GetPlayer(),
-            };
-            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions);
+            }; //Passes in the player to be connected to lobby
+
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions); //Actually connect via unity lobby services on await
             joinedLobby = lobby;
             PrintPlayers(joinedLobby);
             Debug.Log("joined lobby with code " + lobbyCode);
@@ -275,14 +317,17 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(e);
         }
     }
+    //Join lobby that the user selects in the list
     public void JoinSelectedLobby()
     {
         JoinLobbyByLobby(selectedLobby.getCurrentLobby());
     }
     private async void JoinLobbyByLobby(Lobby lobby)
     {
+        //get player info that is joining
         Player player = GetPlayer();
 
+        //await and connect user to desired lobby passed into function
         Lobby tempLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions { Player = player });
         joinedLobby = tempLobby;
         PrintPlayers(joinedLobby);
@@ -291,6 +336,7 @@ public class GameLobbyComponent : MonoBehaviour
 
     }
 
+    //This updates the lobby infoirmation with frequency of lobbyHeartbeatTimerMax variable
     private async void handleLobbyHeartbeat()
     {
         if (hostLobby != null)
@@ -298,18 +344,20 @@ public class GameLobbyComponent : MonoBehaviour
             heartbeatTimer -= Time.deltaTime;
             if (heartbeatTimer < 0f)
             {
-                float heartbeatTimerMax = 15f;
-                heartbeatTimer = heartbeatTimerMax;
+                heartbeatTimer = lobbyHeartbeatTimerMax;
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
             }
         }
     }
 
+    //Join random lobby is current found lobbies
     public void QuickJoin()
     {
         QuickJoinLobby();
     }
 
+    //Quickjoin non private open lobby 
+    //TODO: Test and implement and refactor
     private async void QuickJoinLobby()
     {
         try
@@ -322,12 +370,12 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //update gamemode of lobby
+    //TODO: Implement other gamemodes? If not no need
     private async void UpdateLobbyGameMode(string gameMode)
     {
         try
         {
-
-
             hostLobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
             {
                 Data = new Dictionary<string, DataObject>
@@ -344,6 +392,8 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //Updates the name of player
+    //TODO: Have custom names? Or steam name?
     private async void UpdatePlayerName(string newPlayerName)
     {
         try
@@ -362,39 +412,42 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(e);
         }
     }
-    private async void HandleLobbyPollForUpdates()
+
+    //Updates list of players in the lobby
+    private async void HandleCurrentLobbyPollForUpdates()
     {
-        if (joinedLobby != null)
+        if (joinedLobby != null) //If you are connected to a lobby
         {
             lobbyUpdateTimer -= Time.deltaTime;
             if (lobbyUpdateTimer < 0f)
             {
-                float lobbyUpdateTimerMax = 2f;
                 lobbyUpdateTimer = lobbyUpdateTimerMax;
                 Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
                 joinedLobby = lobby;
 
-                if (joinedLobby.Data["StartGame"].Value != "0")
+                if (joinedLobby.Data["StartGame"].Value != "0") //if game has not started
                 {
 
-                    if (playerID != lobby.HostId)
+                    if (playerID != lobby.HostId) //user is not the host
                     {
-                        isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value);
-                        
+                        isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value); //update lobby start
                     }
 
                     joinedLobby = null;
 
                 }
 
-                RefreshLobby();
+                RefreshPlayerList(); //Update list of players in lobby
             }
         }
     }
-    public void quitLobby()
+    public void quitLobby() //Quit lobby UI event button
     {
         LeaveLobby();
     }
+
+    //disconnect from lobby
+    //TODO: Fix bug that prevents user from joining new lobby
     private async void LeaveLobby()
     {
         try
@@ -402,8 +455,8 @@ public class GameLobbyComponent : MonoBehaviour
             await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
             joinedLobby = null;
             hostLobby = null;
-            Refresh();
-            RefreshLobby();
+            RefreshLobbyList();
+            RefreshPlayerList();
         }
         catch (LobbyServiceException e)
         {
@@ -411,6 +464,7 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //TODO: Test and give host option to kick players
     private async void KickPlayer(int playerIndex)
     {
         try
@@ -423,6 +477,7 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //TODO: Test
     private async void MigrateLobbyHost()
     {
         try
@@ -441,6 +496,8 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
 
+    //Removes lobby from being findable
+    //TODO: Implement to fix bug of lobby not being deleted
     private void DeleteLobby()
     {
         try
@@ -455,8 +512,8 @@ public class GameLobbyComponent : MonoBehaviour
     private void Update()
     {
         handleLobbyHeartbeat();
-        HandleLobbyPollForUpdates();
-        textTemp.text = tempCode;
+        HandleCurrentLobbyPollForUpdates();
+        textTemp.text = tempCode; //update the lobby code UI
        
     }
 

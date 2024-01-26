@@ -7,7 +7,7 @@ using UnityEngine;
 //using UnityEngine.InputSystem.XR;
 using UnityEngine.InputSystem;
 
-public class SpellLauncher : NetworkBehaviour
+public class SpellLauncher : NetworkBehaviour //Network behavior to allow transmition of data between clients and server
 {
     // Start is called before the first frame update\
     public InputActionProperty gripProperty;
@@ -30,8 +30,11 @@ public class SpellLauncher : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        float triggerValue = gripProperty.action.ReadValue<float>();
+        float triggerValue = gripProperty.action.ReadValue<float>(); //Get the value of the motion controllers grip to launch spells
+            //TODO: Switch to gesture based casting
         
+
+        //Test to display grab and release
         if(triggerValue > 0.1f)
         {
             //Debug.Log("Grab");
@@ -44,7 +47,7 @@ public class SpellLauncher : NetworkBehaviour
 
         triggerValue = Mathf.Clamp(triggerValue, 0f, 1f);
 
-        if (triggerValue > 0.1f && !isCharging)
+        if (triggerValue > 0.1f && !isCharging) 
         {
             Debug.Log("Grab");
             isCharging = true;
@@ -54,15 +57,15 @@ public class SpellLauncher : NetworkBehaviour
             Debug.Log("Release");
             isCharging = false;
             //SpawnFireball
-            switch(spell)
+            switch(spell) 
             {
                 case SpellType.fireball:
                     Debug.Log("Shoot Fireball");
-                    spellManager.fireBall(transform);
+                    spellManager.fireBall(transform); //Calls a fireball rpc across the network at transform location
                     break;
                 case SpellType.wall:
                     Debug.Log("Shoot Wall");
-                    spellManager.fireWall(transform);
+                    spellManager.fireWall(transform); //Calls a firewall rpc across the network at transform location
                     break;
             }
         }

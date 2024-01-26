@@ -10,6 +10,7 @@ public enum SpellType
 
 public class SpellManager : NetworkBehaviour
 {
+    //TODO: Create a list of all possible spells to be cast and call from that list
     [SerializeField] private Transform fireballPrefab;
     [SerializeField] private Transform wallPrefab;
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
@@ -50,10 +51,12 @@ public class SpellManager : NetworkBehaviour
             }
         }
     }
+    //Function to be called when spawning a fireball on the network
     public void fireBall(Transform transPos)
     {
-        RequestSpawnFireballServerRpc();
-        if (IsServer)
+        //TODO: Clearify test and refactor 
+        RequestSpawnFireballServerRpc(); //Spawns fireball from rpc over network
+        if (IsServer) 
         {
             SpawnFireball();
         }
@@ -62,8 +65,10 @@ public class SpellManager : NetworkBehaviour
             RequestSpawnFireballServerRpc();
         }
     }
+
     public void fireWall(Transform transPos)
     {
+        //TODO: Clearify test and refactor 
         if (IsServer)
         {
             spawnWall();
@@ -73,6 +78,8 @@ public class SpellManager : NetworkBehaviour
             RequestSpawnWallServerRpc();
         }
     }
+
+    //server rpc that handles spawning of networked spells
     [ServerRpc]
     public void RequestSpawnFireballServerRpc()
     {
@@ -80,6 +87,7 @@ public class SpellManager : NetworkBehaviour
         SpawnFireball();
     }
 
+    //handles the spawning of fireball spell
     public void SpawnFireball()
     {
         // Define the distance in front of the player where the fireball will spawn
@@ -154,6 +162,7 @@ public class SpellManager : NetworkBehaviour
         }
     }
 
+    //server rpc that handles spawning of networked spells
 
     [ServerRpc]
     private void RequestSpawnWallServerRpc()
@@ -163,6 +172,7 @@ public class SpellManager : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
 
+    //remove a networked rpc from the network
     public void DestroyServerRpc()
     {
         if (castedSpells.Count > 0)
