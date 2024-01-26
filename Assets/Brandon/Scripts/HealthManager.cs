@@ -1,3 +1,7 @@
+//Author: Brandon(Ri) Yu
+//Purpose: Simple script that creates a networked Health varibale which means that its kept between clients
+//and insstaniates all players health to 100
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

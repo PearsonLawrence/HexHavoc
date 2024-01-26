@@ -1,3 +1,7 @@
+//Author:Brandon
+//Purpose: This scirpts job is to manage all spells. It has functions to create and spawn fireballs and walls
+//along with a serverRpc that can be called to destroy spells.
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

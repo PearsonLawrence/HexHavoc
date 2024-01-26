@@ -1,4 +1,7 @@
-// MatchManager.cs
+//Author: Brandon Yu
+//Purpose: This script will keep track of teh clients/players that are in the game along with their respective 
+//health manager. Keeps track of winner and loser of rounds along with storeing intial spawn locations
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

@@ -1,3 +1,7 @@
+//Author: Brandon
+//Purpose: This is a parent class that sll other spells will inherit from. This class has the functions to set
+//and get who spawmed a spell along with getting what type of spell was spawned.
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

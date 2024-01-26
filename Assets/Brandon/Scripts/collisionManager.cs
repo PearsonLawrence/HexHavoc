@@ -1,3 +1,7 @@
+//Author:Brandon(Ri) Yu
+//Purpose: Detect collsions within the game and determining what hit what. i.e a fireball hit the player or
+//a fireball hitting the wall
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

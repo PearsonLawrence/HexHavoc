@@ -1,3 +1,7 @@
+//Auhtor: Brandon(Ri) Yu
+//purpose: This is the the script that is attached onto the fireball gameobject. It gives the firball its logic
+//like its movement and despawning
+
 using System.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
