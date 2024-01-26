@@ -1167,6 +1167,11 @@ MonoBehaviour:
   serverButton: {fileID: 98328445}
   hostButton: {fileID: 1516900168}
   clientButton: {fileID: 75945144}
+--- !u!1 &1058163982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6571192596787215639, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+  m_PrefabInstance: {fileID: 1709844977149710311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1180258874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,6 +1269,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1305718851 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1171245107838012767, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+  m_PrefabInstance: {fileID: 1709844977149710311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1400906288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2156,6 +2166,68 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
   m_PrefabInstance: {fileID: 1709844977149710311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2145966464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145966451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2dc64b82ce5e3498a5c6678685ba57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftTeleportation: {fileID: 1305718851}
+  rightTeleportation: {fileID: 1058163982}
+  leftActivate:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Activate
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: d6fadb79-e571-4075-9d60-c9ad42e88e0c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightActivate:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Activate
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 8e9efa1b-e892-46a5-b227-f2b91350d6a8
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftCancel:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Left Cancel
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 37511d3c-1513-48db-bfb5-5e7c15e022fd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  rightCancel:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Right Cancel
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 31c93c77-73b6-45cc-a209-b2fad9c4e05b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
 --- !u!1001 &1709844977149710311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2284,6 +2356,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2145966464}
     - targetCorrespondingSourceObject: {fileID: 4347703676254191187, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       insertIndex: -1
       addedObject: {fileID: 66626539}
