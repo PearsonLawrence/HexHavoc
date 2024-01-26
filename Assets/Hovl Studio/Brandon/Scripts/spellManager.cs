@@ -1,3 +1,7 @@
+//Author:Brandon
+//Purpose: This scirpts job is to manage all spells. It has functions to create and spawn fireballs and walls
+//along with a serverRpc that can be called to destroy spells.
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,10 +14,11 @@ public enum SpellType
 
 public class SpellManager : NetworkBehaviour
 {
+    //TODO: Create a list of all possible spells to be cast and call from that list
     [SerializeField] private Transform fireballPrefab;
     [SerializeField] private Transform wallPrefab;
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
-
+    public Transform LeftHandPos, RightHandPos;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -50,20 +55,50 @@ public class SpellManager : NetworkBehaviour
             }
         }
     }
-
-    [ServerRpc]
-    private void RequestSpawnFireballServerRpc()
+    //Function to be called when spawning a fireball on the network
+    public void fireBall(Transform transPos)
     {
+        //TODO: Clearify test and refactor 
+        RequestSpawnFireballServerRpc(); //Spawns fireball from rpc over network
+        if (IsServer) 
+        {
+            SpawnFireball();
+        }
+        else
+        {
+            RequestSpawnFireballServerRpc();
+        }
+    }
+
+    public void fireWall(Transform transPos)
+    {
+        //TODO: Clearify test and refactor 
+        if (IsServer)
+        {
+            spawnWall();
+        }
+        else
+        {
+            RequestSpawnWallServerRpc();
+        }
+    }
+
+    //server rpc that handles spawning of networked spells
+    [ServerRpc]
+    public void RequestSpawnFireballServerRpc()
+    {
+        Debug.Log("RPCFIREBALL");
         SpawnFireball();
     }
 
-    private void SpawnFireball()
+    //handles the spawning of fireball spell
+    public void SpawnFireball()
     {
         // Define the distance in front of the player where the fireball will spawn
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = transform.position + Camera.main.transform.forward * spawnDistance;
+        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance ;
 
         // Instantiate the fireball at the calculated spawn position
         fireball Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<fireball>();
@@ -77,7 +112,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            Fireball.SetDirection(playerForward);
+            Fireball.SetDirection(RightHandPos.forward);
         }
         else
         {
@@ -100,12 +135,13 @@ public class SpellManager : NetworkBehaviour
     }
 
 
-    private void spawnWall()
+    public void spawnWall()
     {
+        Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = transform.position + Camera.main.transform.forward * spawnDistance;
+        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
 
-        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, Quaternion.identity).GetComponent<WallSpell>();
+        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<WallSpell>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         WallSpell wallComponent = wallSpell.transform.GetComponent<WallSpell>();
@@ -130,6 +166,7 @@ public class SpellManager : NetworkBehaviour
         }
     }
 
+    //server rpc that handles spawning of networked spells
 
     [ServerRpc]
     private void RequestSpawnWallServerRpc()
@@ -139,6 +176,7 @@ public class SpellManager : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
 
+    //remove a networked rpc from the network
     public void DestroyServerRpc()
     {
         if (castedSpells.Count > 0)

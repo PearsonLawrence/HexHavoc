@@ -1,13 +1,28 @@
+//Author: Brandon Yu
+//Purpose: This script will keep track of teh clients/players that are in the game along with their respective 
+//health manager. Keeps track of winner and loser of rounds along with storeing intial spawn locations
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class MatchManager : NetworkBehaviour
 {
-    private Dictionary<ulong, HealthManager> playerHealthDict = new Dictionary<ulong, HealthManager>();
+    public Dictionary<ulong, HealthManager> playerHealthDict = new Dictionary<ulong, HealthManager>();
+    private int pOneWinTally;
+    private int pTwoWinTally;
 
+    [SerializeField] private float resetTime = 10f, maxResetTime = 10f;
+    public ulong loserId;
+
+    public NetworkVariable<bool> isThereWinner = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     // Singleton instance
     public static MatchManager Instance;
+
+    public Transform spawnPosition1;
+    public Transform spawnPosition2;
 
     void Awake()
     {
@@ -19,6 +34,16 @@ public class MatchManager : NetworkBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void Update()
+    {
+        resetTime -= Time.deltaTime;
+
+        if (playerHealthDict.Count >= 1 && resetTime <= 0f)
+        {
+            isRoundReset.Value = false;
         }
     }
 
@@ -43,26 +68,44 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    // Called when a player's health changes
+    //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int health)
     {
-        Debug.Log(clientId);
-        Debug.Log($"{health}");
+        Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: {health}");
+
         if (health <= 0)
         {
-            ulong losingPlayerClientId = clientId;
-            DeclareWinnerServerRpc(losingPlayerClientId);
+            if (clientId == 0)
+            {
+                pTwoWinTally += 1;
+                Debug.Log("p2 + 1 point");
+            }
+
+            if (clientId == 1)
+            {
+                pOneWinTally += 1;
+                Debug.Log("p1 + 1 point");
+            }
+            isRoundReset.Value = true;
+            resetTime = maxResetTime;
         }
-        
+        //update round with winner depending on who loses all HP first. 
+        //TODO: make rounds properly work
+        //TODO: Create end condition with max rounds to win
+        //TODO: return to lobby after match
+        //TODO: Update leaderboard???????
+        if (pTwoWinTally >= 1)
+        {
+            isThereWinner.Value = true;
+            loserId = clientId;
+        }
+
+        if (pOneWinTally >= 1)
+        {
+            isThereWinner.Value = true;
+            loserId = clientId;
+        }
     }
 
-    // ServerRpc to declare a winner
-    [ServerRpc]
-    private void DeclareWinnerServerRpc(ulong winningPlayerClientId)
-    {
-        Debug.Log($"Player {winningPlayerClientId} wins!");
-
-        // Add logic here for what happens when a player wins, e.g., end the match, display a victory screen, etc.
-    }
 }

@@ -1,3 +1,5 @@
+//Developed by Mason Smith
+//Made to animate hands on trigger and grip inputs, adding pinch and grip animations respectively.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
