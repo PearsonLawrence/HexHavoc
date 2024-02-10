@@ -14,8 +14,62 @@ public class LobbyUIManager : MonoBehaviour
     public GameLobbyComponent gameLobby;
     public GameObject gameLobbyParent;
     public GameObject defaultScreen, joinLobbyScreen, lobbyScreen;
+    [SerializeField] private List<LobbyInfoComponent> lobbyInfoComponents;
+    [SerializeField] private List<Lobby> lobbies = new List<Lobby>();
+    [SerializeField] private int currentLobbyCount;
+    [SerializeField] private int maxDisplayLobbies;
+    //called when user selects create button
+    //
+    
+    public void resetLobbyList()
+    {
+        if (lobbies == null || lobbies.Count == 0) return;
 
-    //called when user selects create button 
+        foreach(LobbyInfoComponent lobby in lobbyInfoComponents)
+        {
+            lobby.clearInfo();
+            lobbies.Clear();
+            if(currentLobbyCount > 0)
+                currentLobbyCount--;
+        }
+    }
+    public void updateLobbyList(QueryResponse queryResponse)
+    {
+        resetLobbyList();
+
+        currentLobbyCount = lobbyInfoComponents.Count;
+
+        // Iterate through each lobby in the response
+        foreach (Lobby lobby in queryResponse.Results)
+        {
+            lobbies.Add(lobby);
+            if (lobby.Players.Count < lobby.MaxPlayers)
+            {
+                // Handle cases where the lobby code is not available
+                string lobbyCode = string.IsNullOrEmpty(lobby.LobbyCode) ? "Not Available" : lobby.LobbyCode;
+                Debug.Log("Lobby Name: " + lobby.Name + ", Lobby Code: " + lobbyCode);
+
+                bool foundIsNotActive = false;
+                for(int i = 0; !foundIsNotActive && i < lobbyInfoComponents.Count; i++)
+                {
+                    if (lobbyInfoComponents[i].isActive == false)
+                    {
+                        foundIsNotActive = true;
+                        lobbyInfoComponents[i].setLobby(lobby);
+                        lobbyInfoComponents[i].setGameLobby(gameLobby);
+                        lobbyInfoComponents[i].isActive = true;
+                        lobbyInfoComponents[i].activateLobby();
+                    }
+                }
+
+                // Instantiate and setup the LobbyInfoComponent
+               // LobbyInfoComponent temp = Instantiate(lobbyInfoPrefab, listContainer.transform).GetComponent<LobbyInfoComponent>(); //TODO: Refactor out
+                //temp.setLobby(lobby);
+                //lobbyUIList.Add(temp.gameObject);
+                //temp.setGameLobby(this);
+            }
+        }
+    }
    public void selectCreateLobby()
     {
         gameLobby.CreateLobby(); //Creates game lobby from GameLobbyComponent Class
@@ -84,6 +138,14 @@ public class LobbyUIManager : MonoBehaviour
         if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
         {
             this.gameObject.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            gameLobby.CreateLobby();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            gameLobby.RefreshLobbyList();
         }
 
     }

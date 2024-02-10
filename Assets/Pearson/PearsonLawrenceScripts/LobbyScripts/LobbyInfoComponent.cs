@@ -14,14 +14,30 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private Button selectLobbyButton;
     [SerializeField] private TMP_Text info;
     [SerializeField] private Image privateIndicator;
-
+    [SerializeField] private GameObject door;
     //Lobby elements
     [SerializeField] private GameLobbyComponent GameLobby; //stores all of the information of the lobby listed
     [SerializeField] private Lobby currentLobbyInfo; // Current selected lobby
+    [SerializeField] private Renderer doorRender; // Current selected lobby
 
     private int playerCount, maxPlayerCount;
     [SerializeField] private string lobbyCode; //This is the lobby code that will update the users desired join lobby
-
+    public bool isActive = false;
+   
+    public void clearInfo()
+    {
+        //info.text = "";
+        currentLobbyInfo = null;
+        playerCount = 0;
+        maxPlayerCount = 0;
+        lobbyCode = "";
+        isActive = false;
+        doorRender.enabled = false;
+    }
+    public void activateLobby()
+    {
+        doorRender.enabled = true;
+    }
     public Lobby getCurrentLobby()
     {
         return currentLobbyInfo;
@@ -56,12 +72,12 @@ public class LobbyInfoComponent : MonoBehaviour
         lobbyCode = lobby.LobbyCode;
 
         //TODO: Get to work and allow private matches
-        if (currentLobbyInfo.IsPrivate)
-            privateIndicator.color = new Color(100,0,0);
-        else
-            privateIndicator.color = new Color(0, 100, 0);
+        //if (currentLobbyInfo.IsPrivate)
+            //privateIndicator.color = new Color(100,0,0);
+        //else
+            //privateIndicator.color = new Color(0, 100, 0);
 
-        info.text = lobby.Data["GameMode"].Value + " | " + lobby.Data["Map"].Value + " | " + playerCount + "/" + maxPlayerCount; //Displaying info
+        //info.text = lobby.Data["GameMode"].Value + " | " + lobby.Data["Map"].Value + " | " + playerCount + "/" + maxPlayerCount; //Displaying info
         //TODO: Make pretty, and display lobby name
     }
     public void setMaxPlayerCount(int count)

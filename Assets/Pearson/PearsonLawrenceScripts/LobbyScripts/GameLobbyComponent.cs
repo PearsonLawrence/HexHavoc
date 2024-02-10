@@ -30,6 +30,7 @@ public class GameLobbyComponent : MonoBehaviour
     [SerializeField] private GameObject lobbyInfoPrefab;
     [SerializeField] private GameObject playerLobbyInfoPrefab;
     [SerializeField] private LobbyInfoComponent selectedLobby;
+    [SerializeField] private LobbyUIManager lobbyManager;
     [SerializeField] private gameRelayComponent currentRelay;
     [SerializeField] private float lobbyHeartbeatTimerMax = 15f;
     [SerializeField] private float lobbyUpdateTimerMax = 2f;
@@ -131,7 +132,8 @@ public class GameLobbyComponent : MonoBehaviour
             //sync up host and joined lobby across clients in lobby
             hostLobby = lobby;
             joinedLobby = hostLobby;
-            PrintPlayers(hostLobby);
+            //TODO: Reactivate
+            //PrintPlayers(hostLobby);
 
         }
         catch (LobbyServiceException e)
@@ -190,9 +192,9 @@ public class GameLobbyComponent : MonoBehaviour
         //remove lobbies from list to update
         while (lobbyUIList.Count > 0)
         {
-            GameObject temp = lobbyUIList[0];
-            lobbyUIList.Remove(temp);
-            Destroy(temp);
+            //GameObject temp = lobbyUIList[0];
+            //lobbyUIList.Remove(temp);
+            //Destroy(temp);
         }
         
         ListLobbies();//Re-add lobbies to list
@@ -251,7 +253,8 @@ public class GameLobbyComponent : MonoBehaviour
             QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions); //Getting the query to all available lobbies
 
             Debug.Log("Lobbies found: " + queryResponse.Results.Count); //shows how many lobbies are found
-
+            lobbyManager.updateLobbyList(queryResponse);
+            /*
             // Iterate through each lobby in the response
             foreach (Lobby lobby in queryResponse.Results)
             {
@@ -264,7 +267,7 @@ public class GameLobbyComponent : MonoBehaviour
                 temp.setLobby(lobby);
                 lobbyUIList.Add(temp.gameObject);
                 temp.setGameLobby(this);
-            }
+            }*/
         }
         catch (LobbyServiceException e)
         {
