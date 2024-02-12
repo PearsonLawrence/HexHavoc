@@ -84,6 +84,14 @@ public class collisionManager : NetworkBehaviour
                             break;
                     }
                 }
+                else if (tempSpellOwner != null && spellOwner != null && tempSpellOwner == spellOwner)
+                {
+                    if(tempSpell.spellType == SpellType.wall)
+                    {
+                        fireball fireball = (fireball)spell;
+                        fireball.SetWentThroughWall(true);
+                    }
+                }
 
             }
             else if (other.CompareTag("Player"))

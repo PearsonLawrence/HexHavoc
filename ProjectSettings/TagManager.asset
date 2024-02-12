@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - MatchManager
+  - Fireball
   layers:
   - Default
   - TransparentFX

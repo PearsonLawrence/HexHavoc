@@ -190,6 +190,8 @@ MonoBehaviour:
   fireballPrefab: {fileID: 5260285124799700843, guid: 569ea0d702b929046bd45b5b726b67b3, type: 3}
   wallPrefab: {fileID: 2598347465385144083, guid: 91c30a38a716bb941892c6dd795a5f24, type: 3}
   castedSpells: []
+  LeftHandPos: {fileID: 0}
+  RightHandPos: {fileID: 0}
 --- !u!114 &6562082182037483385
 MonoBehaviour:
   m_ObjectHideFlags: 0

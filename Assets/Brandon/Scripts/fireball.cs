@@ -17,6 +17,19 @@ public class fireball : SpellComponent
     public float maxlifeTime;
     private Vector3 moveDirection;
     public GameObject destroyPrefab;
+
+    private bool wentThroughWall;
+
+    public void SetWentThroughWall(bool newVal)
+    {
+        wentThroughWall = newVal;
+    }
+
+    public bool GetWentThroughWall()
+    {
+        return wentThroughWall;
+    }
+
     void Start()
     {
         speed = maxspeed;
