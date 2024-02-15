@@ -20,7 +20,13 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private int maxDisplayLobbies;
     //called when user selects create button
     //
-    
+   
+
+    public void setSelectedLobby(LobbyInfoComponent lobby)
+    {
+        gameLobby.setSelectedLobby(lobby);
+    }
+
     public void resetLobbyList()
     {
         if (lobbies == null || lobbies.Count == 0) return;
@@ -139,6 +145,24 @@ public class LobbyUIManager : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitPoint;
+        Physics.Raycast(ray, out hitPoint, 1000);
+
+        if (hitPoint.collider != null)
+        {
+            LobbyInfoComponent tempComp = hitPoint.collider.gameObject.GetComponent<LobbyInfoComponent>();
+            if (tempComp && Input.GetMouseButton(0))
+            {
+                setSelectedLobby(tempComp);
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.J) && gameLobby.getSelectedLobby())
+        {
+            gameLobby.JoinSelectedLobby();
+        }
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             gameLobby.CreateLobby();

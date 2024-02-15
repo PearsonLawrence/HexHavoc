@@ -22,7 +22,7 @@ public class DialFingerPointComponent : MonoBehaviour
         {
             if (hitPoint.collider == this.GetComponent<Collider>())
             {
-                Vector3 dir = -(hitPoint.point - dial.transform.position).normalized;
+                Vector3 dir = (hitPoint.point - dial.transform.position).normalized;
                
                 dial.gameObject.transform.up = dir;
 
