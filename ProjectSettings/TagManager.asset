@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - MatchManager
   - Fireball
+  - Pillar
   layers:
   - Default
   - TransparentFX

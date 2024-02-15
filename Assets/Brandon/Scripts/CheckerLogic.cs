@@ -43,7 +43,7 @@ public class CheckerLogic : NetworkBehaviour
         if (other.gameObject.CompareTag("Fireball"))
         {
             firePillar.SetActive(true);
-            fireball fb = other.gameObject.GetComponent<fireball>();
+            NetworkedProjectileComponent fb = other.gameObject.GetComponent<NetworkedProjectileComponent>();
             if (fb != null) {
                 if (playerOn && fb.GetWentThroughWall())
                 {

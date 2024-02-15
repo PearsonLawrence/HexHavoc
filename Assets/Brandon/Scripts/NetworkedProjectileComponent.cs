@@ -7,8 +7,17 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class fireball : SpellComponent
+public enum elementType
 {
+    WIND,
+    FIRE,
+    WATER,
+    EARTH
+}
+
+public class NetworkedProjectileComponent : SpellComponent
+{
+    public elementType elementtype;
     public SpellManager parent;
     public float speed;
     public float maxspeed;
@@ -19,6 +28,8 @@ public class fireball : SpellComponent
     public GameObject destroyPrefab;
 
     private bool wentThroughWall;
+
+    
 
     public void SetWentThroughWall(bool newVal)
     {
@@ -34,6 +45,18 @@ public class fireball : SpellComponent
     {
         speed = maxspeed;
         lifeTime = maxlifeTime;
+
+        switch (elementtype)
+        {
+            case elementType.WIND:
+                break;
+            case elementType.FIRE:
+                break;
+            case elementType .WATER:
+                break;
+            case elementType .EARTH:
+                break;
+        }
     }
 
     //update the fireballs position in launch direction

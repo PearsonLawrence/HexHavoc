@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellType: 0
+  elementtype: 1
   parent: {fileID: 0}
   speed: 11
   maxspeed: 11

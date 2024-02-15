@@ -67,7 +67,7 @@ public class collisionManager : NetworkBehaviour
                             tempWall.DoSpellImpact();
                             break;
                         case SpellType.fireball:
-                            fireball fireball = (fireball)tempSpell;
+                            NetworkedProjectileComponent fireball = (NetworkedProjectileComponent)tempSpell;
                             fireball.DoImpact();
                             Debug.Log("Wrong fireball poooooooooooooooof");
                             break;
@@ -79,7 +79,7 @@ public class collisionManager : NetworkBehaviour
                             break;
                         case SpellType.fireball:
                             Debug.Log("Fireball poof");
-                            fireball fireballSelf = (fireball)spell;
+                            NetworkedProjectileComponent fireballSelf = (NetworkedProjectileComponent)spell;
                             fireballSelf.DoImpact();
                             break;
                     }
@@ -88,7 +88,7 @@ public class collisionManager : NetworkBehaviour
                 {
                     if(tempSpell.spellType == SpellType.wall)
                     {
-                        fireball fireball = (fireball)spell;
+                        NetworkedProjectileComponent fireball = (NetworkedProjectileComponent)spell;
                         fireball.SetWentThroughWall(true);
                     }
                 }
@@ -108,7 +108,7 @@ public class collisionManager : NetworkBehaviour
 
                         tmepManager.Health.Value -= 20;
                         matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, tmepManager.Health.Value);
-                        fireball fireballSelf = (fireball)spell;
+                        NetworkedProjectileComponent fireballSelf = (NetworkedProjectileComponent)spell;
                         fireballSelf.DoImpact();
                         break;
                 }

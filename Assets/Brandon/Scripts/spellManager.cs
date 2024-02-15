@@ -101,7 +101,7 @@ public class SpellManager : NetworkBehaviour
         Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance ;
 
         // Instantiate the fireball at the calculated spawn position
-        fireball Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<fireball>();
+        NetworkedProjectileComponent Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
         NetworkObject networkObject = Fireball.GetComponent<NetworkObject>();
 
         if (networkObject != null)
@@ -123,10 +123,10 @@ public class SpellManager : NetworkBehaviour
         castedSpells.Add(Fireball.transform);
 
         // Set the parent in the fireball component
-        fireball fireballComponent = Fireball.GetComponent<fireball>();
-        if (fireballComponent != null)
+        NetworkedProjectileComponent Projectile = Fireball.GetComponent<NetworkedProjectileComponent>();
+        if (Projectile != null)
         {
-            fireballComponent.parent = this;
+            Projectile.parent = this;
         }
         else
         {

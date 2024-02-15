@@ -16,10 +16,14 @@ public class MatchManager : NetworkBehaviour
     public ulong loserId;
 
     public NetworkVariable<bool> isThereWinner = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
     public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     // Singleton instance
     public static MatchManager Instance;
+    private List<GameObject> players = new List<GameObject>();
 
     public Transform spawnPosition1;
     public Transform spawnPosition2;
@@ -70,13 +74,15 @@ public class MatchManager : NetworkBehaviour
 
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
-    public void UpdatePlayerHealthServerRpc(ulong clientId, int health)
+    public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
     {
-        Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: {health}");
-
-        if (health <= 0)
+        Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: ");
+       
+        if (clientId == 0)
         {
-            if (clientId == 0)
+            playerOneHealth.Value -= damage;
+            Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
+            /*if (clientId == 0)
             {
                 pTwoWinTally += 1;
                 Debug.Log("p2 + 1 point");
@@ -88,8 +94,13 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log("p1 + 1 point");
             }
             isRoundReset.Value = true;
-            resetTime = maxResetTime;
+            resetTime = maxResetTime;*/
         }
+        else if(clientId == 1)
+        {
+            playerTwoHealth.Value -= damage;
+        }
+        Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
         //update round with winner depending on who loses all HP first. 
         //TODO: make rounds properly work
         //TODO: Create end condition with max rounds to win
