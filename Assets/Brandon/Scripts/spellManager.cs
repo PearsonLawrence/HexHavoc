@@ -8,17 +8,26 @@ using UnityEngine;
 
 public enum SpellType
 {
-    fireball,
+    projectile,
     wall
 }
 
 public class SpellManager : NetworkBehaviour
 {
-    //TODO: Create a list of all possible spells to be cast and call from that list
+    //All projectile prefabs
     [SerializeField] private Transform fireballPrefab;
+    [SerializeField] private Transform windBlastPrefab;
+    [SerializeField] private Transform waterShotPrefab;
+    [SerializeField] private Transform earthSpearPrefab;
+
+    //All wall prefabs
     [SerializeField] private Transform wallPrefab;
+
+    //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
+
+    elementType elmentSpeicalization = elementType.FIRE;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -35,11 +44,11 @@ public class SpellManager : NetworkBehaviour
         {
             if (IsServer)
             {
-                SpawnFireball();
+                SpawnProjectile();
             }
             else
             {
-                RequestSpawnFireballServerRpc();
+                RequestSpawnProjectileServerRpc();
             }
         }
 
@@ -59,14 +68,14 @@ public class SpellManager : NetworkBehaviour
     public void fireBall(Transform transPos)
     {
         //TODO: Clearify test and refactor 
-        RequestSpawnFireballServerRpc(); //Spawns fireball from rpc over network
+        RequestSpawnProjectileServerRpc(); //Spawns fireball from rpc over network
         if (IsServer) 
         {
-            SpawnFireball();
+            SpawnProjectile();
         }
         else
         {
-            RequestSpawnFireballServerRpc();
+            RequestSpawnProjectileServerRpc();
         }
     }
 
@@ -85,14 +94,14 @@ public class SpellManager : NetworkBehaviour
 
     //server rpc that handles spawning of networked spells
     [ServerRpc]
-    public void RequestSpawnFireballServerRpc()
+    public void RequestSpawnProjectileServerRpc()
     {
         Debug.Log("RPCFIREBALL");
-        SpawnFireball();
+        SpawnProjectile();
     }
 
     //handles the spawning of fireball spell
-    public void SpawnFireball()
+    public void SpawnProjectile()
     {
         // Define the distance in front of the player where the fireball will spawn
         float spawnDistance = 2f;
@@ -141,10 +150,10 @@ public class SpellManager : NetworkBehaviour
         float spawnDistance = 4f;
         Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
 
-        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<WallSpell>();
+        NetworkedWallComponent wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
-        WallSpell wallComponent = wallSpell.transform.GetComponent<WallSpell>();
+        NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
         // Check if the components are not null before proceeding
         if (networkedObject != null && wallComponent != null)

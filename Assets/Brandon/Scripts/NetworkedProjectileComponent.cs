@@ -3,6 +3,7 @@
 //like its movement and despawning
 
 using System.Collections;
+using System.Xml.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,28 +18,55 @@ public enum elementType
 
 public class NetworkedProjectileComponent : SpellComponent
 {
+    //information about spell
     public elementType elementtype;
     public SpellManager parent;
+
+
+    //varibles for all spells
     public float speed;
     public float maxspeed;
     public float amplitude = 2f;
     public float lifeTime = 3f;
     public float maxlifeTime;
     private Vector3 moveDirection;
+
+
+    //for deleteing
     public GameObject destroyPrefab;
 
-    private bool wentThroughWall;
 
-    
+    //varibles for different spell types
+    private bool fireWentThroughWall;
+    private bool waterWallThroughWall;
 
-    public void SetWentThroughWall(bool newVal)
+
+
+    public void SetWentThroughWall(bool newVal, elementType element)
     {
-        wentThroughWall = newVal;
+        switch (element)
+        {
+            case elementType.FIRE:
+                fireWentThroughWall = newVal;
+                break;
+            case elementType.WATER:
+                waterWallThroughWall = newVal;
+                break;
+        }
     }
 
-    public bool GetWentThroughWall()
+    public bool GetWentThroughWall(elementType elemnt)
     {
-        return wentThroughWall;
+        switch (elemnt)
+        {
+            case elementType.FIRE:
+                return fireWentThroughWall;
+
+            case elementType.WATER:
+                return waterWallThroughWall;
+
+        }
+        return false;
     }
 
     void Start()
@@ -52,9 +80,9 @@ public class NetworkedProjectileComponent : SpellComponent
                 break;
             case elementType.FIRE:
                 break;
-            case elementType .WATER:
+            case elementType.WATER:
                 break;
-            case elementType .EARTH:
+            case elementType.EARTH:
                 break;
         }
     }
@@ -62,14 +90,57 @@ public class NetworkedProjectileComponent : SpellComponent
     //update the fireballs position in launch direction
     void Update()
     {
-        Vector3 newPosition = transform.position + moveDirection * speed * Time.deltaTime;
-        transform.position = newPosition;
-
-        lifeTime -= Time.deltaTime;
-        //delete spell after certain amount of time
-        if(lifeTime < 0)
+        switch (elementtype)
         {
-            DoImpact();
+            case elementType.WIND:
+
+                Vector3 windNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                transform.position = windNewPosition;
+
+                lifeTime -= Time.deltaTime;
+
+                if (lifeTime < 0)
+                {
+                    DoImpact();
+                }
+                break;
+
+            case elementType.FIRE:
+
+                Vector3 fireNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                transform.position = fireNewPosition;
+
+                lifeTime -= Time.deltaTime;
+
+                if (lifeTime < 0)
+                {
+                    DoImpact();
+                }
+                break;
+
+            case elementType.WATER:
+                Vector3 waterNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                transform.position = waterNewPosition;
+
+                lifeTime -= Time.deltaTime;
+
+                if (lifeTime < 0)
+                {
+                    DoImpact();
+                }
+                break;
+
+            case elementType.EARTH:
+                Vector3 earthNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                transform.position = earthNewPosition;
+
+                lifeTime -= Time.deltaTime;
+
+                if (lifeTime < 0)
+                {
+                    DoImpact();
+                }
+                break;
         }
     }
 

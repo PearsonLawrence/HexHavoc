@@ -53,7 +53,7 @@ public class PillarLogic : NetworkBehaviour
             NetworkedProjectileComponent fb = other.gameObject.GetComponent<NetworkedProjectileComponent>();
             if (fb != null)
             {
-                if (playerOn && fb.GetWentThroughWall())
+                if (playerOn && fb.GetWentThroughWall(elementType.FIRE))
                 {
 
                     tempManager.Health.Value -= 20;

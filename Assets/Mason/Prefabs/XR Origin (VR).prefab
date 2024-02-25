@@ -3771,7 +3771,7 @@ MonoBehaviour:
   leftGripProperty:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Left Grip Property
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: 1245b727-b7da-4cf9-b28a-aa32aa562dcd
@@ -3783,7 +3783,7 @@ MonoBehaviour:
   rightGripProperty:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Right Grip Property
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: 9593ca3f-b6a7-4f90-9a52-fe4775d470f1

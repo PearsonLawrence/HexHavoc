@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5898506706925222375}
   - component: {fileID: 192614125517014919}
   m_Layer: 0
-  m_Name: WindBlast
+  m_Name: EarthSpear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 26b0041476f854346b3e8c3ed54bd053, type: 2}
+  - {fileID: 2100000, guid: 34f6577e391b4c64088a1923465483dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellType: 0
-  elementtype: 0
+  elementtype: 3
   parent: {fileID: 0}
   speed: 15
   maxspeed: 15

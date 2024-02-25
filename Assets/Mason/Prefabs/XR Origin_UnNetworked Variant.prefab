@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1311937010018379321, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: leftGripProperty.m_Action.m_Name
+      value: Left Grip Property
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311937010018379321, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
+      propertyPath: rightGripProperty.m_Action.m_Name
+      value: Right Grip Property
+      objectReference: {fileID: 0}
     - target: {fileID: 1609724818815518725, guid: 06538c9694a39a640a1c01083c876ae5, type: 3}
       propertyPath: m_Enabled
       value: 0
