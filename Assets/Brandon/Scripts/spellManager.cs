@@ -3,22 +3,37 @@
 //along with a serverRpc that can be called to destroy spells.
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
 public enum SpellType
 {
-    fireball,
+    projectile,
     wall
 }
 
 public class SpellManager : NetworkBehaviour
 {
-    //TODO: Create a list of all possible spells to be cast and call from that list
+    //All projectile prefabs
     [SerializeField] private Transform fireballPrefab;
-    [SerializeField] private Transform wallPrefab;
+    [SerializeField] private Transform windBlastPrefab;
+    [SerializeField] private Transform waterShotPrefab;
+    [SerializeField] private Transform earthSpearPrefab;
+
+    //All wall prefabs
+    [SerializeField] private Transform fireWallPrefab;
+    [SerializeField] private Transform waterWallPrefab;
+    [SerializeField] private Transform windWallPrefab;
+    [SerializeField] private Transform earthWallPrefab;
+
+    //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
+    private Transform desiredProjectile;
+    private Transform desiredWall;
+
+    elementType elementSpeicalization = elementType.WATER;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -35,11 +50,11 @@ public class SpellManager : NetworkBehaviour
         {
             if (IsServer)
             {
-                SpawnFireball();
+                SpawnProjectile();
             }
             else
             {
-                RequestSpawnFireballServerRpc();
+                RequestSpawnProjectileServerRpc();
             }
         }
 
@@ -59,14 +74,14 @@ public class SpellManager : NetworkBehaviour
     public void fireBall(Transform transPos)
     {
         //TODO: Clearify test and refactor 
-        RequestSpawnFireballServerRpc(); //Spawns fireball from rpc over network
+        RequestSpawnProjectileServerRpc(); //Spawns fireball from rpc over network
         if (IsServer) 
         {
-            SpawnFireball();
+            SpawnProjectile();
         }
         else
         {
-            RequestSpawnFireballServerRpc();
+            RequestSpawnProjectileServerRpc();
         }
     }
 
@@ -85,34 +100,55 @@ public class SpellManager : NetworkBehaviour
 
     //server rpc that handles spawning of networked spells
     [ServerRpc]
-    public void RequestSpawnFireballServerRpc()
+    public void RequestSpawnProjectileServerRpc()
     {
         Debug.Log("RPCFIREBALL");
-        SpawnFireball();
+        SpawnProjectile();
     }
 
     //handles the spawning of fireball spell
-    public void SpawnFireball()
+    public void SpawnProjectile()
     {
         // Define the distance in front of the player where the fireball will spawn
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance ;
+        //Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Vector3.zero;
+
+        switch (elementSpeicalization)
+        {
+            case elementType.FIRE:
+                desiredProjectile = fireballPrefab;
+                break;
+            case elementType.WATER:
+                desiredProjectile = waterShotPrefab;
+                break;
+            case elementType.WIND:
+                desiredProjectile = windBlastPrefab;
+                break;
+            case elementType.EARTH:
+                desiredProjectile = earthSpearPrefab;
+                break;
+
+        }
 
         // Instantiate the fireball at the calculated spawn position
-        fireball Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<fireball>();
-        NetworkObject networkObject = Fireball.GetComponent<NetworkObject>();
+        NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
+        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
         {
             networkObject.Spawn(); // Spawn the object on the network
 
-            Fireball.setOwner(this.gameObject); // Now safe to set the owner
+            projectile.setOwner(this.gameObject); // Now safe to set the owner
+
+            //Debug.Log(this.gameObject);
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            Fireball.SetDirection(RightHandPos.forward);
+            //projectile.SetDirection(RightHandPos.forward);
+            projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -120,13 +156,13 @@ public class SpellManager : NetworkBehaviour
         }
 
         // Add the fireball to the list of casted spells
-        castedSpells.Add(Fireball.transform);
+        castedSpells.Add(projectile.transform);
 
         // Set the parent in the fireball component
-        fireball fireballComponent = Fireball.GetComponent<fireball>();
-        if (fireballComponent != null)
+        NetworkedProjectileComponent Projectile = projectile.GetComponent<NetworkedProjectileComponent>();
+        if (Projectile != null)
         {
-            fireballComponent.parent = this;
+            Projectile.parent = this;
         }
         else
         {
@@ -139,12 +175,33 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Vector3.zero;
 
-        WallSpell wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<WallSpell>();
+        spawnPosition.Set(0, 0, 7);
+
+        switch (elementSpeicalization)
+        {
+            case elementType.FIRE:
+                desiredWall = fireWallPrefab;
+                break;
+            case elementType.WATER:
+                desiredWall = waterWallPrefab;
+                break;
+            case elementType.WIND:
+                desiredWall = windWallPrefab;
+                break;
+            case elementType.EARTH:
+                desiredWall = earthWallPrefab;
+                break;
+
+        }
+
+        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
-        WallSpell wallComponent = wallSpell.transform.GetComponent<WallSpell>();
+        NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
         // Check if the components are not null before proceeding
         if (networkedObject != null && wallComponent != null)

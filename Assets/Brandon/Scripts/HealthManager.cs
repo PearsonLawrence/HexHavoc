@@ -17,4 +17,6 @@ public class HealthManager : NetworkBehaviour
         base.OnNetworkSpawn();
         Health.Value = 100;
     }
+
+   
 }

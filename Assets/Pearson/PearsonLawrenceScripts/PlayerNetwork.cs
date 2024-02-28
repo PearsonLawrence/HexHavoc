@@ -66,11 +66,11 @@ public class PlayerNetwork : NetworkBehaviour
     }
     private void Start()
     {
-        if (IsLocalPlayer)
+        /*if (IsLocalPlayer)
         {
             RegisterPlayerOnServerRpc(OwnerClientId);
         }
-        PlacePlayers();
+        PlacePlayers();*/
     }
     void Update()
     {
@@ -99,8 +99,11 @@ public class PlayerNetwork : NetworkBehaviour
         if (Input.GetKey(KeyCode.D)) moveDir.x = +1f;
         if (Input.GetKey(KeyCode.A)) moveDir.x = -1f;
 
+        float moveSpeed = 3f;
+        transform.position += moveDir * moveSpeed * Time.deltaTime;
 
-        if (MatchManager.Instance.isRoundReset.Value)
+
+        /*if (MatchManager.Instance.isRoundReset.Value)
         {
             PlacePlayers();
         }
@@ -113,7 +116,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (MatchManager.Instance.isThereWinner.Value)
         {
             DeclareWinner(MatchManager.Instance.loserId);
-        }
+        }*/
 
     }
     [ServerRpc]

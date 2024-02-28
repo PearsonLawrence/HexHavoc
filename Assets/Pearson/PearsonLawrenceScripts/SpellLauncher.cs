@@ -59,7 +59,7 @@ public class SpellLauncher : NetworkBehaviour //Network behavior to allow transm
             //SpawnFireball
             switch(spell) 
             {
-                case SpellType.fireball:
+                case SpellType.projectile:
                     Debug.Log("Shoot Fireball");
                     spellManager.fireBall(transform); //Calls a fireball rpc across the network at transform location
                     break;
