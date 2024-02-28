@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Mason/Scenes/HexHavoc-mason.unity
     guid: b2748a328f64e2f4d8690e16fa407cb8
   - enabled: 0
-    path: Assets/Hovl Studio/Brandon/Scenes/Brandon_NetworkTest.unity
+    path: Assets/Brandon/Scenes/Brandon_NetworkTest.unity
     guid: 8802db0d88f0f0c45b7f5edc84470056
   - enabled: 0
     path: Assets/Pearson/Scenes/NetworkTest2.unity
