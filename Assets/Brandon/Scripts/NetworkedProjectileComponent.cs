@@ -37,8 +37,8 @@ public class NetworkedProjectileComponent : SpellComponent
 
 
     //varibles for different spell types
-    private bool fireWentThroughWall;
-    private bool waterWallThroughWall;
+    public bool fireWentThroughWall;
+    public bool waterWallThroughWall;
 
 
 
@@ -152,11 +152,20 @@ public class NetworkedProjectileComponent : SpellComponent
     //instantiate particle effect and despawn from network
     public void DoImpact()
     {
-        GameObject temp =  Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+        GameObject temp = Instantiate(destroyPrefab, transform.position, Quaternion.identity);
         Destroy(temp, 3);
+        if (IsServer) 
+        {
+            
 
-        GetComponent<NetworkObject>().Despawn();
+            GetComponent<NetworkObject>().Despawn();
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
+        else
+        {
+            return;
+        }
+        
     }
 }

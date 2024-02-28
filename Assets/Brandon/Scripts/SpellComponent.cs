@@ -31,7 +31,7 @@ public class SpellComponent : NetworkBehaviour
             if (temp.TryGetComponent<NetworkObject>(out NetworkObject networkObject))
             {
                 networkedOwner.Value = networkObject;
-                //Debug.Log("Owner set successfully.");
+                Debug.Log("Owner set successfully.");
             }
             else
             {

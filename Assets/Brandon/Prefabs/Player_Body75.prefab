@@ -189,7 +189,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 5260285124799700843, guid: 569ea0d702b929046bd45b5b726b67b3, type: 3}
-  wallPrefab: {fileID: 2598347465385144083, guid: 91c30a38a716bb941892c6dd795a5f24, type: 3}
+  windBlastPrefab: {fileID: 8643412331811597179, guid: 88414867c787cda44984d0a62d3d3643, type: 3}
+  waterShotPrefab: {fileID: 8643412331811597179, guid: 88414867c787cda44984d0a62d3d3643, type: 3}
+  earthSpearPrefab: {fileID: 8643412331811597179, guid: 29c95ef3030c8344188b6629d31438a3, type: 3}
+  fireWallPrefab: {fileID: 2598347465385144083, guid: 91c30a38a716bb941892c6dd795a5f24, type: 3}
+  waterWallPrefab: {fileID: 2598347465385144083, guid: 7080a35ad1cd7d542a1a07664cffe431, type: 3}
+  windWallPrefab: {fileID: 2598347465385144083, guid: 5c6cec37b921abd4b9d66f71fefa5079, type: 3}
+  earthWallPrefab: {fileID: 2598347465385144083, guid: 4e7ffe2f261743b4595a2b5a5e4a0fd6, type: 3}
   castedSpells: []
   LeftHandPos: {fileID: 0}
   RightHandPos: {fileID: 0}

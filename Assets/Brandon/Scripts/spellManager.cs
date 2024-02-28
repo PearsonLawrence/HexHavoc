@@ -3,6 +3,7 @@
 //along with a serverRpc that can be called to destroy spells.
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -21,13 +22,18 @@ public class SpellManager : NetworkBehaviour
     [SerializeField] private Transform earthSpearPrefab;
 
     //All wall prefabs
-    [SerializeField] private Transform wallPrefab;
+    [SerializeField] private Transform fireWallPrefab;
+    [SerializeField] private Transform waterWallPrefab;
+    [SerializeField] private Transform windWallPrefab;
+    [SerializeField] private Transform earthWallPrefab;
 
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
+    private Transform desiredProjectile;
+    private Transform desiredWall;
 
-    elementType elmentSpeicalization = elementType.FIRE;
+    elementType elementSpeicalization = elementType.WATER;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -107,21 +113,42 @@ public class SpellManager : NetworkBehaviour
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance ;
+        //Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Vector3.zero;
+
+        switch (elementSpeicalization)
+        {
+            case elementType.FIRE:
+                desiredProjectile = fireballPrefab;
+                break;
+            case elementType.WATER:
+                desiredProjectile = waterShotPrefab;
+                break;
+            case elementType.WIND:
+                desiredProjectile = windBlastPrefab;
+                break;
+            case elementType.EARTH:
+                desiredProjectile = earthSpearPrefab;
+                break;
+
+        }
 
         // Instantiate the fireball at the calculated spawn position
-        NetworkedProjectileComponent Fireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
-        NetworkObject networkObject = Fireball.GetComponent<NetworkObject>();
+        NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
+        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
         {
             networkObject.Spawn(); // Spawn the object on the network
 
-            Fireball.setOwner(this.gameObject); // Now safe to set the owner
+            projectile.setOwner(this.gameObject); // Now safe to set the owner
+
+            //Debug.Log(this.gameObject);
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            Fireball.SetDirection(RightHandPos.forward);
+            //projectile.SetDirection(RightHandPos.forward);
+            projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -129,10 +156,10 @@ public class SpellManager : NetworkBehaviour
         }
 
         // Add the fireball to the list of casted spells
-        castedSpells.Add(Fireball.transform);
+        castedSpells.Add(projectile.transform);
 
         // Set the parent in the fireball component
-        NetworkedProjectileComponent Projectile = Fireball.GetComponent<NetworkedProjectileComponent>();
+        NetworkedProjectileComponent Projectile = projectile.GetComponent<NetworkedProjectileComponent>();
         if (Projectile != null)
         {
             Projectile.parent = this;
@@ -148,9 +175,30 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Vector3.zero;
 
-        NetworkedWallComponent wallSpell = Instantiate(wallPrefab, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
+        spawnPosition.Set(0, 0, 7);
+
+        switch (elementSpeicalization)
+        {
+            case elementType.FIRE:
+                desiredWall = fireWallPrefab;
+                break;
+            case elementType.WATER:
+                desiredWall = waterWallPrefab;
+                break;
+            case elementType.WIND:
+                desiredWall = windWallPrefab;
+                break;
+            case elementType.EARTH:
+                desiredWall = earthWallPrefab;
+                break;
+
+        }
+
+        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();

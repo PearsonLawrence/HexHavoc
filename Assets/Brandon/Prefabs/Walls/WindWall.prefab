@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7293997994740383580}
   - component: {fileID: 4040539746813223024}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: WindWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,9 @@ MonoBehaviour:
   parent: {fileID: 0}
   lifeTime: 10
   spellsTanked: 0
-  explodePrefab: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
+  maxSpellsToAbsorb: 3
+  explodePrefab: {fileID: 6823302871133167919, guid: 3138a83bedbd6ad4481ba0b061da2eb6, type: 3}
+  elementtype: 0
 --- !u!65 &4040539746813223024
 BoxCollider:
   m_ObjectHideFlags: 0
