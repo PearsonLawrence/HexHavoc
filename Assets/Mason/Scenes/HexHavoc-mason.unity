@@ -1670,6 +1670,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26026be892a0545428e92c37b1a903ba, type: 3}
+--- !u!1 &1799925289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5743121366081582817, guid: 26026be892a0545428e92c37b1a903ba, type: 3}
+  m_PrefabInstance: {fileID: 1799925288}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1799925290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 263286905481762632, guid: 26026be892a0545428e92c37b1a903ba, type: 3}
+  m_PrefabInstance: {fileID: 1799925288}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1853429685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,6 +1899,84 @@ MonoBehaviour:
   m_Teleporting:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1854211590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1854211592}
+  - component: {fileID: 1854211591}
+  m_Layer: 0
+  m_Name: MiVRy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1854211591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854211590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59d4aea3cbd72c498f430aceb10ef08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LicenseName: 
+  LicenseKey: 
+  LicenseFilePath: 
+  GestureDatabaseFile: C:/Users/frump/OneDrive/Desktop/CS 426/ MiVRy/Earth Wall Test/Sample_OneHanded_MyGestures.dat
+  unityXrPlugin: 0
+  mivryCoordinateSystem: 0
+  LeftHand: {fileID: 1799925290}
+  LeftTriggerInput: <XRController>{LeftHand}/trigger
+  LeftTriggerInputType: 2
+  LeftTriggerValue: 0
+  LeftTriggerThreshold: 0.9
+  RightHand: {fileID: 1799925289}
+  RightTriggerInput: <XRController>{RightHand}/trigger
+  RightTriggerInputType: 2
+  RightTriggerValue: 0
+  RightTriggerThreshold: 0.9
+  ContinuousGestureRecognition: 0
+  ContinuousGesturePeriod: 1000
+  ContinuousGestureSmoothing: 3
+  OnGestureCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1938670324}
+        m_TargetAssemblyTypeName: GestureEventProcessor, Assembly-CSharp
+        m_MethodName: OnGestureCompleted
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &1854211592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854211590}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5149095, y: 1.3313974, z: -0.080635786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1928993237 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 644870475015697784, guid: 55ff785eb9773234f8e2b7c447cefc8c, type: 3}
@@ -1913,6 +2001,50 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
+--- !u!1 &1938670323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938670325}
+  - component: {fileID: 1938670324}
+  m_Layer: 0
+  m_Name: GestureEventProcessor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1938670324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938670323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1938670325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938670323}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5149095, y: 1.3313974, z: -0.080635786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1970411155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5921001650032503195, guid: 55ff785eb9773234f8e2b7c447cefc8c, type: 3}
@@ -2378,3 +2510,5 @@ SceneRoots:
   - {fileID: 1709844977149710311}
   - {fileID: 1400906288}
   - {fileID: 2063060417}
+  - {fileID: 1854211592}
+  - {fileID: 1938670325}
