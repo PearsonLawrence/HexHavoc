@@ -20,6 +20,8 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private Lobby currentLobbyInfo; // Current selected lobby
     [SerializeField] private Renderer doorRender; // Current selected lobby
 
+    public TMP_Text lobbyName;
+
     private int playerCount, maxPlayerCount;
     [SerializeField] private string lobbyCode; //This is the lobby code that will update the users desired join lobby
     public bool isActive = false;

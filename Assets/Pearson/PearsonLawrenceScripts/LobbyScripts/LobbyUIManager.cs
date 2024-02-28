@@ -18,9 +18,11 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private List<Lobby> lobbies = new List<Lobby>();
     [SerializeField] private int currentLobbyCount;
     [SerializeField] private int maxDisplayLobbies;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject startPos;
     //called when user selects create button
     //
-   
+
 
     public void setSelectedLobby(LobbyInfoComponent lobby)
     {
@@ -65,6 +67,10 @@ public class LobbyUIManager : MonoBehaviour
                         lobbyInfoComponents[i].setGameLobby(gameLobby);
                         lobbyInfoComponents[i].isActive = true;
                         lobbyInfoComponents[i].activateLobby();
+                        print(lobbyInfoComponents[i].lobbyName.text);
+                        //print(lobby.Players[0].Data["PlayerName"].Value);
+
+                        lobbyInfoComponents[i].lobbyName.text = lobby.Name;
                     }
                 }
 
@@ -166,6 +172,7 @@ public class LobbyUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             gameLobby.CreateLobby();
+            player.transform.position = startPos.transform.position;
         }
         if (Input.GetKeyDown(KeyCode.U))
         {

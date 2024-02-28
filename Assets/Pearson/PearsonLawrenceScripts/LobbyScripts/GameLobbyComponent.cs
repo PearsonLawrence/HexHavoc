@@ -106,7 +106,7 @@ public class GameLobbyComponent : MonoBehaviour
     {
         try
         {
-            string lobbyName = "MyLobby"; //TODO: Custom lobby name input instead of mylobby
+            string lobbyName = playerName + "'s Arena"; //TODO: Custom lobby name input instead of mylobby
             int maxPlayers = 4; //TODO: User sets value to max of game requirements
 
 
@@ -348,7 +348,15 @@ public class GameLobbyComponent : MonoBehaviour
             if (heartbeatTimer < 0f)
             {
                 heartbeatTimer = lobbyHeartbeatTimerMax;
+
+                if(hostLobby.Players.Count >= 2)
+                {
+                    StartGame();
+                }
+
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
+
+
             }
         }
     }
