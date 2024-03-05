@@ -1,6 +1,6 @@
 //Developed by Mason Smith
 //Only activates teleport rays on trigger press, instead of always being active.
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -25,3 +25,4 @@ public class ActivateTeleportationRay : MonoBehaviour
         rightTeleportation.SetActive(leftCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
     }
 }
+*/
