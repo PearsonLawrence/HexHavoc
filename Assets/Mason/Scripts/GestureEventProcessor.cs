@@ -25,9 +25,9 @@ public class GestureEventProcessor : MonoBehaviour
             // ...
             return;
         }
-        //Replace 0.5 with similarity value to gesture made for the specific spell
+        //Specifies how similar gestures made in game must be to pre-recorded gesture samples
         if (gestureCompletionData.similarity >= 0.3) {
-            //Insert Wall Spell Here
+            //Casts Wall Spell
             if (gestureCompletionData.gestureName == "Wall") {
                 Debug.Log("Wall Gesture Successfully Casted");
             }
