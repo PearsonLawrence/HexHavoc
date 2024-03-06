@@ -20,6 +20,7 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private int maxDisplayLobbies;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject startPos;
+    [SerializeField] private GameObject tpPos1;
     [SerializeField] private PlatformDialComponent platDial;
 
     //called when user selects create button
@@ -177,8 +178,18 @@ public class LobbyUIManager : MonoBehaviour
                 platDial.setSelectedPillar(tempComp.getPillar());
                 platDial.setIsLobbySelected(true);
                 tempComp.getPillar().setIsSelected(true);
-                gameLobby.JoinSelectedLobby();
+                //
             }
+
+            if (tempComp)
+            {
+                if (tempComp.getPillar().getIsPosition() && Input.GetMouseButtonDown(0))
+                {
+                    player.transform.position = tpPos1.transform.position;
+                    gameLobby.JoinSelectedLobby();
+                }
+            }
+            
         }
         if(Input.GetKeyDown(KeyCode.J) && gameLobby.getSelectedLobby())
         {
