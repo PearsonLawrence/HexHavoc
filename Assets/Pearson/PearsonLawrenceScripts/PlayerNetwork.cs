@@ -50,27 +50,13 @@ public class PlayerNetwork : NetworkBehaviour
         };
         base.OnNetworkSpawn();
     }
-
-   
-
-    [ServerRpc]
-    private void TestServerRpc(ServerRpcParams serverRpcParams)
-    {
-        Debug.Log("TestServerRpc " + OwnerClientId + "; " + serverRpcParams.Receive.SenderClientId);
-    }
-
-    [ClientRpc]
-    private void TestClientRpc(ClientRpcParams clientRpcParams)
-    {
-        Debug.Log("testClientRpc");
-    }
     private void Start()
     {
-        /*if (IsLocalPlayer)
+        if (IsLocalPlayer)
         {
             RegisterPlayerOnServerRpc(OwnerClientId);
         }
-        PlacePlayers();*/
+        //PlacePlayers();
     }
     void Update()
     {
@@ -109,7 +95,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         else
         {
-            float moveSpeed = 3f;
+            //float moveSpeed = 3f;
             transform.position += moveDir * moveSpeed * Time.deltaTime;
         }
 
@@ -125,10 +111,11 @@ public class PlayerNetwork : NetworkBehaviour
         MatchManager.Instance.RegisterPlayer(clientId);
     }
 
-    public void PlacePlayers()
+    /*public void PlacePlayers()
     {
         if (OwnerClientId == 0)
         {
+            Debug.Log("Placing player");
             transform.position = MatchManager.Instance.spawnPosition1.position;
         }
         if (OwnerClientId == 1)
@@ -152,7 +139,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
 
         MatchManager.Instance.isThereWinner.Value = true;
-    }
+    }*/
 
 
 }

@@ -30,7 +30,7 @@ public class SpellManager : NetworkBehaviour
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
-    private Transform desiredProjectile;
+    public Transform desiredProjectile;
     private Transform desiredWall;
 
     elementType elementSpeicalization = elementType.WATER;
@@ -116,7 +116,7 @@ public class SpellManager : NetworkBehaviour
         //Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
         Vector3 spawnPosition = Vector3.zero;
 
-        switch (elementSpeicalization)
+        /*switch (elementSpeicalization)
         {
             case elementType.FIRE:
                 desiredProjectile = fireballPrefab;
@@ -131,7 +131,7 @@ public class SpellManager : NetworkBehaviour
                 desiredProjectile = earthSpearPrefab;
                 break;
 
-        }
+        }*/
 
         // Instantiate the fireball at the calculated spawn position
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
