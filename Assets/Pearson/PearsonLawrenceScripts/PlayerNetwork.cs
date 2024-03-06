@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 //TODO: REFACTOR
 public class PlayerNetwork : NetworkBehaviour
@@ -56,7 +57,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             RegisterPlayerOnServerRpc(OwnerClientId);
         }
-        //PlacePlayers();
+         PlacePlayers();
     }
     void Update()
     {
@@ -89,9 +90,9 @@ public class PlayerNetwork : NetworkBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
 
-        /*if (MatchManager.Instance.isRoundReset.Value)
+        if (MatchManager.Instance.isRoundReset.Value)
         {
-            PlacePlayers();
+            //PlacePlayers();
         }
         else
         {
@@ -101,8 +102,8 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (MatchManager.Instance.isThereWinner.Value)
         {
-            DeclareWinner(MatchManager.Instance.loserId);
-        }*/
+            //DeclareWinner(MatchManager.Instance.loserId);
+        }
 
     }
     [ServerRpc]
@@ -111,16 +112,18 @@ public class PlayerNetwork : NetworkBehaviour
         MatchManager.Instance.RegisterPlayer(clientId);
     }
 
-    /*public void PlacePlayers()
+    public void PlacePlayers()
     {
+        //if (IsOwner)  transform.position = MatchManager.Instance.playerBody.position;
         if (OwnerClientId == 0)
         {
+           Vector3 newPos = new Vector3(-MatchManager.Instance.spawnPosition2.position.x, MatchManager.Instance.spawnPosition2.position.y, MatchManager.Instance.spawnPosition2.position.z);
             Debug.Log("Placing player");
-            transform.position = MatchManager.Instance.spawnPosition1.position;
+            transform.position = MatchManager.Instance.playerBody.position;
         }
         if (OwnerClientId == 1)
         {
-            transform.position = MatchManager.Instance.spawnPosition2.position;
+            transform.position = MatchManager.Instance.playerBody.position;
         }
     }
 
@@ -139,7 +142,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
 
         MatchManager.Instance.isThereWinner.Value = true;
-    }*/
+    }
 
 
 }

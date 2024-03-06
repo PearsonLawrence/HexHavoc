@@ -25,7 +25,7 @@ public class MatchManager : NetworkBehaviour
     public static MatchManager Instance;
     private List<GameObject> players = new List<GameObject>();
 
-    public Transform spawnPosition1;
+    public Transform playerBody;
     public Transform spawnPosition2;
 
     void Awake()
@@ -93,7 +93,7 @@ public class MatchManager : NetworkBehaviour
                 pOneWinTally += 1;
                 //Debug.Log("p1 + 1 point");
             }
-            isRoundReset.Value = true;
+            //isRoundReset.Value = true;
             resetTime = maxResetTime;
         }
         else if(clientId == 1)

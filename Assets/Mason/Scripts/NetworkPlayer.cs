@@ -88,7 +88,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (OwnerClientId == 0)
         {
-            VRRigReferences.Singleton.root.position = MatchManager.Instance.spawnPosition1.position;
+            //VRRigReferences.Singleton.root.position = MatchManager.Instance.spawnPosition1.position;
         }
         if (OwnerClientId == 1)
         {

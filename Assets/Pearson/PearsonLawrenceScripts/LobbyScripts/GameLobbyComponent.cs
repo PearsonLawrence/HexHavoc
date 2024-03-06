@@ -527,6 +527,7 @@ public class GameLobbyComponent : MonoBehaviour
             Debug.Log(e);
         }
     }
+
     private void Update()
     {
         handleLobbyHeartbeat();
