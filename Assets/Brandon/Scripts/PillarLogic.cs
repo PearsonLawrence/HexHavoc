@@ -17,10 +17,10 @@ public class PillarLogic : NetworkBehaviour
     public bool playerOn;
     HealthManager tempManager;
     NetworkObject networkObject;
-
     Transform startPosition;
     Transform endPosition;
 
+    public GameObject playerPoint;
     // Start is called before the first frame update
     void Start()
     {
