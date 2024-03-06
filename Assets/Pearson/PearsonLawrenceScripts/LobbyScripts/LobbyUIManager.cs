@@ -19,7 +19,7 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private int currentLobbyCount;
     [SerializeField] private int maxDisplayLobbies;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject startPos;
+    [SerializeField] private PillarLogic HostPillar, GuestPillar;
     [SerializeField] private GameObject tpPos1;
     [SerializeField] private PlatformDialComponent platDial;
 
@@ -199,7 +199,7 @@ public class LobbyUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             gameLobby.CreateLobby();
-            player.transform.position = startPos.transform.position;
+            player.transform.position = HostPillar.playerPoint.transform.position;
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
