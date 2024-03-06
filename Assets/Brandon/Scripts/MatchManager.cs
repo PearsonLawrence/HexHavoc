@@ -24,6 +24,11 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
+    private bool playerOneReady, playerTwoReady;
+
+    [SerializeField] private List<PillarLogic> pillarLogicList;
+    [SerializeField] private List<ReadyButton> readyButtonList;
+
     // Singleton instance
     public static MatchManager Instance;
     private List<GameObject> players = new List<GameObject>();
@@ -84,14 +89,49 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void StartMatch()
+    [ServerRpc(RequireOwnership = false)]
+    public void StartMatchServerRpc()
     {
         if(playerOneSpellManager.GetSetSpecialization() && playerTwoSpellManager.GetSetSpecialization())
         {
             Debug.Log("both set and ready");
+            foreach(PillarLogic t in pillarLogicList)
+            {
+                t.MovePillarClientRpc(pillarDirection.TOEND);
+            }
         }
     }
-   
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DeclareReadyServerRpc(ulong clientId)
+    {
+        if(clientId == 0)
+        {
+            playerOneReady = true;
+        }
+        if(clientId == 1)
+        {
+            playerTwoReady = true;
+        }
+
+        if(playerOneReady && playerTwoReady)
+        {
+            playerOneSpellManager.ActivateChooseOrbsClientRpc();
+            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+
+            ReadyButtonOffClientRpc();
+        }
+
+    }
+
+    [ClientRpc]
+    private void ReadyButtonOffClientRpc()
+    {
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(false);
+        }
+    }
 
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]

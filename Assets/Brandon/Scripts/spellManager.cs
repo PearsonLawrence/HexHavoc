@@ -49,7 +49,7 @@ public class SpellManager : NetworkBehaviour
         elementSpeicalization = elementType;
         setSpecialization = true;
         DisableChooseOrbs();
-        MatchManager.Instance.StartMatch();
+        MatchManager.Instance.StartMatchServerRpc();
     }
 
     public bool GetSetSpecialization()
@@ -59,7 +59,7 @@ public class SpellManager : NetworkBehaviour
 
     private void Start()
     {
-        ActivateChooseOrbs();
+        //ActivateChooseOrbs();
     }
 
     public override void OnNetworkSpawn()
@@ -277,7 +277,8 @@ public class SpellManager : NetworkBehaviour
         }
     }
 
-    private void ActivateChooseOrbs()
+    [ClientRpc]
+    public void ActivateChooseOrbsClientRpc()
     {
         Vector3 startSpawn = transform.position;
         Transform Earth = Instantiate(chooseEarthPrefab, startSpawn + new Vector3(-5, 0, -2), Quaternion.identity);
