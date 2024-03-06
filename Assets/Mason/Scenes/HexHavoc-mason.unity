@@ -2360,7 +2360,7 @@ MonoBehaviour:
   LicenseName: 
   LicenseKey: 
   LicenseFilePath: 
-  GestureDatabaseFile: OneHanded.dat
+  GestureDatabaseFile: 1and2HandGestures.dat
   unityXrPlugin: 0
   mivryCoordinateSystem: 0
   LeftHand: {fileID: 66626532}
