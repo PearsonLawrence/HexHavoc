@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnedObjectPrefab: {fileID: 6991774483731237265, guid: c7914ed8e02672f488b04e01d6300d20, type: 3}
+  spellManager: {fileID: 7481583416022226290}
 --- !u!114 &7483887367564997407
 MonoBehaviour:
   m_ObjectHideFlags: 0

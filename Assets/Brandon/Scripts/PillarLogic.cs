@@ -4,6 +4,11 @@ using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
+public enum pillarDirection
+{
+    TOSTART,
+    TOEND
+}
 public class PillarLogic : NetworkBehaviour
 {
     private MatchManager matchManager;
@@ -12,6 +17,10 @@ public class PillarLogic : NetworkBehaviour
     public bool playerOn;
     HealthManager tempManager;
     NetworkObject networkObject;
+
+    Transform startPosition;
+    Transform endPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,5 +126,17 @@ public class PillarLogic : NetworkBehaviour
         Debug.Log("seomth");
         matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
         Debug.Log("gdsh");
+    }
+
+    public void movePillar(pillarDirection pillardirection)
+    {
+        if(pillardirection == pillarDirection.TOEND)
+        {
+
+        }
+        else if(pillardirection == pillarDirection.TOSTART)
+        {
+
+        }
     }
 }

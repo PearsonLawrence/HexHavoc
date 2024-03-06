@@ -21,6 +21,9 @@ public class MatchManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    private SpellManager playerOneSpellManager;
+    private SpellManager playerTwoSpellManager;
+
     // Singleton instance
     public static MatchManager Instance;
     private List<GameObject> players = new List<GameObject>();
@@ -52,7 +55,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId)
+    public void RegisterPlayer(ulong clientId, SpellManager spellManager)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -70,7 +73,25 @@ public class MatchManager : NetworkBehaviour
         {
             Debug.Log("Remote Player Registered");
         }
+
+        if(clientId == 0)
+        {
+            playerOneSpellManager = spellManager;
+        }
+        else if (clientId == 1)
+        {
+            playerTwoSpellManager = spellManager;
+        }
     }
+
+    public void StartMatch()
+    {
+        if(playerOneSpellManager.GetSetSpecialization() && playerTwoSpellManager.GetSetSpecialization())
+        {
+            Debug.Log("both set and ready");
+        }
+    }
+   
 
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]

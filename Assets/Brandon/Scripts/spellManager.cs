@@ -37,6 +37,7 @@ public class SpellManager : NetworkBehaviour
     public Transform LeftHandPos, RightHandPos;
     public Transform desiredProjectile;
     private Transform desiredWall;
+    private bool setSpecialization = false;
 
     [SerializeField] private List<Transform> chooseOrbs;
 
@@ -46,8 +47,14 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("In set");
         elementSpeicalization = elementType;
+        setSpecialization = true;
         DisableChooseOrbs();
-        
+        MatchManager.Instance.StartMatch();
+    }
+
+    public bool GetSetSpecialization()
+    {
+        return setSpecialization;
     }
 
     private void Start()
@@ -272,13 +279,14 @@ public class SpellManager : NetworkBehaviour
 
     private void ActivateChooseOrbs()
     {
-        Transform Earth = Instantiate(chooseEarthPrefab, new Vector3(-10, 0, 0), Quaternion.identity);
+        Vector3 startSpawn = transform.position;
+        Transform Earth = Instantiate(chooseEarthPrefab, startSpawn + new Vector3(-5, 0, -2), Quaternion.identity);
         chooseOrbs.Add(Earth);
-        Transform Fire = Instantiate(chooseFirePrefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        Transform Fire = Instantiate(chooseFirePrefab, startSpawn + new Vector3(-2, 0, 0), Quaternion.identity);
         chooseOrbs.Add(Fire);
-        Transform Water = Instantiate(chooseWaterPrefab, new Vector3(5, 0, 0), Quaternion.identity);
+        Transform Water = Instantiate(chooseWaterPrefab, startSpawn + new Vector3(2, 0, 0), Quaternion.identity);
         chooseOrbs.Add(Water);
-        Transform Wind = Instantiate(chooseWindPrefab, new Vector3(10, 0, 0), Quaternion.identity);
+        Transform Wind = Instantiate(chooseWindPrefab, startSpawn + new Vector3(5, 0, -2), Quaternion.identity);
         chooseOrbs.Add(Wind);
     }
 
