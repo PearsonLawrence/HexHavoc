@@ -197,10 +197,15 @@ MonoBehaviour:
   waterWallPrefab: {fileID: 2598347465385144083, guid: 7080a35ad1cd7d542a1a07664cffe431, type: 3}
   windWallPrefab: {fileID: 2598347465385144083, guid: 5c6cec37b921abd4b9d66f71fefa5079, type: 3}
   earthWallPrefab: {fileID: 2598347465385144083, guid: 4e7ffe2f261743b4595a2b5a5e4a0fd6, type: 3}
+  chooseEarthPrefab: {fileID: 4868479289036628237, guid: 76d9a1817c4146f44b744d8645666cc1, type: 3}
+  chooseFirePrefab: {fileID: 1900147598515455402, guid: 61ae1209286908447a08a77288b5c199, type: 3}
+  chooseWaterPrefab: {fileID: 8628199668783050400, guid: 145bcfd5e85fa4e4ea17b510f6e452c0, type: 3}
+  chooseWindPrefab: {fileID: 8972151258000335928, guid: b4612ec31c30bcd48b2d78f99ee86b56, type: 3}
   castedSpells: []
   LeftHandPos: {fileID: 0}
   RightHandPos: {fileID: 0}
   desiredProjectile: {fileID: 0}
+  chooseOrbs: []
 --- !u!114 &6562082182037483385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +239,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6714406667294499382}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9783eee5eac0dec47b0487991a9f1877, type: 3}
   m_Name: 
