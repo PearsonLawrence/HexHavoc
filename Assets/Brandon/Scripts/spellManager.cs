@@ -27,13 +27,34 @@ public class SpellManager : NetworkBehaviour
     [SerializeField] private Transform windWallPrefab;
     [SerializeField] private Transform earthWallPrefab;
 
+    [SerializeField] private Transform chooseEarthPrefab;
+    [SerializeField] private Transform chooseFirePrefab;
+    [SerializeField] private Transform chooseWaterPrefab;
+    [SerializeField] private Transform chooseWindPrefab;
+
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
     public Transform desiredProjectile;
     private Transform desiredWall;
 
-    elementType elementSpeicalization = elementType.WATER;
+    [SerializeField] private List<Transform> chooseOrbs;
+
+    elementType elementSpeicalization;
+
+    public void SetElementType(elementType elementType)
+    {
+        Debug.Log("In set");
+        elementSpeicalization = elementType;
+        DisableChooseOrbs();
+        
+    }
+
+    private void Start()
+    {
+        ActivateChooseOrbs();
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -116,7 +137,7 @@ public class SpellManager : NetworkBehaviour
         //Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
         Vector3 spawnPosition = Vector3.zero;
 
-        /*switch (elementSpeicalization)
+        switch (elementSpeicalization)
         {
             case elementType.FIRE:
                 desiredProjectile = fireballPrefab;
@@ -131,7 +152,7 @@ public class SpellManager : NetworkBehaviour
                 desiredProjectile = earthSpearPrefab;
                 break;
 
-        }*/
+        }
 
         // Instantiate the fireball at the calculated spawn position
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
@@ -248,4 +269,25 @@ public class SpellManager : NetworkBehaviour
             Debug.LogWarning("Trying to destroy a spell, but the list of casted spells is empty.");
         }
     }
+
+    private void ActivateChooseOrbs()
+    {
+        Transform Earth = Instantiate(chooseEarthPrefab, new Vector3(-10, 0, 0), Quaternion.identity);
+        chooseOrbs.Add(Earth);
+        Transform Fire = Instantiate(chooseFirePrefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        chooseOrbs.Add(Fire);
+        Transform Water = Instantiate(chooseWaterPrefab, new Vector3(5, 0, 0), Quaternion.identity);
+        chooseOrbs.Add(Water);
+        Transform Wind = Instantiate(chooseWindPrefab, new Vector3(10, 0, 0), Quaternion.identity);
+        chooseOrbs.Add(Wind);
+    }
+
+    private void DisableChooseOrbs()
+    {
+        foreach (Transform t in chooseOrbs)
+        {
+            t.gameObject.SetActive(false);
+        }
+    }
+    
 }
