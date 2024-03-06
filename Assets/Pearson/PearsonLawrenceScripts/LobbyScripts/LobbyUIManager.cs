@@ -20,9 +20,15 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private int maxDisplayLobbies;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject startPos;
+    [SerializeField] private PlatformDialComponent platDial;
+
     //called when user selects create button
     //
 
+    public List<LobbyInfoComponent> getLobbyInfoComponents()
+    {
+        return lobbyInfoComponents;
+    }
 
     public void setSelectedLobby(LobbyInfoComponent lobby)
     {
@@ -68,6 +74,7 @@ public class LobbyUIManager : MonoBehaviour
                         lobbyInfoComponents[i].isActive = true;
                         lobbyInfoComponents[i].activateLobby();
                         print(lobbyInfoComponents[i].lobbyName.text);
+                        Debug.Log(lobby.LobbyCode);
                         //print(lobby.Players[0].Data["PlayerName"].Value);
 
                         lobbyInfoComponents[i].lobbyName.text = lobby.Name;
@@ -145,6 +152,11 @@ public class LobbyUIManager : MonoBehaviour
                 break;
         }
     }
+    
+    public void doBeginGame()
+    {
+        gameLobby.StartGame();
+    }
     private void Update()
     {
         if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
@@ -159,9 +171,13 @@ public class LobbyUIManager : MonoBehaviour
         if (hitPoint.collider != null)
         {
             LobbyInfoComponent tempComp = hitPoint.collider.gameObject.GetComponent<LobbyInfoComponent>();
-            if (tempComp && Input.GetMouseButton(0))
+            if (tempComp && Input.GetMouseButtonDown(0))
             {
                 setSelectedLobby(tempComp);
+                platDial.setSelectedPillar(tempComp.getPillar());
+                platDial.setIsLobbySelected(true);
+                tempComp.getPillar().setIsSelected(true);
+                gameLobby.JoinSelectedLobby();
             }
         }
         if(Input.GetKeyDown(KeyCode.J) && gameLobby.getSelectedLobby())

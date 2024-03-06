@@ -34,6 +34,8 @@ public class GameLobbyComponent : MonoBehaviour
     [SerializeField] private gameRelayComponent currentRelay;
     [SerializeField] private float lobbyHeartbeatTimerMax = 15f;
     [SerializeField] private float lobbyUpdateTimerMax = 2f;
+    [SerializeField] private bool isJoined = false;
+
     public TMP_Text textTemp;
     public TMP_Text lobbyCountText;
     public TMP_InputField CodeInputField;
@@ -48,6 +50,10 @@ public class GameLobbyComponent : MonoBehaviour
     public Lobby getJoinedLobby()
     {
         return joinedLobby;
+    }
+    public bool getIsJoined()
+    {
+        return isJoined;
     }
 
     public string getPlayerID()
@@ -149,8 +155,8 @@ public class GameLobbyComponent : MonoBehaviour
         Debug.Log(joinedLobby.HostId);
         Debug.Log(playerID);
 
-        //if Host of lobby (So other players cant press start)
-        if (joinedLobby.HostId == playerID) //TODO: Remove UI "Start" Button for non host players
+        //if not Host of lobby (So host only leave the lobby when non hosts join the game)
+        if (joinedLobby.HostId == playerID) 
         {
             Debug.Log("IsHost");
             try
@@ -205,10 +211,10 @@ public class GameLobbyComponent : MonoBehaviour
         // Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
         foreach (Player player in lobbyJoinedInfo.Players)
         {
-            PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, lobbyListContainer.transform).GetComponent<PlayerInfoCardComponent>();
-            temp.setPlayerInfo(player);
-            playerLobbyUIList.Add(temp.gameObject);
-            temp.setGameLobby(this);
+           PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerInfoCardComponent>();
+           temp.setPlayerInfo(player);
+           playerLobbyUIList.Add(temp.gameObject);
+           temp.setGameLobby(this);
         }
     }
 
@@ -230,7 +236,7 @@ public class GameLobbyComponent : MonoBehaviour
         setupLobby(joinedLobby);
 
         //Display how many players are connected
-        lobbyCountText.text = playerLobbyUIList.Count + "/" + joinedLobby.MaxPlayers;
+        //lobbyCountText.text = playerLobbyUIList.Count + "/" + joinedLobby.MaxPlayers;
     }
     public async void ListLobbies()
     {
@@ -323,6 +329,7 @@ public class GameLobbyComponent : MonoBehaviour
     //Join lobby that the user selects in the list
     public void JoinSelectedLobby()
     {
+        Debug.Log(selectedLobby.getCurrentLobby());
         JoinLobbyByLobby(selectedLobby.getCurrentLobby());
     }
     private async void JoinLobbyByLobby(Lobby lobby)
@@ -334,6 +341,7 @@ public class GameLobbyComponent : MonoBehaviour
         Lobby tempLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id, new JoinLobbyByIdOptions { Player = player });
         joinedLobby = tempLobby;
         PrintPlayers(joinedLobby);
+        isJoined = true;
         Debug.Log("joined lobby with code " + joinedLobby.LobbyCode);
 
 
@@ -348,14 +356,13 @@ public class GameLobbyComponent : MonoBehaviour
             if (heartbeatTimer < 0f)
             {
                 heartbeatTimer = lobbyHeartbeatTimerMax;
-
-                if(hostLobby.Players.Count >= 2)
+                Debug.Log("Beat: " + joinedLobby.Players.Count);
+                if(joinedLobby.Players.Count > 1)
                 {
                     StartGame();
                 }
 
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
-
 
             }
         }
@@ -524,7 +531,7 @@ public class GameLobbyComponent : MonoBehaviour
     {
         handleLobbyHeartbeat();
         HandleCurrentLobbyPollForUpdates();
-        textTemp.text = tempCode; //update the lobby code UI
+        //textTemp.text = tempCode; //update the lobby code UI
        
     }
 

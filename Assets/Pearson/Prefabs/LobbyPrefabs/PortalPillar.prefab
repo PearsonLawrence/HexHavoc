@@ -51682,7 +51682,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -62935,6 +62935,7 @@ MonoBehaviour:
   privateIndicator: {fileID: 0}
   door: {fileID: 7117301538720932684}
   GameLobby: {fileID: 0}
+  Pillar: {fileID: 0}
   doorRender: {fileID: 5072741904738302810}
   lobbyName: {fileID: 5532429309762676060}
   lobbyCode: 

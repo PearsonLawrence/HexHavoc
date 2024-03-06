@@ -17,15 +17,34 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private GameObject door;
     //Lobby elements
     [SerializeField] private GameLobbyComponent GameLobby; //stores all of the information of the lobby listed
+    [SerializeField] private LobbyPillarComponent Pillar; //stores all of the information of the lobby listed
     [SerializeField] private Lobby currentLobbyInfo; // Current selected lobby
     [SerializeField] private Renderer doorRender; // Current selected lobby
+    [SerializeField] private bool isJoined; // Current selected lobby
 
     public TMP_Text lobbyName;
 
     private int playerCount, maxPlayerCount;
     [SerializeField] private string lobbyCode; //This is the lobby code that will update the users desired join lobby
     public bool isActive = false;
-   
+
+    public string getLobbyName()
+    {
+        return lobbyName.text;
+    }
+    public GameLobbyComponent getGameLobby()
+    {
+        return GameLobby;
+    }
+    public LobbyPillarComponent getPillar()
+    {
+        return Pillar;
+    }
+    public void setPillar(LobbyPillarComponent p)
+    {
+        Pillar = p;
+    }
+
     public void clearInfo()
     {
         //info.text = "";
@@ -35,10 +54,12 @@ public class LobbyInfoComponent : MonoBehaviour
         lobbyCode = "";
         isActive = false;
         doorRender.enabled = false;
+        this.gameObject.GetComponent<Collider>().enabled = false;
     }
     public void activateLobby()
     {
         doorRender.enabled = true;
+        this.gameObject.GetComponent<Collider>().enabled = true;
     }
     public Lobby getCurrentLobby()
     {

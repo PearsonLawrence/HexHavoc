@@ -20,10 +20,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Brady/New folder/Scenes/BradyNetworkTest_01.unity
     guid: 3307a567b39b3434490b8e4afe0270c5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mason/Scenes/HexHavocBuildTest.unity
     guid: c02e571b23150e848b61d2b8fcd6221e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Brandon/Scenes/newBrandon.unity
     guid: 7147b10741c289a43ba2c6321f05426c
   - enabled: 1
