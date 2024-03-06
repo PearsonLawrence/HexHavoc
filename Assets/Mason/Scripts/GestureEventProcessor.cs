@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class GestureEventProcessor : MonoBehaviour
 {
+    private TeleportationManager teleportationManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        teleportationManager = GetComponent<TeleportationManager>();
+        if (teleportationManager == null)
+        {
+            Debug.LogError("TeleportationManager is not found on the same GameObject.");
+        }
     }
 
     public void OnGestureCompleted(GestureCompletionData gestureCompletionData)
@@ -49,6 +49,8 @@ public class GestureEventProcessor : MonoBehaviour
             if (gestureCompletionData.gestureName == "Teleport")
             {
                 Debug.Log("Teleport Gesture Successfully Casted");
+                teleportationManager.SpawnTeleportationRay();
+                teleportationManager.Teleport();
             }
         }
 
