@@ -20,6 +20,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     public Renderer[] meshToDisable;
 
+    [SerializeField] private SpellManager spellManager;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -81,7 +83,7 @@ public class NetworkPlayer : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
-        MatchManager.Instance.RegisterPlayer(clientId);
+        MatchManager.Instance.RegisterPlayer(clientId, spellManager);
     }
 
     public void PlacePlayers()
