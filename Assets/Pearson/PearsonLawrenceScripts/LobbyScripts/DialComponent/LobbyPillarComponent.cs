@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UIElements;
 
 public class LobbyPillarComponent : MonoBehaviour
 {
@@ -17,16 +18,12 @@ public class LobbyPillarComponent : MonoBehaviour
 
     public void beginJoin(bool oriented)
     {
-        if(!isOriented && isSelected && lobby.getGameLobby().getIsJoined())
+        if(!isOriented && isSelected)
         {
             Debug.Log("Starting");
-            //lobbyManager.doBeginGame();
+            //
             isOriented = oriented;
-            Vector3 newPos = new Vector3(.5f, .8f, 0);
-            while(transform.localPosition.x >= .55f)
-            {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, newPos, Time.deltaTime * moveSpeed);
-            }
+            
         }
     }
     public LobbyInfoComponent getLobbyInfoComponent()
@@ -52,6 +49,14 @@ public class LobbyPillarComponent : MonoBehaviour
     public void setIsOriented(bool val)
     {
         isOriented = val;
+    }
+    public bool getIsPosition()
+    {
+        return isOriented;
+    }
+    public void setIsPosition(bool val)
+    {
+        isPosition = val;
     }
     public LobbyUIManager getLobbyUIManager()
     {
@@ -79,6 +84,16 @@ public class LobbyPillarComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector3 newPos = new Vector3(0, .2f, 1f);
+        if (isOriented && isSelected &&!isPosition)
+        {
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, Time.deltaTime * moveSpeed);
+            if(transform.localPosition.z >= .95 && transform.localPosition.z <= 1 && !isPosition)
+            {
+                isPosition = true;
+            }
+        }
+
+       
     }
 }

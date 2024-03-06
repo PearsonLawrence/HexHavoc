@@ -98,7 +98,7 @@ public class PlatformDialComponent : MonoBehaviour
                 
             }
         }
-        platformRotateObject.gameObject.transform.eulerAngles = Vector3.Slerp(platformRotateObject.gameObject.transform.eulerAngles, rot, Time.deltaTime * pointRotSpeed);
+        platformRotateObject.gameObject.transform.eulerAngles = Vector3.MoveTowards(platformRotateObject.gameObject.transform.eulerAngles, rot, Time.deltaTime * pointRotSpeed);
 
        
         
