@@ -15,11 +15,11 @@ public class MatchManager : NetworkBehaviour
     [SerializeField] private float resetTime = 10f, maxResetTime = 10f;
     public ulong loserId;
 
-    public NetworkVariable<bool> isThereWinner = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<bool> isThereWinner = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     // Singleton instance
     public static MatchManager Instance;
@@ -76,36 +76,33 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
     {
-        Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: ");
+        //Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: ");
        
         if (clientId == 0)
         {
             playerOneHealth.Value -= damage;
-            Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-            /*if (clientId == 0)
+            //Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
+            if (clientId == 0)
             {
                 pTwoWinTally += 1;
-                Debug.Log("p2 + 1 point");
+                //Debug.Log("p2 + 1 point");
             }
 
             if (clientId == 1)
             {
                 pOneWinTally += 1;
-                Debug.Log("p1 + 1 point");
+                //Debug.Log("p1 + 1 point");
             }
             isRoundReset.Value = true;
-            resetTime = maxResetTime;*/
+            resetTime = maxResetTime;
         }
         else if(clientId == 1)
         {
             playerTwoHealth.Value -= damage;
         }
-        Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-        //update round with winner depending on who loses all HP first. 
-        //TODO: make rounds properly work
-        //TODO: Create end condition with max rounds to win
-        //TODO: return to lobby after match
-        //TODO: Update leaderboard???????
+
+        Debug.Log("Player Health: " + playerOneHealth.Value /*+ " : " + playerTwoHealth.Value*/);
+
         if (pTwoWinTally >= 1)
         {
             isThereWinner.Value = true;
@@ -118,5 +115,4 @@ public class MatchManager : NetworkBehaviour
             loserId = clientId;
         }
     }
-
 }

@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7481583416022226290}
   - component: {fileID: 6562082182037483385}
   - component: {fileID: 5351573843618522466}
+  - component: {fileID: 4674623164180139821}
   m_Layer: 0
   m_Name: Player_Body75
   m_TagString: Player
@@ -199,6 +200,7 @@ MonoBehaviour:
   castedSpells: []
   LeftHandPos: {fileID: 0}
   RightHandPos: {fileID: 0}
+  desiredProjectile: {fileID: 0}
 --- !u!114 &6562082182037483385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,3 +227,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4251049b435d14faee05194f902e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4674623164180139821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6714406667294499382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9783eee5eac0dec47b0487991a9f1877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellManager: {fileID: 7481583416022226290}
+  spellDelay: 3
+  fireballPrefab: {fileID: 5260285124799700843, guid: 569ea0d702b929046bd45b5b726b67b3, type: 3}
+  windBlastPrefab: {fileID: 8643412331811597179, guid: e99ac60f47c960344ba81513d71ac7eb, type: 3}
+  waterShotPrefab: {fileID: 8643412331811597179, guid: 88414867c787cda44984d0a62d3d3643, type: 3}
+  earthSpearPrefab: {fileID: 8643412331811597179, guid: 29c95ef3030c8344188b6629d31438a3, type: 3}

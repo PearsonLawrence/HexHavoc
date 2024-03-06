@@ -39,26 +39,26 @@ public class collisionManager : NetworkBehaviour
 
             if (matchManager == null)
             {
-                Debug.LogError("MatchManager component not found on the MatchManager GameObject.");
+                //Debug.LogError("MatchManager component not found on the MatchManager GameObject.");
             }
         }
         else
         {
-            Debug.LogError("MatchManager GameObject not found in the hierarchy. Make sure it's active and tagged appropriately.");
+            //Debug.LogError("MatchManager GameObject not found in the hierarchy. Make sure it's active and tagged appropriately.");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject);
+        //Debug.Log(other.gameObject);
         if (isSpell)
         {
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
 
             if (tempSpell == null && !other.CompareTag("Player")) return;
 
-            Debug.Log(tempSpell);
-            Debug.Log(other.gameObject.tag + "spell");
+            //Debug.Log(tempSpell);
+            //Debug.Log(other.gameObject.tag + "spell");
 
             if(tempSpell != null)
             {
@@ -69,7 +69,7 @@ public class collisionManager : NetworkBehaviour
 
             if (other.CompareTag("Player"))
             {
-                Debug.Log("hit player");
+                //Debug.Log("hit player");
                 switch (spell.spellType)
                 {
                     case SpellType.wall:
@@ -79,28 +79,32 @@ public class collisionManager : NetworkBehaviour
 
                         NetworkObject networkObject = other.GetComponent<NetworkObject>();
 
-                        Debug.Log("At swtich");
+                        //Debug.Log("At swtich");
                         //change damage based on spell type
                         switch (temp.elementtype)
                         {
                             case elementType.FIRE:
+                                Debug.Log("Player hit with Fireball");
                                 matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
                                 break;
 
                             case elementType.WATER:
+                                Debug.Log("Player hit with Water Shot");
                                 matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
                                 break;
 
                             case elementType.WIND:
+                                Debug.Log("Player hit with Wind Blast");
                                 matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
                                 break;
 
                             case elementType.EARTH:
+                                Debug.Log("Player hit with Earth Spear");
                                 matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
                                 break;
                         }
 
-                        Debug.Log("Hit Player" + networkObject.OwnerClientId);
+                        //Debug.Log("Hit Player" + networkObject.OwnerClientId);
 
                         //delete the projectile
                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
@@ -112,7 +116,7 @@ public class collisionManager : NetworkBehaviour
 
             else if(spell.spellType == SpellType.projectile)
             {
-                Debug.Log("wrong place");
+                //Debug.Log("wrong place");
                 NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
                 if(temp != null)
                 {
@@ -126,14 +130,14 @@ public class collisionManager : NetworkBehaviour
                                 switch (tempSpell.spellType)
                                 {
                                     case SpellType.wall:
-                                        Debug.Log("hit wall collision");
+                                        //Debug.Log("hit wall collision");
                                         NetworkedWallComponent tempWall = (NetworkedWallComponent)tempSpell;
                                         tempWall.DoSpellImpact();
                                         break;
                                     case SpellType.projectile:
                                         NetworkedProjectileComponent projectile = (NetworkedProjectileComponent)tempSpell;
                                         projectile.DoImpact();
-                                        Debug.Log("Wrong fireball poooooooooooooooof");
+                                        //Debug.Log("Wrong fireball poooooooooooooooof");
                                         break;
                                 }
 
@@ -142,7 +146,7 @@ public class collisionManager : NetworkBehaviour
                                     case SpellType.wall:
                                         break;
                                     case SpellType.projectile:
-                                        Debug.Log("Fireball poof");
+                                        //Debug.Log("Fireball poof");
                                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
                                         projectileSelf.DoImpact();
                                         break;
@@ -169,14 +173,14 @@ public class collisionManager : NetworkBehaviour
                                 switch (tempSpell.spellType)
                                 {
                                     case SpellType.wall:
-                                        Debug.Log("hit wall collision");
+                                        //Debug.Log("hit wall collision");
                                         NetworkedWallComponent tempWall = (NetworkedWallComponent)tempSpell;
                                         tempWall.DoSpellImpact();
                                         break;
                                     case SpellType.projectile:
                                         NetworkedProjectileComponent projectile = (NetworkedProjectileComponent)tempSpell;
                                         projectile.DoImpact();
-                                        Debug.Log("Wrong fireball poooooooooooooooof");
+                                        //Debug.Log("Wrong fireball poooooooooooooooof");
                                         break;
                                 }
 
@@ -185,7 +189,7 @@ public class collisionManager : NetworkBehaviour
                                     case SpellType.wall:
                                         break;
                                     case SpellType.projectile:
-                                        Debug.Log("Fireball poof");
+                                        //Debug.Log("Fireball poof");
                                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
                                         projectileSelf.DoImpact();
                                         break;
@@ -193,13 +197,13 @@ public class collisionManager : NetworkBehaviour
                             }
                             else if (tempSpellOwner != null && spellOwner != null && tempSpellOwner == spellOwner)
                             {
-                                Debug.Log("Outside if");
-                                Debug.Log(tempSpell);
+                                //Debug.Log("Outside if");
+                                //Debug.Log(tempSpell);
                                 if (spell.spellType != SpellType.wall)
                                 {
                                     if (tempSpell.spellType == SpellType.wall)
                                     {
-                                        Debug.Log("Inside if");
+                                        //Debug.Log("Inside if");
 
                                         NetworkedWallComponent tempWall = (NetworkedWallComponent)(tempSpell);
                                         if (tempWall.elementtype == elementType.WATER)
@@ -219,14 +223,14 @@ public class collisionManager : NetworkBehaviour
                                 switch (tempSpell.spellType)
                                 {
                                     case SpellType.wall:
-                                        Debug.Log("hit wall collision");
+                                        //Debug.Log("hit wall collision");
                                         NetworkedWallComponent tempWall = (NetworkedWallComponent)tempSpell;
                                         tempWall.DoSpellImpact();
                                         break;
                                     case SpellType.projectile:
                                         NetworkedProjectileComponent projectile = (NetworkedProjectileComponent)tempSpell;
                                         projectile.DoImpact();
-                                        Debug.Log("Wrong fireball poooooooooooooooof");
+                                        //Debug.Log("Wrong fireball poooooooooooooooof");
                                         break;
                                 }
 
@@ -235,7 +239,7 @@ public class collisionManager : NetworkBehaviour
                                     case SpellType.wall:
                                         break;
                                     case SpellType.projectile:
-                                        Debug.Log("Fireball poof");
+                                        //Debug.Log("Fireball poof");
                                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
                                         projectileSelf.DoImpact();
                                         break;
@@ -248,14 +252,14 @@ public class collisionManager : NetworkBehaviour
                                 switch (tempSpell.spellType)
                                 {
                                     case SpellType.wall:
-                                        Debug.Log("hit wall collision");
+                                        //Debug.Log("hit wall collision");
                                         NetworkedWallComponent tempWall = (NetworkedWallComponent)tempSpell;
                                         tempWall.DoSpellImpact();
                                         break;
                                     case SpellType.projectile:
                                         NetworkedProjectileComponent projectile = (NetworkedProjectileComponent)tempSpell;
                                         projectile.DoImpact();
-                                        Debug.Log("Wrong fireball poooooooooooooooof");
+                                        //Debug.Log("Wrong fireball poooooooooooooooof");
                                         break;
                                 }
 
@@ -264,7 +268,7 @@ public class collisionManager : NetworkBehaviour
                                     case SpellType.wall:
                                         break;
                                     case SpellType.projectile:
-                                        Debug.Log("Fireball poof");
+                                        //Debug.Log("Fireball poof");
                                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
                                         projectileSelf.DoImpact();
                                         break;
