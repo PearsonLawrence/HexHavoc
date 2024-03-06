@@ -22,10 +22,10 @@ public class ElementSelect : SpellComponent
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collided");
+        //Debug.Log("collided");
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("isplayer");
+            //Debug.Log("isplayer");
             playerSpellManager = other.GetComponent<SpellManager>();
 
             playerSpellManager.SetElementType(elementtype);

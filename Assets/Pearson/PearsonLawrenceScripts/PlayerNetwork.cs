@@ -14,6 +14,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private Transform SpawnedObjectPrefab;
 
     private MatchManager matchManager;
+    [SerializeField] private SpellManager spellManager;
 
 
     //This is an instantiation of a network variable. Used for understanding the network variable concept (Obsolete)
@@ -109,7 +110,7 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
-        MatchManager.Instance.RegisterPlayer(clientId);
+        MatchManager.Instance.RegisterPlayer(clientId, spellManager);
     }
 
     public void PlacePlayers()
