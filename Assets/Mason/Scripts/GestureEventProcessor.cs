@@ -6,6 +6,7 @@ using UnityEngine;
 public class GestureEventProcessor : MonoBehaviour
 {
     private TeleportationManager teleportationManager;
+    private bool isTeleportGestureRecognized = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,13 +50,25 @@ public class GestureEventProcessor : MonoBehaviour
             if (gestureCompletionData.gestureName == "Teleport")
             {
                 Debug.Log("Teleport Gesture Successfully Casted");
-                teleportationManager.SpawnTeleportationRay();
                 teleportationManager.Teleport();
+                isTeleportGestureRecognized = true;
             }
         }
 
         else {
             Debug.Log("Gesture Failed to Cast");
         }
+    }
+
+    //Resets Teleport flag if needed
+    public void ResetTeleportGesture()
+    {
+        isTeleportGestureRecognized = false;
+    }
+
+    //Checks if Teleport gesture is recognized
+    public bool IsTeleportGestureRecognized()
+    { 
+        return isTeleportGestureRecognized;
     }
 }

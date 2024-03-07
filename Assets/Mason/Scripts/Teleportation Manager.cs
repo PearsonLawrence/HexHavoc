@@ -8,26 +8,61 @@ public class TeleportationManager : MonoBehaviour
     public GameObject teleportationRayPrefab;
 
     private GameObject teleportationRay;
-    private Transform leftHand;
-    private Transform rightHand;
+    private Transform playerHead;
+    private GestureEventProcessor gestureEventProcessor;
 
     // Start is called before the first frame update
     void Start()
     {
-        leftHand = GameObject.Find("Left Controller").transform;
-        rightHand = GameObject.Find("Right Controller").transform;
+        gestureEventProcessor = GetComponent<GestureEventProcessor>();
+        playerHead = Camera.main.transform;
+
+        if (playerHead == null)
+        {
+            Debug.Log("Player Camera Reference not set in TeleportationManager");
+        }
+    }
+
+    void Update()
+    {
+        if (gestureEventProcessor.IsTeleportGestureRecognized())
+        {
+            Teleport();
+            gestureEventProcessor.ResetTeleportGesture();
+        }
     }
 
     //Called when Teleport gesture is recognized
-    public void SpawnTeleportationRay()
-    { 
-        teleportationRay = Instantiate(teleportationRayPrefab, (leftHand.position + rightHand.position) / 2f, Quaternion.identity);
-    }
-
-    //Called when Teleport gesture is completed
     public void Teleport()
-    { 
-        Vector3 destination = teleportationRay.transform.position;
-        Destroy(teleportationRay);
+    {
+        RaycastHit hit;
+        Vector3 teleportDestination;
+
+        //Uses direction vector from where player is currently facing
+        Vector3 rayDirection = playerHead.forward;
+
+        //Creates ray from left hand position
+        Ray ray = new Ray(playerHead.position, rayDirection);
+
+        //Calculates ray's starting position at player's head during the gesture
+        Vector3 rayStartPosition = playerHead.position;
+
+        Debug.DrawRay(rayStartPosition, rayDirection*1000, Color.red, 30);
+
+        if (Physics.Raycast(rayStartPosition, rayDirection, out hit, 1000))
+        {
+            //Set teleport destination to hit point
+            teleportDestination = hit.point;
+
+            //Instantiate teleportation ray prefab between two hands
+            teleportationRay = Instantiate(teleportationRayPrefab, teleportDestination, Quaternion.identity);
+
+            Debug.Log("Player teleported to " + teleportDestination);
+        }
+        else
+        {
+            Debug.Log("No teleport destination found.");
+        }
+        
     }
 }
