@@ -180,7 +180,7 @@ public class MatchManager : NetworkBehaviour
             playerTwoHealth.Value -= damage;
         }
 
-        if (playerOneHealth.Value == 0)
+        if (playerOneHealth.Value <= 0)
         {
             pTwoWinTally += 1;
             if(pTwoWinTally == 2)
@@ -194,7 +194,7 @@ public class MatchManager : NetworkBehaviour
 
         }
 
-        if (playerTwoHealth.Value == 0)
+        if (playerTwoHealth.Value <= 0)
         {
             pOneWinTally += 1;
             if (pOneWinTally == 2)
@@ -209,7 +209,7 @@ public class MatchManager : NetworkBehaviour
 
         foreach(HealthBar t in healthBars)
         {
-            t.UpdateHealthBar();
+            t.UpdateHealthBarClientRpc();
         }
 
         //isRoundReset.Value = true;

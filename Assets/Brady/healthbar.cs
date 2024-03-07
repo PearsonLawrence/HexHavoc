@@ -1,7 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+
+public class HealthBar : NetworkBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
@@ -13,11 +15,16 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
-        UpdateHealthBar();
+        UpdateHealthBarClientRpc();
     }
 
-    public void UpdateHealthBar()
+    [ServerRpc]
+    public void UpdateHealthBarServerRpc()
+    {
+
+    }
+    [ClientRpc]
+    public void UpdateHealthBarClientRpc()
     {
         if(playerOneHealthBar) 
         {
