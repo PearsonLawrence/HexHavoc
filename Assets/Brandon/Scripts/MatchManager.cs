@@ -24,6 +24,9 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
+    private PlayerNetwork playerOneNetwork;
+    private PlayerNetwork playerTwoNetwork;
+
     private bool playerOneReady, playerTwoReady;
 
     [SerializeField] private List<PillarLogic> pillarLogicList;
@@ -35,6 +38,9 @@ public class MatchManager : NetworkBehaviour
 
     public Transform playerBody;
     public Transform spawnPosition2;
+
+    public Transform gameSpawnPosition1;
+    public Transform gameSpawnPosition2;
 
     void Awake()
     {
@@ -60,7 +66,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId, SpellManager spellManager)
+    public void RegisterPlayer(ulong clientId, SpellManager spellManager, PlayerNetwork playerNetorl)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -142,27 +148,41 @@ public class MatchManager : NetworkBehaviour
         if (clientId == 0)
         {
             playerOneHealth.Value -= damage;
-            //Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-            if (playerOneHealth.Value == 0)
-            {
-                pTwoWinTally += 1;
-                //Debug.Log("p2 + 1 point");
-            }
-
-            if (playerTwoHealth.Value == 0)
-            {
-                pOneWinTally += 1;
-                //Debug.Log("p1 + 1 point");
-            }
-            //isRoundReset.Value = true;
-            resetTime = maxResetTime;
         }
         else if(clientId == 1)
         {
             playerTwoHealth.Value -= damage;
         }
 
-        Debug.Log("Player Health: " + playerOneHealth.Value /*+ " : " + playerTwoHealth.Value*/);
+        if (playerOneHealth.Value == 0)
+        {
+            pTwoWinTally += 1;
+            if(pTwoWinTally == 2)
+            {
+                DeclareWinner(clientId);
+            }
+            else
+            {
+                ResetRound();
+            }
+
+        }
+
+        if (playerTwoHealth.Value == 0)
+        {
+            pOneWinTally += 1;
+            if (pOneWinTally == 2)
+            {
+                DeclareWinner(clientId);
+            }
+            else
+            {
+                ResetRound();
+            }
+        }
+
+        //isRoundReset.Value = true;
+        resetTime = maxResetTime;
 
         if (pTwoWinTally >= 1)
         {
@@ -175,5 +195,16 @@ public class MatchManager : NetworkBehaviour
             isThereWinner.Value = true;
             loserId = clientId;
         }
+    }
+
+    public void DeclareWinner(ulong loserClientId)
+    {
+
+    }
+
+    public void ResetRound()
+    {
+        playerOneNetwork.PlacePlayers();
+        playerTwoNetwork.PlacePlayers();
     }
 }
