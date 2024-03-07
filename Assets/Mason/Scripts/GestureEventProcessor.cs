@@ -5,17 +5,13 @@ using UnityEngine;
 
 public class GestureEventProcessor : MonoBehaviour
 {
-    private TeleportationManager teleportationManager;
+    public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
-
+     public SpellManager spellmanager;
     // Start is called before the first frame update
     void Start()
     {
-        teleportationManager = GetComponent<TeleportationManager>();
-        if (teleportationManager == null)
-        {
-            Debug.LogError("TeleportationManager is not found on the same GameObject.");
-        }
+        
     }
 
     public void OnGestureCompleted(GestureCompletionData gestureCompletionData)
@@ -29,22 +25,27 @@ public class GestureEventProcessor : MonoBehaviour
         if (gestureCompletionData.similarity >= 0.5) {
             //Casts Left Hand Wall Spell
             if (gestureCompletionData.gestureName == "Left Wall") {
+                
                 Debug.Log("Left Wall Gesture Successfully Casted");
+                if (spellmanager) spellmanager.fireLeftWall();
             }
             //Casts Right Hand Wall Spell
             if (gestureCompletionData.gestureName == "Right Wall")
             {
                 Debug.Log("Right Wall Gesture Successfully Casted");
+                if (spellmanager) spellmanager.fireRightWall();
             }
             //Casts Left Hand Cast Spell
             if (gestureCompletionData.gestureName == "Left Cast")
             {
                 Debug.Log("Left Cast Gesture Successfully Casted");
+               if (spellmanager) spellmanager.fireLeftProjectile();
             }
             //Casts Right Hand Cast Spell
             if (gestureCompletionData.gestureName == "Right Cast")
             {
                 Debug.Log("Right Cast Gesture Successfully Casted");
+                if (spellmanager) spellmanager.fireRightProjectile();
             }
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
@@ -54,7 +55,6 @@ public class GestureEventProcessor : MonoBehaviour
                 isTeleportGestureRecognized = true;
             }
         }
-
         else {
             Debug.Log("Gesture Failed to Cast");
         }

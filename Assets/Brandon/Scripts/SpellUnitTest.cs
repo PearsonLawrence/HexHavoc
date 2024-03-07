@@ -31,28 +31,28 @@ public class SpellUnitTest : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         spellManager.desiredProjectile = fireballPrefab.transform;
-        spellManager.SpawnProjectile();
+        //spellManager.SpawnProjectile();
 
         Debug.Log("Spawned Fireball");
         //collision text and damage will be printed from collision manager
 
         yield return new WaitForSeconds(delay);
         spellManager.desiredProjectile = windBlastPrefab.transform;
-        spellManager.SpawnProjectile();
+        //spellManager.SpawnProjectile();
 
         Debug.Log("Spawned Wind Blast");
         //collision text and damage will be printed from collision manager
 
         yield return new WaitForSeconds(delay);
         spellManager.desiredProjectile = waterShotPrefab.transform;
-        spellManager.SpawnProjectile();
+        //spellManager.SpawnProjectile();
 
         Debug.Log("Spawned Water Shot");
         //collision text and damage will be printed from collision manager
 
         yield return new WaitForSeconds(delay);
         spellManager.desiredProjectile = earthSpearPrefab.transform;
-        spellManager.SpawnProjectile();
+        //spellManager.SpawnProjectile();
 
         Debug.Log("Spawned Earth Spear");
         //collision text and damage will be printed from collision manager

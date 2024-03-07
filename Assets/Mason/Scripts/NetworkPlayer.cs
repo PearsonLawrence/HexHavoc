@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using System.Globalization;
+using Unity.XR.CoreUtils;
 
 public class NetworkPlayer : NetworkBehaviour
 {
@@ -15,12 +16,22 @@ public class NetworkPlayer : NetworkBehaviour
     public Transform rightHand;
     public SpellLauncher leftHandSpell;
     public SpellLauncher rightHandSpell;
-
+    public HandInteractableComponent left, right;
+    public XROrigin xr;
     public GameObject headObj;
-
+    public PillarLogic currentPillar;
     public Renderer[] meshToDisable;
 
+    public bool isMoving;
+    public float moveDuration = 5;
+
     [SerializeField] private SpellManager spellManager;
+    [SerializeField] private PlayerNetwork playerNetwork;
+
+    public SpellManager getSpellManager()
+    {
+        return spellManager;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -32,6 +43,8 @@ public class NetworkPlayer : NetworkBehaviour
                 Debug.Log("poo");
                 item.enabled = false;
             }
+            left.parentObj = this;
+            right.parentObj = this;
             //GameObject temp = Camera.main.gameObject;
             //temp.transform.parent = headObj.transform;
             //temp.transform.position = Vector3.zero;
@@ -41,6 +54,7 @@ public class NetworkPlayer : NetworkBehaviour
 
 
     }
+    
     public void Start()
     {
         if (IsLocalPlayer)
@@ -83,19 +97,83 @@ public class NetworkPlayer : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
-        //MatchManager.Instance.RegisterPlayer(clientId, spellManager);
+        MatchManager.Instance.RegisterPlayer(clientId, spellManager, this);
     }
-
     public void PlacePlayers()
     {
-        if (OwnerClientId == 0)
+        //if (IsOwner)  transform.position = MatchManager.Instance.playerBody.position;
+        if (OwnerClientId == 0 && IsOwner)
         {
-            //VRRigReferences.Singleton.root.position = MatchManager.Instance.spawnPosition1.position;
+            cameraManager tempCam = Camera.main.gameObject.GetComponent<cameraManager>();
+            if (tempCam) xr = tempCam.xr;
+
+
+            if (MatchManager.Instance.matchGoing)
+            {
+                transform.position = MatchManager.Instance.gameSpawnPosition1.position;
+            }
+            currentPillar = MatchManager.Instance.hostPillar; 
+            UnNetworkPlayer playerXr = xr.GetComponent<UnNetworkPlayer>();
+            playerXr.currentPillar = currentPillar;
+            playerXr.spellmanager = GetComponent<SpellManager>();
+            playerXr.setSpellManagerProcessors();
+            //currentPillar.playerOn.Value = true;
+            //transform.position = MatchManager.Instance.playerBody.position;
+            transform.rotation = MatchManager.Instance.playerBody.rotation;
         }
-        if (OwnerClientId == 1)
+        if (OwnerClientId == 1 && IsOwner)
         {
-            VRRigReferences.Singleton.root.position = MatchManager.Instance.spawnPosition2.position;
+            cameraManager tempCam = Camera.main.gameObject.GetComponent<cameraManager>();
+            if (tempCam) xr = tempCam.xr;
+
+            if (MatchManager.Instance.matchGoing)
+            {
+                transform.position = MatchManager.Instance.gameSpawnPosition2.position;
+            }
+            currentPillar = MatchManager.Instance.guestPillar;
+            UnNetworkPlayer playerXr = xr.GetComponent<UnNetworkPlayer>();
+            playerXr.currentPillar = currentPillar;
+            playerXr.spellmanager = GetComponent<SpellManager>();
+            Debug.Log("Err1: " + spellManager);
+            playerXr.setSpellManagerProcessors();
+            //xr.Origin.transform.position = currentPillar.playerPoint.transform.position;
+            //currentPillar.playerOn.Value = true;
+            transform.rotation = currentPillar.playerPoint.transform.rotation;
         }
+
+
+    }
+
+    [ClientRpc]
+    public void MovePlayerToStartClientRpc()
+    {
+        if (!isMoving)
+        {
+            StartCoroutine(MoveCorutine());
+        }
+    }
+
+    IEnumerator MoveCorutine()
+    {
+        isMoving = true;
+        float elapsedTime = 0f;
+
+        Vector3 startPos;
+        Vector3 endPos;
+
+        startPos = MatchManager.Instance.playerBody.position;
+        endPos = MatchManager.Instance.spawnPosition2.position;
+
+        while (elapsedTime < moveDuration)
+        {
+            float t = elapsedTime / moveDuration;
+            xr.Origin.transform.position = currentPillar.playerPoint.transform.position;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        isMoving = false;
     }
 }
 

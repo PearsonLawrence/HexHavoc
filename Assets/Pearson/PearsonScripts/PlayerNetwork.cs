@@ -113,7 +113,7 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
-        MatchManager.Instance.RegisterPlayer(clientId, spellManager, playerNetwork);
+        //MatchManager.Instance.RegisterPlayer(clientId, spellManager, this);
     }
 
     public void PlacePlayers()

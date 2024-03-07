@@ -62824,6 +62824,7 @@ GameObject:
   - component: {fileID: 5072741904738302810}
   - component: {fileID: 6847510540975632362}
   - component: {fileID: 5182252515781975160}
+  - component: {fileID: 173962126403969062}
   m_Layer: 0
   m_Name: PortalTemp
   m_TagString: Untagged
@@ -62942,6 +62943,33 @@ MonoBehaviour:
   lobbyName: {fileID: 5532429309762676060}
   lobbyCode: 
   isActive: 0
+--- !u!54 &173962126403969062
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7117301538720932684}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7139916576718778830
 GameObject:
   m_ObjectHideFlags: 0

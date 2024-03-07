@@ -10,6 +10,8 @@ TagManager:
   - Pillar
   - LobbySelect
   - RotatePoint
+  - CreateLobby
+  - PortalLobby
   layers:
   - Default
   - TransparentFX
