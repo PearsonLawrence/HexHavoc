@@ -9,6 +9,7 @@ TagManager:
   - Fireball
   - Pillar
   - LobbySelect
+  - RotatePoint
   layers:
   - Default
   - TransparentFX
