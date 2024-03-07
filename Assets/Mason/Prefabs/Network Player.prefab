@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 6178788066534013154}
   - component: {fileID: 4005714338439228529}
   - component: {fileID: 7022101944330830390}
-  - component: {fileID: 313677043715402676}
   m_Layer: 0
   m_Name: LeftHoind
   m_TagString: Untagged
@@ -217,20 +216,6 @@ MonoBehaviour:
   isCharging: 0
   spellManager: {fileID: 7280809711919498369}
   spell: 1
---- !u!114 &313677043715402676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645796573181408119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportationManager: {fileID: 905829413675451845}
-  spellmanager: {fileID: 7280809711919498369}
 --- !u!1 &2930572510356264868
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +537,6 @@ GameObject:
   - component: {fileID: 373853430470310747}
   - component: {fileID: 2061672254728256054}
   - component: {fileID: 905829413675451845}
-  - component: {fileID: 1817282595412743449}
   m_Layer: 0
   m_Name: Network Player
   m_TagString: Player
@@ -753,26 +737,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3744004429727578139}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20e49ccbc202f9c4ebf109c730fafaf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationRayPrefab: {fileID: 0}
---- !u!114 &1817282595412743449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3744004429727578139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportationManager: {fileID: 905829413675451845}
-  spellmanager: {fileID: 7280809711919498369}
 --- !u!1 &5193422471277711794
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +923,6 @@ GameObject:
   - component: {fileID: 8941643027808587316}
   - component: {fileID: 730270005513359865}
   - component: {fileID: 6703322781682952735}
-  - component: {fileID: 8546563932055555887}
   m_Layer: 0
   m_Name: RightHoind
   m_TagString: Untagged
@@ -1034,20 +1003,6 @@ MonoBehaviour:
   isCharging: 0
   spellManager: {fileID: 7280809711919498369}
   spell: 0
---- !u!114 &8546563932055555887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5465043793329988357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportationManager: {fileID: 905829413675451845}
-  spellmanager: {fileID: 7280809711919498369}
 --- !u!1 &7187528431075134740
 GameObject:
   m_ObjectHideFlags: 0

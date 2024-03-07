@@ -60,12 +60,12 @@ public class SpellLauncher : NetworkBehaviour //Network behavior to allow transm
             switch(spell) 
             {
                 case SpellType.projectile:
-                    Debug.Log("Shoot Fireball");
-                    spellManager.fireBall(transform); //Calls a fireball rpc across the network at transform location
+                    //Debug.Log("Shoot Fireball");
+                    //spellManager.fireBall(transform); //Calls a fireball rpc across the network at transform location
                     break;
                 case SpellType.wall:
-                    Debug.Log("Shoot Wall");
-                    spellManager.fireWall(transform); //Calls a firewall rpc across the network at transform location
+                    //Debug.Log("Shoot Wall");
+                    //spellManager.fireWall(transform); //Calls a firewall rpc across the network at transform location
                     break;
             }
         }

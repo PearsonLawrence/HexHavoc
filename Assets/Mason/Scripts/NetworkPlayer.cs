@@ -104,6 +104,10 @@ public class NetworkPlayer : NetworkBehaviour
         //if (IsOwner)  transform.position = MatchManager.Instance.playerBody.position;
         if (OwnerClientId == 0 && IsOwner)
         {
+            cameraManager tempCam = Camera.main.gameObject.GetComponent<cameraManager>();
+            if (tempCam) xr = tempCam.xr;
+
+
             if (MatchManager.Instance.matchGoing)
             {
                 transform.position = MatchManager.Instance.gameSpawnPosition1.position;

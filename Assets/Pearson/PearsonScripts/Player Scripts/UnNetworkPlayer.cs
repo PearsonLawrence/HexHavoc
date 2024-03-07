@@ -24,8 +24,8 @@ public class UnNetworkPlayer : MonoBehaviour
         Debug.Log("Err2: " + spellmanager);
         foreach(GestureEventProcessor processor in processors)
         {
-           // processor.spellmanager = spellmanager;
-            //Debug.Log("Err*: " + processor.spellmanager);
+           processor.spellmanager = spellmanager;
+            Debug.Log("Err*: " + processor.spellmanager);
         }
     }
 
