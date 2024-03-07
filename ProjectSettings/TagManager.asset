@@ -8,6 +8,7 @@ TagManager:
   - MatchManager
   - Fireball
   - Pillar
+  - LobbySelect
   layers:
   - Default
   - TransparentFX

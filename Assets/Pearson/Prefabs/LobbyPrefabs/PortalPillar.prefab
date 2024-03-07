@@ -62933,10 +62933,12 @@ MonoBehaviour:
   selectLobbyButton: {fileID: 0}
   info: {fileID: 5532429309762676060}
   privateIndicator: {fileID: 0}
-  door: {fileID: 7117301538720932684}
+  door: {fileID: 1941880973319323546}
+  Rocks: {fileID: 1301356528695033652}
   GameLobby: {fileID: 0}
   Pillar: {fileID: 0}
   doorRender: {fileID: 5072741904738302810}
+  isJoined: 0
   lobbyName: {fileID: 5532429309762676060}
   lobbyCode: 
   isActive: 0

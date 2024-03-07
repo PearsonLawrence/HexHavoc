@@ -23,6 +23,10 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private GameObject tpPos1;
     [SerializeField] private PlatformDialComponent platDial;
 
+    public PlatformDialComponent getPlatformDial()
+    {
+        return platDial;
+    }
     //called when user selects create button
     //
 

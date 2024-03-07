@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UIElements;
 
 public class LobbyPillarComponent : MonoBehaviour
@@ -15,6 +16,7 @@ public class LobbyPillarComponent : MonoBehaviour
     [SerializeField] private LobbyUIManager lobbyManager;
     [SerializeField] private float degPos;
     [SerializeField] private float moveSpeed = 20f;
+    [SerializeField] private float pauseTime = 3, pauseTimeEventOne = 2, pauseTimeMax = 3;
 
     public void beginJoin(bool oriented)
     {
@@ -87,10 +89,18 @@ public class LobbyPillarComponent : MonoBehaviour
         Vector3 newPos = new Vector3(0, .2f, 1f);
         if (isOriented && isSelected &&!isPosition)
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, Time.deltaTime * moveSpeed);
-            if(transform.localPosition.z >= .95 && transform.localPosition.z <= 1 && !isPosition)
+            pauseTime -= Time.deltaTime;
+            if(pauseTime <= pauseTimeEventOne)
             {
-                isPosition = true;
+                lobby.OpenDoor();
+            }
+            if(pauseTime <= 0)
+            {
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, Time.deltaTime * moveSpeed);
+                if (transform.localPosition.z >= .95 && transform.localPosition.z <= 1 && !isPosition)
+                {
+                    isPosition = true;
+                }
             }
         }
 

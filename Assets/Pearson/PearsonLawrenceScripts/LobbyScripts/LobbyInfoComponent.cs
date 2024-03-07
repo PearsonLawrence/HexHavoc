@@ -15,6 +15,7 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private TMP_Text info;
     [SerializeField] private Image privateIndicator;
     [SerializeField] private GameObject door;
+    [SerializeField] private GameObject Rocks;
     //Lobby elements
     [SerializeField] private GameLobbyComponent GameLobby; //stores all of the information of the lobby listed
     [SerializeField] private LobbyPillarComponent Pillar; //stores all of the information of the lobby listed
@@ -28,6 +29,11 @@ public class LobbyInfoComponent : MonoBehaviour
     [SerializeField] private string lobbyCode; //This is the lobby code that will update the users desired join lobby
     public bool isActive = false;
 
+    public void OpenDoor()
+    {
+        door.SetActive(false);
+        Rocks.SetActive(true);
+    }
     public string getLobbyName()
     {
         return lobbyName.text;
@@ -53,12 +59,12 @@ public class LobbyInfoComponent : MonoBehaviour
         maxPlayerCount = 0;
         lobbyCode = "";
         isActive = false;
-        doorRender.enabled = false;
+        //doorRender.enabled = false;
         this.gameObject.GetComponent<Collider>().enabled = false;
     }
     public void activateLobby()
     {
-        doorRender.enabled = true;
+        //doorRender.enabled = true;
         this.gameObject.GetComponent<Collider>().enabled = true;
     }
     public Lobby getCurrentLobby()
@@ -120,4 +126,15 @@ public class LobbyInfoComponent : MonoBehaviour
         lobbyCode = code;
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("LobbySelect"))
+        {
+            Debug.Log("test");
+            Pillar.getLobbyUIManager().setSelectedLobby(this);
+            Pillar.getLobbyUIManager().getPlatformDial().setSelectedPillar(Pillar);
+            Pillar.getLobbyUIManager().getPlatformDial().setIsLobbySelected(true);
+            Pillar.setIsSelected(true);
+        }
+    }
 }
