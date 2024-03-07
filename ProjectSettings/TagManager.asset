@@ -12,6 +12,7 @@ TagManager:
   - RotatePoint
   - CreateLobby
   - PortalLobby
+  - PlayerBody
   layers:
   - Default
   - TransparentFX

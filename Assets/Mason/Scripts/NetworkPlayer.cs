@@ -43,6 +43,7 @@ public class NetworkPlayer : NetworkBehaviour
                 Debug.Log("poo");
                 item.enabled = false;
             }
+           
             left.parentObj = this;
             right.parentObj = this;
             //GameObject temp = Camera.main.gameObject;
@@ -98,6 +99,17 @@ public class NetworkPlayer : NetworkBehaviour
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
         MatchManager.Instance.RegisterPlayer(clientId, spellManager, this);
+
+        if (GetComponent<NetworkObject>().OwnerClientId == 0)
+        {
+
+            MatchManager.Instance.playerOneNetwork = this;
+        }
+        else if(GetComponent<NetworkObject>().OwnerClientId == 1)
+        {
+
+            MatchManager.Instance.playerTwoNetwork = this;
+        }
     }
     public void PlacePlayers()
     {

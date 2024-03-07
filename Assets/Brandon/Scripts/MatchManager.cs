@@ -24,8 +24,8 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
-    private NetworkPlayer playerOneNetwork;
-    private NetworkPlayer playerTwoNetwork;
+    public NetworkPlayer playerOneNetwork;
+    public NetworkPlayer playerTwoNetwork;
 
     public PillarLogic hostPillar, guestPillar;
 
@@ -73,7 +73,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId, SpellManager spellManager, NetworkPlayer playerNetork)
+    public void RegisterPlayer(ulong clientId, SpellManager spellManager, NetworkPlayer playerNetwork)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -95,10 +95,12 @@ public class MatchManager : NetworkBehaviour
         if(clientId == 0)
         {
             playerOneSpellManager = spellManager;
+            playerOneNetwork = playerNetwork;
         }
         else if (clientId == 1)
         {
             playerTwoSpellManager = spellManager;
+            playerTwoNetwork = playerNetwork;
         }
     }
 
@@ -243,7 +245,7 @@ public class MatchManager : NetworkBehaviour
 
         foreach (HealthBar t in healthBars)
         {
-            t.UpdateHealthBar();
+            t.UpdateHealthBarServerRpc();
         }
     }
 }
