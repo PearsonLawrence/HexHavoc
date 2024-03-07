@@ -14,11 +14,19 @@ public class PillarLogic : NetworkBehaviour
     private MatchManager matchManager;
     private bool canTeleport;
     [SerializeField] private GameObject firePillar;
+
     public bool playerOn;
     HealthManager tempManager;
     NetworkObject networkObject;
-    Transform startPosition;
-    Transform endPosition;
+
+    public bool test, testTwo;
+
+
+    [SerializeField] private Transform startPosition;
+    [SerializeField] private Transform endPosition;
+
+    public float moveDuration = 5f;
+    private bool isMoving = false;
 
     public GameObject playerPoint;
     // Start is called before the first frame update
@@ -30,7 +38,16 @@ public class PillarLogic : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (test)
+        {
+            MovePillarClientRpc(pillarDirection.TOEND);
+        }
+
+        if (testTwo)
+        {
+            MovePillarClientRpc(pillarDirection.TOSTART);
+        }
+
     }
 
     public void CanPlayerTeleport()
@@ -128,15 +145,46 @@ public class PillarLogic : NetworkBehaviour
         Debug.Log("gdsh");
     }
 
-    public void movePillar(pillarDirection pillardirection)
+    [ClientRpc]
+    public void MovePillarClientRpc(pillarDirection direction)
     {
-        if(pillardirection == pillarDirection.TOEND)
+        test = false;
+        testTwo = false;
+        if (!isMoving)
         {
-
+            StartCoroutine(MoveCoroutine(direction));
         }
-        else if(pillardirection == pillarDirection.TOSTART)
+    }
+
+    // Coroutine to handle the movement
+    private IEnumerator MoveCoroutine(pillarDirection direction)
+    {
+        isMoving = true;
+        float elapsedTime = 0f;
+
+        Vector3 startPos;
+        Vector3 endPos;
+
+        if (direction == pillarDirection.TOSTART)
         {
-
+            startPos = endPosition.position;
+            endPos = startPosition.position;
         }
+        else
+        {
+            startPos = startPosition.position;
+            endPos = endPosition.position;
+        }
+
+        while (elapsedTime < moveDuration)
+        {
+            float t = elapsedTime / moveDuration;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        isMoving = false;
     }
 }

@@ -24,6 +24,11 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
+    private bool playerOneReady, playerTwoReady;
+
+    [SerializeField] private List<PillarLogic> pillarLogicList;
+    [SerializeField] private List<ReadyButton> readyButtonList;
+
     // Singleton instance
     public static MatchManager Instance;
     private List<GameObject> players = new List<GameObject>();
@@ -84,14 +89,49 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void StartMatch()
+    [ServerRpc(RequireOwnership = false)]
+    public void StartMatchServerRpc()
     {
         if(playerOneSpellManager.GetSetSpecialization() && playerTwoSpellManager.GetSetSpecialization())
         {
             Debug.Log("both set and ready");
+            foreach(PillarLogic t in pillarLogicList)
+            {
+                t.MovePillarClientRpc(pillarDirection.TOEND);
+            }
         }
     }
-   
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DeclareReadyServerRpc(ulong clientId)
+    {
+        if(clientId == 0)
+        {
+            playerOneReady = true;
+        }
+        if(clientId == 1)
+        {
+            playerTwoReady = true;
+        }
+
+        if(playerOneReady && playerTwoReady)
+        {
+            playerOneSpellManager.ActivateChooseOrbsClientRpc();
+            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+
+            ReadyButtonOffClientRpc();
+        }
+
+    }
+
+    [ClientRpc]
+    private void ReadyButtonOffClientRpc()
+    {
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(false);
+        }
+    }
 
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
@@ -103,13 +143,13 @@ public class MatchManager : NetworkBehaviour
         {
             playerOneHealth.Value -= damage;
             //Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-            if (clientId == 0)
+            if (playerOneHealth.Value == 0)
             {
                 pTwoWinTally += 1;
                 //Debug.Log("p2 + 1 point");
             }
 
-            if (clientId == 1)
+            if (playerTwoHealth.Value == 0)
             {
                 pOneWinTally += 1;
                 //Debug.Log("p1 + 1 point");
