@@ -140,7 +140,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     }
 
-    public void MovePlayerToStart()
+    [ClientRpc]
+    public void MovePlayerToStartClientRpc()
     {
         if (!isMoving)
         {

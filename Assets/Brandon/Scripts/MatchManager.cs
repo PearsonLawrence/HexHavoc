@@ -107,8 +107,8 @@ public class MatchManager : NetworkBehaviour
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
             matchGoing = true;
-            playerOneNetwork.MovePlayerToStart();
-            playerTwoNetwork.MovePlayerToStart();
+            playerOneNetwork.MovePlayerToStartClientRpc();
+            playerTwoNetwork.MovePlayerToStartClientRpc();
         }
     }
 
