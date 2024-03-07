@@ -28,6 +28,7 @@ public class MatchManager : NetworkBehaviour
     private PlayerNetwork playerTwoNetwork;
 
     private bool playerOneReady, playerTwoReady;
+    public bool matchGoing = false;
 
     [SerializeField] private List<PillarLogic> pillarLogicList;
     [SerializeField] private List<ReadyButton> readyButtonList;
@@ -105,6 +106,9 @@ public class MatchManager : NetworkBehaviour
             {
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
+            matchGoing = true;
+            playerOneNetwork.MovePlayerToStart();
+            playerTwoNetwork.MovePlayerToStart();
         }
     }
 
@@ -206,5 +210,9 @@ public class MatchManager : NetworkBehaviour
     {
         playerOneNetwork.PlacePlayers();
         playerTwoNetwork.PlacePlayers();
+
+        playerOneHealth.Value = 100;
+        playerTwoHealth.Value = 100;
+
     }
 }

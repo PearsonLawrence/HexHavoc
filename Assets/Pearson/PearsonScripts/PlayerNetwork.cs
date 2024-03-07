@@ -17,6 +17,8 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private SpellManager spellManager;
     [SerializeField] private PlayerNetwork playerNetwork;
 
+    public float moveDuration = 5f;
+    private bool isMoving = false;
 
     //This is an instantiation of a network variable. Used for understanding the network variable concept (Obsolete)
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
@@ -92,7 +94,7 @@ public class PlayerNetwork : NetworkBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
 
-        if (MatchManager.Instance.isRoundReset.Value)
+        /*if (MatchManager.Instance.isRoundReset.Value)
         {
             //PlacePlayers();
         }
@@ -105,7 +107,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (MatchManager.Instance.isThereWinner.Value)
         {
             //DeclareWinner(MatchManager.Instance.loserId);
-        }
+        }*/
 
     }
     [ServerRpc]
@@ -119,13 +121,54 @@ public class PlayerNetwork : NetworkBehaviour
         //if (IsOwner)  transform.position = MatchManager.Instance.playerBody.position;
         if (OwnerClientId == 0)
         {
-           Vector3 newPos = new Vector3(-MatchManager.Instance.spawnPosition2.position.x, MatchManager.Instance.spawnPosition2.position.y, MatchManager.Instance.spawnPosition2.position.z);
+            if(MatchManager.Instance.matchGoing)
+            {
+                transform.position = MatchManager.Instance.gameSpawnPosition1.position;
+            }
+            Vector3 newPos = new Vector3(-MatchManager.Instance.spawnPosition2.position.x, MatchManager.Instance.spawnPosition2.position.y, MatchManager.Instance.spawnPosition2.position.z);
             transform.position = MatchManager.Instance.playerBody.position;
         }
         if (OwnerClientId == 1)
         {
+            if (MatchManager.Instance.matchGoing)
+            {
+                transform.position = MatchManager.Instance.gameSpawnPosition2.position;
+            }
             transform.position = MatchManager.Instance.playerBody.position;
         }
+
+
+    }
+
+    public void MovePlayerToStart()
+    {
+        if (!isMoving)
+        {
+            StartCoroutine(MoveCorutine());
+        }
+    }
+
+    IEnumerator MoveCorutine()
+    {
+        isMoving = true;
+        float elapsedTime = 0f;
+
+        Vector3 startPos;
+        Vector3 endPos;
+
+        startPos = MatchManager.Instance.playerBody.position;
+        endPos = MatchManager.Instance.spawnPosition2.position;
+
+        while (elapsedTime < moveDuration)
+        {
+            float t = elapsedTime / moveDuration;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        isMoving = false;
     }
 
     public void DeclareWinner(ulong clientId)
