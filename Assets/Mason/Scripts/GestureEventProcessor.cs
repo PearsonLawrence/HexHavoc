@@ -7,7 +7,7 @@ public class GestureEventProcessor : MonoBehaviour
 {
     public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
-
+   // public SpellManager spellmanager;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,22 +25,27 @@ public class GestureEventProcessor : MonoBehaviour
         if (gestureCompletionData.similarity >= 0.5) {
             //Casts Left Hand Wall Spell
             if (gestureCompletionData.gestureName == "Left Wall") {
+                
                 Debug.Log("Left Wall Gesture Successfully Casted");
+                //if (spellmanager) spellmanager.RequestSpawnWallServerRpc();
             }
             //Casts Right Hand Wall Spell
             if (gestureCompletionData.gestureName == "Right Wall")
             {
                 Debug.Log("Right Wall Gesture Successfully Casted");
+                //if (spellmanager) spellmanager.RequestSpawnWallServerRpc();
             }
             //Casts Left Hand Cast Spell
             if (gestureCompletionData.gestureName == "Left Cast")
             {
                 Debug.Log("Left Cast Gesture Successfully Casted");
+               // if (spellmanager) spellmanager.RequestSpawnProjectileServerRpc();
             }
             //Casts Right Hand Cast Spell
             if (gestureCompletionData.gestureName == "Right Cast")
             {
                 Debug.Log("Right Cast Gesture Successfully Casted");
+                //if (spellmanager) spellmanager.RequestSpawnProjectileServerRpc();
             }
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
@@ -50,7 +55,6 @@ public class GestureEventProcessor : MonoBehaviour
                 isTeleportGestureRecognized = true;
             }
         }
-
         else {
             Debug.Log("Gesture Failed to Cast");
         }

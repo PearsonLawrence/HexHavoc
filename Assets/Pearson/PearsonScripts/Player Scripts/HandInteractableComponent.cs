@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class HandInteractableComponent : MonoBehaviour
+public class HandInteractableComponent : NetworkBehaviour
 {
     public GameObject currentInteractableItem;
     public LobbyUIManager lobbyManager;
     public bool isSelecting, isHolding;
-
+    public NetworkPlayer parentObj;
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -66,9 +67,10 @@ public class HandInteractableComponent : MonoBehaviour
                 break;
             case "LobbySelect":
                 Rigidbody tempRB = currentInteractableItem.GetComponent<Rigidbody>();
-                if(tempRB)
+                currentInteractableItem = null;
+                if (tempRB)
                 {
-                    tempRB.AddForce(transform.forward * 5);
+                    tempRB.AddForce(transform.forward * 50);
                 }
                 break;
             case "PortalLobby":

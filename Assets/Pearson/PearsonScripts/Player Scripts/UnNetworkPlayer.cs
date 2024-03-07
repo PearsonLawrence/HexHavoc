@@ -10,19 +10,33 @@ public class UnNetworkPlayer : MonoBehaviour
     public InputActionProperty leftGripProperty;
     public InputActionProperty rightGripProperty;
     public HandInteractableComponent interactleft, interactRight;
+    public PillarLogic currentPillar;
+    public List<GestureEventProcessor> processors;
+    public SpellManager spellmanager;
+    public bool isGame;
     void Start()
     {
-
+        
     }
 
-    
-        
+    public void setSpellManagerProcessors()
+    {
+        Debug.Log("Err2: " + spellmanager);
+        foreach(GestureEventProcessor processor in processors)
+        {
+           // processor.spellmanager = spellmanager;
+            //Debug.Log("Err*: " + processor.spellmanager);
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
         float triggerValue = leftGripProperty.action.ReadValue<float>();
         float triggerValue2 = rightGripProperty.action.ReadValue<float>();
+
+        if(currentPillar)
+            transform.position = currentPillar.playerPoint.transform.position;
 
         if (triggerValue > 0.1f)
         {

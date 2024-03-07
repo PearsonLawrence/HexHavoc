@@ -168,6 +168,7 @@ public class LobbyUIManager : MonoBehaviour
     public void doJoin()
     {
         player.transform.position = tpPos1.transform.position;
+        player.transform.rotation = tpPos1.transform.rotation;
         gameLobby.JoinSelectedLobby();
         isJoin = true;
     }
@@ -217,6 +218,7 @@ public class LobbyUIManager : MonoBehaviour
         {
             gameLobby.CreateLobby();
             player.transform.position = HostPillar.playerPoint.transform.position;
+            player.GetComponent<UnNetworkPlayer>();
             isJoin = true;
         }
         if (lobbyUpdateTimer <= 0 && !isJoin)
@@ -230,6 +232,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         gameLobby.CreateLobby();
         player.transform.position = HostPillar.playerPoint.transform.position;
+        player.GetComponent<UnNetworkPlayer>().currentPillar = HostPillar ;
         isJoin = true;
     }
     //Turn on basic create or join UI

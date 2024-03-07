@@ -32,29 +32,34 @@ public class SpellManager : NetworkBehaviour
     [SerializeField] private Transform chooseWaterPrefab;
     [SerializeField] private Transform chooseWindPrefab;
 
+    [SerializeField] private Transform selectPoint1;
+    [SerializeField] private Transform selectPoint2;
+    [SerializeField] private Transform selectPoint3;
+    [SerializeField] private Transform selectPoint4;
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
     public Transform desiredProjectile;
     private Transform desiredWall;
-    private bool setSpecialization = false;
+    //private bool setSpecialization = false;
 
-    [SerializeField] private List<Transform> chooseOrbs;
+    public List<Transform> chooseOrbs;
 
     elementType elementSpeicalization;
-
+    [HideInInspector] public NetworkVariable<bool> setSpecialization = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
         elementSpeicalization = elementType;
-        setSpecialization = true;
-        DisableChooseOrbs();
-        MatchManager.Instance.StartMatchServerRpc();
+        setSpecialization.Value = true;
+        //DisableChooseOrbsServerRpc();
+        MatchManager.Instance.StartMatchServerRpc(GetComponent<NetworkObject>().OwnerClientId);
     }
 
     public bool GetSetSpecialization()
     {
-        return setSpecialization;
+        return setSpecialization.Value;
     }
 
     private void Start()
@@ -73,7 +78,10 @@ public class SpellManager : NetworkBehaviour
         {
             return;
         }
-
+        if(setIsOrbDisabled.Value)
+        {
+            //DisableChooseOrbsClientRpc();
+        }
         if (Input.GetKeyUp(KeyCode.F))
         {
             if (IsServer)
@@ -141,8 +149,8 @@ public class SpellManager : NetworkBehaviour
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        //Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
-        Vector3 spawnPosition = Vector3.zero;
+        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
+        //Vector3 spawnPosition = Vector3.zero;
 
         switch (elementSpeicalization)
         {
@@ -175,8 +183,8 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            //projectile.SetDirection(RightHandPos.forward);
-            projectile.SetDirection(Vector3.forward);
+            projectile.SetDirection(RightHandPos.forward);
+           // projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -203,8 +211,8 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
-        Vector3 spawnPosition = Vector3.zero;
+        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        //Vector3 spawnPosition = Vector3.zero;
 
         spawnPosition.Set(0, 0, 7);
 
@@ -225,8 +233,8 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
+        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
@@ -254,7 +262,7 @@ public class SpellManager : NetworkBehaviour
     //server rpc that handles spawning of networked spells
 
     [ServerRpc]
-    private void RequestSpawnWallServerRpc()
+    public void RequestSpawnWallServerRpc()
     {
         spawnWall();
     }
@@ -281,22 +289,26 @@ public class SpellManager : NetworkBehaviour
     public void ActivateChooseOrbsClientRpc()
     {
         Vector3 startSpawn = transform.position;
-        Transform Earth = Instantiate(chooseEarthPrefab, startSpawn + new Vector3(-5, 0, -2), Quaternion.identity);
+        Transform Earth = Instantiate(chooseEarthPrefab, selectPoint1.position, Quaternion.identity);
         chooseOrbs.Add(Earth);
-        Transform Fire = Instantiate(chooseFirePrefab, startSpawn + new Vector3(-2, 0, 0), Quaternion.identity);
+        Transform Fire = Instantiate(chooseFirePrefab, selectPoint2.position, Quaternion.identity);
         chooseOrbs.Add(Fire);
-        Transform Water = Instantiate(chooseWaterPrefab, startSpawn + new Vector3(2, 0, 0), Quaternion.identity);
+        Transform Water = Instantiate(chooseWaterPrefab, selectPoint3.position, Quaternion.identity);
         chooseOrbs.Add(Water);
-        Transform Wind = Instantiate(chooseWindPrefab, startSpawn + new Vector3(5, 0, -2), Quaternion.identity);
+        Transform Wind = Instantiate(chooseWindPrefab, selectPoint4.position, Quaternion.identity);
         chooseOrbs.Add(Wind);
     }
 
-    private void DisableChooseOrbs()
+    [ClientRpc]
+    public void DisableChooseOrbsClientRpc()
     {
+        
         foreach (Transform t in chooseOrbs)
         {
             t.gameObject.SetActive(false);
+            
         }
+        setIsOrbDisabled.Value = false;
     }
     
 }

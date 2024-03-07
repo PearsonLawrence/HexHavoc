@@ -21,8 +21,21 @@ public class ReadyButton : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            NetworkObject networkObject = other.GetComponent<NetworkObject>();
-            MatchManager.Instance.DeclareReadyServerRpc(networkObject.OwnerClientId);
+            Debug.Log("Touched sensually");
+            HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+            NetworkPlayer networkPlayer = temp.parentObj;
+            if (networkPlayer)
+            {
+                Debug.Log("touched2");
+            }
+            if(temp)
+            {
+                Debug.Log("touchable");
+            }
+            if (networkPlayer)
+            {
+                MatchManager.Instance.DeclareReadyServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
+            } 
         }
     }
 }

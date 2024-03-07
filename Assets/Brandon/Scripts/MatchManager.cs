@@ -24,10 +24,13 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
-    private PlayerNetwork playerOneNetwork;
-    private PlayerNetwork playerTwoNetwork;
+    private NetworkPlayer playerOneNetwork;
+    private NetworkPlayer playerTwoNetwork;
+
+    public PillarLogic hostPillar, guestPillar;
 
     private bool playerOneReady, playerTwoReady;
+    private bool playerOneOrb, playerTwoOrb;
     public bool matchGoing = false;
 
     [SerializeField] private List<PillarLogic> pillarLogicList;
@@ -67,7 +70,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId, SpellManager spellManager, PlayerNetwork playerNetorl)
+    public void RegisterPlayer(ulong clientId, SpellManager spellManager, NetworkPlayer playerNetork)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -97,13 +100,26 @@ public class MatchManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void StartMatchServerRpc()
+    public void StartMatchServerRpc(ulong clientId)
     {
-        if(playerOneSpellManager.GetSetSpecialization() && playerTwoSpellManager.GetSetSpecialization())
+        Debug.Log(playerOneSpellManager.GetSetSpecialization() + " : " + playerTwoSpellManager.GetSetSpecialization());
+        
+        if (clientId == 0)
         {
-            Debug.Log("both set and ready");
-            foreach(PillarLogic t in pillarLogicList)
+            playerOneOrb = true;
+            playerOneSpellManager.DisableChooseOrbsClientRpc();
+        }
+        if(clientId == 1)
+        {
+            playerTwoOrb = true;
+            playerTwoSpellManager.DisableChooseOrbsClientRpc();
+        }
+        if(playerOneOrb && playerTwoOrb)
+        {
+            Debug.Log("both set and ready"); // DisableChooseOrbs();
+            foreach (PillarLogic t in pillarLogicList)
             {
+                
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
             matchGoing = true;
@@ -118,10 +134,12 @@ public class MatchManager : NetworkBehaviour
         if(clientId == 0)
         {
             playerOneReady = true;
+            Debug.Log("P1");
         }
         if(clientId == 1)
         {
             playerTwoReady = true;
+            Debug.Log("P2");
         }
 
         if(playerOneReady && playerTwoReady)
@@ -142,7 +160,7 @@ public class MatchManager : NetworkBehaviour
             t.gameObject.SetActive(false);
         }
     }
-
+    
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)

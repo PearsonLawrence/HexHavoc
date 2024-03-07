@@ -15,7 +15,7 @@ public class PillarLogic : NetworkBehaviour
     private bool canTeleport;
     [SerializeField] private GameObject firePillar;
 
-    public bool playerOn;
+    [HideInInspector] public NetworkVariable<bool> playerOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     HealthManager tempManager;
     NetworkObject networkObject;
 
@@ -52,7 +52,7 @@ public class PillarLogic : NetworkBehaviour
 
     public void CanPlayerTeleport()
     {
-        canTeleport = !playerOn;
+        canTeleport = !playerOn.Value;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -60,7 +60,7 @@ public class PillarLogic : NetworkBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             //get player on pillar information
-            playerOn = true;
+            playerOn.Value = true;
             networkObject = other.GetComponent<NetworkObject>();
             tempManager = other.GetComponent<HealthManager>();
 
@@ -79,7 +79,7 @@ public class PillarLogic : NetworkBehaviour
             NetworkedProjectileComponent fb = other.gameObject.GetComponent<NetworkedProjectileComponent>();
             if (fb != null)
             {
-                if (playerOn && fb.GetWentThroughWall(elementType.FIRE))
+                if (playerOn.Value && fb.GetWentThroughWall(elementType.FIRE))
                 {
 
                     tempManager.Health.Value -= 20;
@@ -107,7 +107,7 @@ public class PillarLogic : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            playerOn = false;
+            playerOn.Value = false;
         }
     }
 
@@ -121,7 +121,7 @@ public class PillarLogic : NetworkBehaviour
     {
         yield return new WaitForSeconds(delay);
         firePillar.SetActive(true);
-        if(playerOn)
+        if(playerOn.Value)
         {
             if (IsOwner)
             {
@@ -180,6 +180,7 @@ public class PillarLogic : NetworkBehaviour
         {
             float t = elapsedTime / moveDuration;
             transform.position = Vector3.Lerp(startPos, endPos, t);
+            
             elapsedTime += Time.deltaTime;
             yield return null;
         }
