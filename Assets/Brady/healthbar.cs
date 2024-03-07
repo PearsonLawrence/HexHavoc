@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
 
     public Image healthBar;
+
+    [SerializeField] private bool playerOneHealthBar;
+    [SerializeField] private bool playerTwoHealthBar;
 
     void Start()
     {
@@ -14,15 +17,27 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();
     }
 
-    void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
-        float healthPercentage = currentHealth / maxHealth;
-        healthBar.fillAmount = healthPercentage;
-        Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
-    healthBar.color = healthColor;
+        if(playerOneHealthBar) 
+        {
+            float healthPercentage = MatchManager.Instance.playerOneHealth.Value / maxHealth;
+            healthBar.fillAmount = healthPercentage;
+            Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
+            healthBar.color = healthColor;
+        }
+
+        if (playerTwoHealthBar)
+        {
+            float healthPercentage = MatchManager.Instance.playerTwoHealth.Value / maxHealth;
+            healthBar.fillAmount = healthPercentage;
+            Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
+            healthBar.color = healthColor;
+        }
+        
     }
 
-    public void TakeDamage(float damageAmount)
+    /*public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
 
@@ -47,5 +62,5 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth, maxHealth);
 
         UpdateHealthBar();
-    }
+    }*/
 }

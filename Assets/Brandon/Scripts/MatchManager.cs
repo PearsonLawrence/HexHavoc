@@ -35,6 +35,9 @@ public class MatchManager : NetworkBehaviour
 
     [SerializeField] private List<PillarLogic> pillarLogicList;
     [SerializeField] private List<ReadyButton> readyButtonList;
+    [SerializeField] private List<HealthBar> healthBars;
+
+    [SerializeField] private TronMove tronMove;
 
     // Singleton instance
     public static MatchManager Instance;
@@ -122,6 +125,7 @@ public class MatchManager : NetworkBehaviour
                 
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
+            tronMove.MoveJumboTronClientRpc();
             matchGoing = true;
             playerOneNetwork.MovePlayerToStartClientRpc();
             playerTwoNetwork.MovePlayerToStartClientRpc();
@@ -203,6 +207,11 @@ public class MatchManager : NetworkBehaviour
             }
         }
 
+        foreach(HealthBar t in healthBars)
+        {
+            t.UpdateHealthBar();
+        }
+
         //isRoundReset.Value = true;
         resetTime = maxResetTime;
 
@@ -232,5 +241,9 @@ public class MatchManager : NetworkBehaviour
         playerOneHealth.Value = 100;
         playerTwoHealth.Value = 100;
 
+        foreach (HealthBar t in healthBars)
+        {
+            t.UpdateHealthBar();
+        }
     }
 }
