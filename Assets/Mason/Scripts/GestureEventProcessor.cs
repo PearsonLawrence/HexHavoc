@@ -5,17 +5,13 @@ using UnityEngine;
 
 public class GestureEventProcessor : MonoBehaviour
 {
-    private TeleportationManager teleportationManager;
+    public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        teleportationManager = GetComponent<TeleportationManager>();
-        if (teleportationManager == null)
-        {
-            Debug.LogError("TeleportationManager is not found on the same GameObject.");
-        }
+        
     }
 
     public void OnGestureCompleted(GestureCompletionData gestureCompletionData)

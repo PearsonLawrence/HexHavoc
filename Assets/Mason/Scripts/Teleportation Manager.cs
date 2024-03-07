@@ -36,7 +36,6 @@ public class TeleportationManager : MonoBehaviour
     public void Teleport()
     {
         RaycastHit hit;
-        Vector3 teleportDestination;
 
         //Uses direction vector from where player is currently facing
         Vector3 rayDirection = playerHead.forward;
@@ -51,13 +50,14 @@ public class TeleportationManager : MonoBehaviour
 
         if (Physics.Raycast(rayStartPosition, rayDirection, out hit, 1000))
         {
-            //Set teleport destination to hit point
-            teleportDestination = hit.point;
-
-            //Instantiate teleportation ray prefab between two hands
-            teleportationRay = Instantiate(teleportationRayPrefab, teleportDestination, Quaternion.identity);
-
-            Debug.Log("Player teleported to " + teleportDestination);
+            if (hit.collider.gameObject.CompareTag("Pillar"))
+            {
+                PillarLogic pillarLogic = hit.collider.gameObject.GetComponent<PillarLogic>();
+                if (pillarLogic)
+                {
+                    transform.position = pillarLogic.playerPoint.transform.position;
+                }
+            }
         }
         else
         {
