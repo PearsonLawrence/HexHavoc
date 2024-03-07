@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();
     }
 
-    void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         if(playerOneHealthBar) 
         {
