@@ -597,7 +597,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66626532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20e49ccbc202f9c4ebf109c730fafaf0, type: 3}
   m_Name: 
@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716891342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20e49ccbc202f9c4ebf109c730fafaf0, type: 3}
   m_Name: 
@@ -2830,6 +2830,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2dc64b82ce5e3498a5c6678685ba57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2145966465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145966451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e49ccbc202f9c4ebf109c730fafaf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportationRayPrefab: {fileID: 5919255116038314994}
 --- !u!1001 &1709844977149710311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2963,6 +2976,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2145966464}
+    - targetCorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2145966465}
     - targetCorrespondingSourceObject: {fileID: 4347703676254191187, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       insertIndex: 3
       addedObject: {fileID: 66626539}
@@ -3036,6 +3052,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bd7df65fc78203479bf970cd3835ffc, type: 3}
+--- !u!1 &5919255116038314994 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2655390964528401395, guid: 9bd7df65fc78203479bf970cd3835ffc, type: 3}
+  m_PrefabInstance: {fileID: 5919255116038314993}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
