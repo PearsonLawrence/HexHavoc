@@ -1,11 +1,13 @@
 //Created by Mason Smith. Used to activate teleportation during two-handed Teleport gesture.
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class TeleportationManager : MonoBehaviour
 {
     public GameObject teleportationRayPrefab;
+    public XROrigin XR;
 
     private GameObject teleportationRay;
     private Transform playerHead;
@@ -14,6 +16,7 @@ public class TeleportationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //XR = GetComponent<XROrigin>();
         gestureEventProcessor = GetComponent<GestureEventProcessor>();
         playerHead = Camera.main.transform;
 
@@ -36,7 +39,6 @@ public class TeleportationManager : MonoBehaviour
     public void Teleport()
     {
         RaycastHit hit;
-        Vector3 teleportDestination;
 
         //Uses direction vector from where player is currently facing
         Vector3 rayDirection = playerHead.forward;
@@ -51,18 +53,26 @@ public class TeleportationManager : MonoBehaviour
 
         if (Physics.Raycast(rayStartPosition, rayDirection, out hit, 1000))
         {
-            //Set teleport destination to hit point
-            teleportDestination = hit.point;
+            Debug.Log("Raycast has been Casted");
+            //Checks if hit object has Pillar tag
+            if (hit.collider.gameObject.CompareTag("Pillar"))
+            {
+                //Get pillar logic script
+                PillarLogic pillarLogic = hit.collider.gameObject.GetComponent<PillarLogic>();
+                Debug.Log(pillarLogic);
 
-            //Instantiate teleportation ray prefab between two hands
-            teleportationRay = Instantiate(teleportationRayPrefab, teleportDestination, Quaternion.identity);
-
-            Debug.Log("Player teleported to " + teleportDestination);
+                //Check if script was found
+                if (pillarLogic != null)
+                {
+                    XR.Origin.transform.position = pillarLogic.playerPoint.transform.position;
+                    Debug.Log("Pillar Logic is NOT Null");
+                    Debug.Log("Player teleported to " + pillarLogic.playerPoint.transform.position + " : Current position: " + this.gameObject.transform.position);
+                }
+            }
         }
         else
         {
             Debug.Log("No teleport destination found.");
-        }
-        
+        }        
     }
 }

@@ -19,6 +19,8 @@ public class PillarLogic : NetworkBehaviour
     HealthManager tempManager;
     NetworkObject networkObject;
 
+    [SerializeField] private Transform teleportLocation;
+
     public bool test, testTwo;
 
 
