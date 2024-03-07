@@ -15,6 +15,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private MatchManager matchManager;
     [SerializeField] private SpellManager spellManager;
+    [SerializeField] private PlayerNetwork playerNetwork;
 
 
     //This is an instantiation of a network variable. Used for understanding the network variable concept (Obsolete)
@@ -110,7 +111,7 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
-        MatchManager.Instance.RegisterPlayer(clientId, spellManager);
+        MatchManager.Instance.RegisterPlayer(clientId, spellManager, playerNetwork);
     }
 
     public void PlacePlayers()
@@ -119,7 +120,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (OwnerClientId == 0)
         {
            Vector3 newPos = new Vector3(-MatchManager.Instance.spawnPosition2.position.x, MatchManager.Instance.spawnPosition2.position.y, MatchManager.Instance.spawnPosition2.position.z);
-            Debug.Log("Placing player");
             transform.position = MatchManager.Instance.playerBody.position;
         }
         if (OwnerClientId == 1)
