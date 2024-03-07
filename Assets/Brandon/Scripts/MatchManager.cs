@@ -143,13 +143,13 @@ public class MatchManager : NetworkBehaviour
         {
             playerOneHealth.Value -= damage;
             //Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-            if (clientId == 0)
+            if (playerOneHealth.Value == 0)
             {
                 pTwoWinTally += 1;
                 //Debug.Log("p2 + 1 point");
             }
 
-            if (clientId == 1)
+            if (playerTwoHealth.Value == 0)
             {
                 pOneWinTally += 1;
                 //Debug.Log("p1 + 1 point");
