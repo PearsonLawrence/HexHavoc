@@ -1,6 +1,7 @@
 //Created by Mason Smith. Used to activate teleportation during two-handed Teleport gesture.
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class TeleportationManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class TeleportationManager : MonoBehaviour
     private GameObject teleportationRay;
     private Transform playerHead;
     private GestureEventProcessor gestureEventProcessor;
-
+    public XROrigin xr;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,7 +56,7 @@ public class TeleportationManager : MonoBehaviour
                 PillarLogic pillarLogic = hit.collider.gameObject.GetComponent<PillarLogic>();
                 if (pillarLogic)
                 {
-                    transform.position = pillarLogic.playerPoint.transform.position;
+                    xr.GetComponent<UnNetworkPlayer>().currentPillar = pillarLogic;
                 }
             }
         }
