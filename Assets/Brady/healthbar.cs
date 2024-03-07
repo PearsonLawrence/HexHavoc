@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
             float healthPercentage = MatchManager.Instance.playerOneHealth.Value / maxHealth;
             healthBar.fillAmount = healthPercentage;
             Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
-            healthBar.color = healthColor;
+           healthBar.color = healthColor;
         }
 
         if (playerTwoHealthBar)
