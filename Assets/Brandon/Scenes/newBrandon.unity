@@ -320,6 +320,7 @@ MonoBehaviour:
     m_InternalValue: 100
   playerTwoHealth:
     m_InternalValue: 100
+  matchGoing: 0
   pillarLogicList:
   - {fileID: 1132771841}
   - {fileID: 1852137142}
@@ -328,6 +329,8 @@ MonoBehaviour:
   - {fileID: 1702665548}
   playerBody: {fileID: 1376782123}
   spawnPosition2: {fileID: 1130673241}
+  gameSpawnPosition1: {fileID: 43053569}
+  gameSpawnPosition2: {fileID: 1794865018}
 --- !u!4 &297535519
 Transform:
   m_ObjectHideFlags: 0
