@@ -23,6 +23,16 @@ public class DialFingerPointComponent : MonoBehaviour
         isTouching = val;
     }
 
+    public void doReset()
+    {
+        transform.localPosition = Vector3.zero;
+        dial.setIsRight(false);
+        dial.setIsLeft(false);
+        dial.setIsUp(false);
+        dial.setIsDown(false);
+
+    }
+
     public void doPointHold()
     {
         if (transform.localPosition != Vector3.zero)

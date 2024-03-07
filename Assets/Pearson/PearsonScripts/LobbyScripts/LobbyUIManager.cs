@@ -22,7 +22,9 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private PillarLogic HostPillar, GuestPillar;
     [SerializeField] private GameObject tpPos1;
     [SerializeField] private PlatformDialComponent platDial;
-
+    [SerializeField] private float lobbyUpdateTime = 5;
+    private float lobbyUpdateTimer;
+    bool isJoin;
     public PlatformDialComponent getPlatformDial()
     {
         return platDial;
@@ -162,8 +164,18 @@ public class LobbyUIManager : MonoBehaviour
     {
         gameLobby.StartGame();
     }
+
+    public void doJoin()
+    {
+        player.transform.position = tpPos1.transform.position;
+        gameLobby.JoinSelectedLobby();
+        isJoin = true;
+    }
+
     private void Update()
     {
+        lobbyUpdateTimer -= Time.deltaTime;
+
         if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
         {
             this.gameObject.SetActive(false);
@@ -200,16 +212,25 @@ public class LobbyUIManager : MonoBehaviour
             gameLobby.JoinSelectedLobby();
         }
 
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             gameLobby.CreateLobby();
             player.transform.position = HostPillar.playerPoint.transform.position;
+            isJoin = true;
         }
-        if (Input.GetKeyDown(KeyCode.U))
+        if (lobbyUpdateTimer <= 0 && !isJoin)
         {
             gameLobby.RefreshLobbyList();
+            lobbyUpdateTimer = lobbyUpdateTime;
         }
 
+    }
+    public void doCreate()
+    {
+        gameLobby.CreateLobby();
+        player.transform.position = HostPillar.playerPoint.transform.position;
+        isJoin = true;
     }
     //Turn on basic create or join UI
     public void enableLobbyOptions(){

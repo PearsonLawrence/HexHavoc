@@ -481,7 +481,7 @@ public class Mivry : MonoBehaviour
     {
         InputControl control = InputSystem.FindControl(controlName); // eg: "<XRController>{RightHand}/trigger"
         if (control == null) {
-            Debug.LogError($"Mivry.getInputControlValue : Control '{controlName}' not found.");
+            //Debug.LogError($"Mivry.getInputControlValue : Control '{controlName}' not found.");
             return 0.0f;
         }
         return getInputControlValue(control);
@@ -497,7 +497,7 @@ public class Mivry : MonoBehaviour
             case IntegerControl integerControl:
                 return integerControl.ReadValue();
             case QuaternionControl quaternionControl:
-                Debug.LogError($"Mivry.getInputControlValue : QuaternionControl '${control.name}' not supported.");
+                //Debug.LogError($"Mivry.getInputControlValue : QuaternionControl '${control.name}' not supported.");
                 return 0.0f;
             case TouchControl touchControl:
                 return touchControl.ReadValue().pressure;
@@ -521,7 +521,7 @@ public class Mivry : MonoBehaviour
                 return vector3Control.ReadValue().magnitude;
 
         }
-        Debug.LogError($"Mivry.getInputControlValue : Unknown control type '${control.name}'.");
+        //Debug.LogError($"Mivry.getInputControlValue : Unknown control type '${control.name}'.");
         return 0.0f;
     }
 #endif
