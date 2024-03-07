@@ -7,11 +7,11 @@ public class GestureEventProcessor : MonoBehaviour
 {
     public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
-     public SpellManager spellmanager;
+    public SpellManager spellmanager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        //gr.loadFromFile("StreamingAssets/1and2HandGestures.dat");
     }
 
     public void OnGestureCompleted(GestureCompletionData gestureCompletionData)
