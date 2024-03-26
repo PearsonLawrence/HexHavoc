@@ -8,6 +8,11 @@ TagManager:
   - MatchManager
   - Fireball
   - Pillar
+  - LobbySelect
+  - RotatePoint
+  - CreateLobby
+  - PortalLobby
+  - PlayerBody
   layers:
   - Default
   - TransparentFX

@@ -481,7 +481,7 @@ public class Mivry : MonoBehaviour
     {
         InputControl control = InputSystem.FindControl(controlName); // eg: "<XRController>{RightHand}/trigger"
         if (control == null) {
-            Debug.LogError($"Mivry.getInputControlValue : Control '{controlName}' not found.");
+            //Debug.LogError($"Mivry.getInputControlValue : Control '{controlName}' not found.");
             return 0.0f;
         }
         return getInputControlValue(control);
@@ -497,7 +497,7 @@ public class Mivry : MonoBehaviour
             case IntegerControl integerControl:
                 return integerControl.ReadValue();
             case QuaternionControl quaternionControl:
-                Debug.LogError($"Mivry.getInputControlValue : QuaternionControl '${control.name}' not supported.");
+                //Debug.LogError($"Mivry.getInputControlValue : QuaternionControl '${control.name}' not supported.");
                 return 0.0f;
             case TouchControl touchControl:
                 return touchControl.ReadValue().pressure;
@@ -521,7 +521,7 @@ public class Mivry : MonoBehaviour
                 return vector3Control.ReadValue().magnitude;
 
         }
-        Debug.LogError($"Mivry.getInputControlValue : Unknown control type '${control.name}'.");
+        //Debug.LogError($"Mivry.getInputControlValue : Unknown control type '${control.name}'.");
         return 0.0f;
     }
 #endif
@@ -543,6 +543,7 @@ public class Mivry : MonoBehaviour
         // When running the scene inside the Unity editor,
         // we can just load the file from the Assets/ folder:
         string GesturesFilePath = "Assets";
+
 #elif UNITY_ANDROID
         // On android, the file is in the .apk,
         // so we need to first "download" it to the apps' cache folder.
@@ -580,7 +581,7 @@ public class Mivry : MonoBehaviour
         gr = new GestureRecognition();
         gr.contdIdentificationPeriod = this.ContinuousGesturePeriod;
         gr.contdIdentificationSmoothing = this.ContinuousGestureSmoothing;
-        
+
         if (this.LicenseKey != null && this.LicenseName != null && this.LicenseName.Length > 0) {
             ret = this.gr.activateLicense(this.LicenseName, this.LicenseKey);
             if (ret != 0) {

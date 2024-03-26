@@ -24,12 +24,30 @@ public class MatchManager : NetworkBehaviour
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
+    public NetworkPlayer playerOneNetwork;
+    public NetworkPlayer playerTwoNetwork;
+
+    public PillarLogic hostPillar, guestPillar;
+
+    private bool playerOneReady, playerTwoReady;
+    private bool playerOneOrb, playerTwoOrb;
+    public bool matchGoing = false;
+
+    [SerializeField] private List<PillarLogic> pillarLogicList;
+    [SerializeField] private List<ReadyButton> readyButtonList;
+    [SerializeField] private List<HealthBar> healthBars;
+
+    [SerializeField] private TronMove tronMove;
+
     // Singleton instance
     public static MatchManager Instance;
     private List<GameObject> players = new List<GameObject>();
 
     public Transform playerBody;
     public Transform spawnPosition2;
+
+    public Transform gameSpawnPosition1;
+    public Transform gameSpawnPosition2;
 
     void Awake()
     {
@@ -55,7 +73,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId, SpellManager spellManager)
+    public void RegisterPlayer(ulong clientId, SpellManager spellManager, NetworkPlayer playerNetwork)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -77,22 +95,78 @@ public class MatchManager : NetworkBehaviour
         if(clientId == 0)
         {
             playerOneSpellManager = spellManager;
+            playerOneNetwork = playerNetwork;
         }
         else if (clientId == 1)
         {
             playerTwoSpellManager = spellManager;
+            playerTwoNetwork = playerNetwork;
         }
     }
 
-    public void StartMatch()
+    [ServerRpc(RequireOwnership = false)]
+    public void StartMatchServerRpc(ulong clientId)
     {
-        if(playerOneSpellManager.GetSetSpecialization() && playerTwoSpellManager.GetSetSpecialization())
+        Debug.Log(playerOneSpellManager.GetSetSpecialization() + " : " + playerTwoSpellManager.GetSetSpecialization());
+        
+        if (clientId == 0)
         {
-            Debug.Log("both set and ready");
+            playerOneOrb = true;
+            playerOneSpellManager.DisableChooseOrbsClientRpc();
+        }
+        if(clientId == 1)
+        {
+            playerTwoOrb = true;
+            playerTwoSpellManager.DisableChooseOrbsClientRpc();
+        }
+        if(playerOneOrb && playerTwoOrb)
+        {
+            Debug.Log("both set and ready"); // DisableChooseOrbs();
+            foreach (PillarLogic t in pillarLogicList)
+            {
+                
+                t.MovePillarClientRpc(pillarDirection.TOEND);
+            }
+            tronMove.MoveJumboTronClientRpc();
+            matchGoing = true;
+            playerOneNetwork.MovePlayerToStartClientRpc();
+            playerTwoNetwork.MovePlayerToStartClientRpc();
         }
     }
-   
 
+    [ServerRpc(RequireOwnership = false)]
+    public void DeclareReadyServerRpc(ulong clientId)
+    {
+        if(clientId == 0)
+        {
+            playerOneReady = true;
+            Debug.Log("P1");
+        }
+        if(clientId == 1)
+        {
+            playerTwoReady = true;
+            Debug.Log("P2");
+        }
+
+        if(playerOneReady && playerTwoReady)
+        {
+            playerOneSpellManager.ActivateChooseOrbsClientRpc();
+            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+
+            ReadyButtonOffClientRpc();
+        }
+
+    }
+
+    [ClientRpc]
+    private void ReadyButtonOffClientRpc()
+    {
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(false);
+        }
+    }
+    
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
@@ -102,27 +176,46 @@ public class MatchManager : NetworkBehaviour
         if (clientId == 0)
         {
             playerOneHealth.Value -= damage;
-            //Debug.Log(playerOneHealth.Value + " : " + playerTwoHealth.Value);
-            if (clientId == 0)
-            {
-                pTwoWinTally += 1;
-                //Debug.Log("p2 + 1 point");
-            }
-
-            if (clientId == 1)
-            {
-                pOneWinTally += 1;
-                //Debug.Log("p1 + 1 point");
-            }
-            //isRoundReset.Value = true;
-            resetTime = maxResetTime;
         }
         else if(clientId == 1)
         {
             playerTwoHealth.Value -= damage;
         }
 
-        Debug.Log("Player Health: " + playerOneHealth.Value /*+ " : " + playerTwoHealth.Value*/);
+        if (playerOneHealth.Value <= 0)
+        {
+            pTwoWinTally += 1;
+            if(pTwoWinTally == 2)
+            {
+                DeclareWinner(clientId);
+            }
+            else
+            {
+                ResetRound();
+            }
+
+        }
+
+        if (playerTwoHealth.Value <= 0)
+        {
+            pOneWinTally += 1;
+            if (pOneWinTally == 2)
+            {
+                DeclareWinner(clientId);
+            }
+            else
+            {
+                ResetRound();
+            }
+        }
+
+        foreach(HealthBar t in healthBars)
+        {
+            t.UpdateHealthBarClientRpc();
+        }
+
+        //isRoundReset.Value = true;
+        resetTime = maxResetTime;
 
         if (pTwoWinTally >= 1)
         {
@@ -134,6 +227,25 @@ public class MatchManager : NetworkBehaviour
         {
             isThereWinner.Value = true;
             loserId = clientId;
+        }
+    }
+
+    public void DeclareWinner(ulong loserClientId)
+    {
+
+    }
+
+    public void ResetRound()
+    {
+        playerOneNetwork.PlacePlayers();
+        playerTwoNetwork.PlacePlayers();
+
+        playerOneHealth.Value = 100;
+        playerTwoHealth.Value = 100;
+
+        foreach (HealthBar t in healthBars)
+        {
+            t.UpdateHealthBarServerRpc();
         }
     }
 }

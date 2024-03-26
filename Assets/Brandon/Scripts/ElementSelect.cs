@@ -25,10 +25,12 @@ public class ElementSelect : SpellComponent
         //Debug.Log("collided");
         if (other.gameObject.CompareTag("Player"))
         {
+            HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+            NetworkPlayer networkPlayer = temp.parentObj;
             //Debug.Log("isplayer");
-            playerSpellManager = other.GetComponent<SpellManager>();
-
-            playerSpellManager.SetElementType(elementtype);
+            //playerSpellManager = other.GetComponent<SpellManager>();
+            if(networkPlayer)
+                networkPlayer.getSpellManager().SetElementType(elementtype);
         }
     }
 }
