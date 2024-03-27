@@ -14,6 +14,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public List<GestureEventProcessor> processors;
     public SpellManager spellmanager;
     public bool isGame;
+    public bool isArena;
     void Start()
     {
         
@@ -36,7 +37,18 @@ public class UnNetworkPlayer : MonoBehaviour
         float triggerValue2 = rightGripProperty.action.ReadValue<float>();
 
         if(currentPillar)
+        {
+            if(!isArena)
+            {
+                transform.position = currentPillar.playerPoint.transform.position;
+
+                transform.forward = currentPillar.playerPoint.transform.forward;
+                isArena = true;
+
+            }
             transform.position = currentPillar.playerPoint.transform.position;
+
+        }
 
         if (triggerValue > 0.1f)
         {

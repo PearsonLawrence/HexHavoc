@@ -26,7 +26,7 @@ public class GameLobbyComponent : MonoBehaviour
     [SerializeField] private GameObject XR_Player;
     [SerializeField] private GameObject lobbyListContainer;
     [SerializeField] private List<GameObject> lobbyUIList;
-    [SerializeField] private List<GameObject> playerLobbyUIList;
+    [SerializeField] private List<PlayerInfoCardComponent> playerLobbyUIList;
     [SerializeField] private GameObject lobbyInfoPrefab;
     [SerializeField] private GameObject playerLobbyInfoPrefab;
     [SerializeField] private LobbyInfoComponent selectedLobby;
@@ -209,12 +209,14 @@ public class GameLobbyComponent : MonoBehaviour
     public void setupLobby(Lobby lobbyJoinedInfo)
     {
         // Debug.Log("Players in lobby " + lobbyJoinedInfo.Name + " " + lobbyJoinedInfo.Data["GameMode"].Value + " " + lobbyJoinedInfo.Data["Map"].Value);
-        foreach (Player player in lobbyJoinedInfo.Players)
+        for (int i = 0; i < lobbyJoinedInfo.Players.Count; i++)// Player player in lobbyJoinedInfo.Players)
         {
-           PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerInfoCardComponent>();
+            if (i < playerLobbyUIList.Count)
+                playerLobbyUIList[i].setPlayerInfo(lobbyJoinedInfo.Players[i]);
+          /* PlayerInfoCardComponent temp = Instantiate(playerLobbyInfoPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerInfoCardComponent>();
            temp.setPlayerInfo(player);
            playerLobbyUIList.Add(temp.gameObject);
-           temp.setGameLobby(this);
+           temp.setGameLobby(this);*/
         }
     }
 
@@ -225,11 +227,12 @@ public class GameLobbyComponent : MonoBehaviour
         //if we have not joined a lobby do nothing
         if (joinedLobby == null) return;
         //while there are players in the lobby, update
-        while (playerLobbyUIList.Count > 0)
+        //while (playerLobbyUIList.Count > 0)
+        for(int i = 0; i < playerLobbyUIList.Count; i++)
         {
-            GameObject temp = playerLobbyUIList[0];
-            playerLobbyUIList.Remove(temp);
-            Destroy(temp);
+           playerLobbyUIList[0].setPlayerInfo(null);
+           // playerLobbyUIList.Remove(temp);
+           // Destroy(temp);
         }
 
         //add players to UI list
@@ -436,6 +439,7 @@ public class GameLobbyComponent : MonoBehaviour
     {
         if (joinedLobby != null) //If you are connected to a lobby
         {
+            RefreshPlayerList();
             lobbyUpdateTimer -= Time.deltaTime;
             if (lobbyUpdateTimer < 0f)
             {
@@ -446,6 +450,8 @@ public class GameLobbyComponent : MonoBehaviour
                 if (joinedLobby.Data["StartGame"].Value != "0") //if game has not started
                 {
 
+                    RefreshPlayerList();
+
                     if (playerID != lobby.HostId) //user is not the host
                     {
                         isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value); //update lobby start
@@ -455,7 +461,6 @@ public class GameLobbyComponent : MonoBehaviour
 
                 }
 
-                RefreshPlayerList(); //Update list of players in lobby
             }
         }
     }
