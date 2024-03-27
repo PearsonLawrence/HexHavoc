@@ -7,10 +7,12 @@ using UnityEngine;
 public class TeleportationManager : MonoBehaviour
 {
     public GameObject teleportationRayPrefab;
+    public Material outlineMaterial;
 
     private GameObject teleportationRay;
     private Transform playerHead;
     private GestureEventProcessor gestureEventProcessor;
+    private GameObject currentPillarWithOutline;
     public XROrigin xr;
     // Start is called before the first frame update
     void Start()
@@ -56,6 +58,7 @@ public class TeleportationManager : MonoBehaviour
                 PillarLogic pillarLogic = hit.collider.gameObject.GetComponent<PillarLogic>();
                 if (pillarLogic)
                 {
+                    EnableOutline(hit.collider.gameObject);
                     xr.GetComponent<UnNetworkPlayer>().currentPillar = pillarLogic;
                 }
             }
@@ -65,5 +68,47 @@ public class TeleportationManager : MonoBehaviour
             Debug.Log("No teleport destination found.");
         }
         
+    }
+
+    //Enables outline on specified Pillar
+    void EnableOutline(GameObject obj)
+    {
+        //Disables outline on previous pillar
+        DisableOutline();
+
+        //Assigns outline material to pillar's renderer
+        Renderer renderer = obj.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            outlineMaterial[] materials =  renderer.materials;
+            for (int i = 0; i < materials.Length; i++)
+            {
+                materials[i] = outlineMaterial;
+            }
+            renderer.materials = materials;
+
+            //Stores current pillar w/ outline
+            currentPillarWithOutline = obj;
+        }
+    }
+
+    //Disables outline effect on previous pillar
+    void DisableOutline()
+    {
+        if (currentPillarWithOutline != null)
+        {
+            Renderer renderer = currentPillarWithOutline.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                outlineMaterial[] materials = renderer.materials;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    //Resets material to original material
+                    materials[i] = currentPillarWithOutline.GetComponent<PillarLogic>().originalMaterial;
+                }
+                renderer.material = materials;
+            }
+            currentPillarWithOutline = null;
+        }
     }
 }
