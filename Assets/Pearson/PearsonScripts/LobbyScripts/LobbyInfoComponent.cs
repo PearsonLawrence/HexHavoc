@@ -130,11 +130,13 @@ public class LobbyInfoComponent : MonoBehaviour
     {
         if(other.gameObject.CompareTag("LobbySelect"))
         {
-            Debug.Log("test");
-            Pillar.getLobbyUIManager().setSelectedLobby(this);
-            Pillar.getLobbyUIManager().getPlatformDial().setSelectedPillar(Pillar);
-            Pillar.getLobbyUIManager().getPlatformDial().setIsLobbySelected(true);
-            Pillar.setIsSelected(true);
+            if(isActive)
+            {
+                Pillar.getLobbyUIManager().setSelectedLobby(this);
+                Pillar.getLobbyUIManager().getPlatformDial().setSelectedPillar(Pillar);
+                Pillar.getLobbyUIManager().getPlatformDial().setIsLobbySelected(true);
+                Pillar.setIsSelected(true);
+            }
         }
     }
 }

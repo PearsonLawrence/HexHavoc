@@ -24,6 +24,7 @@ public class GestureEventProcessor : MonoBehaviour
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
         if (gestureCompletionData.similarity >= 0.5) {
             //Casts Left Hand Wall Spell
+            Debug.Log("Gesture");
             if (gestureCompletionData.gestureName == "Left Wall") {
                 
                 Debug.Log("Left Wall Gesture Successfully Casted");
