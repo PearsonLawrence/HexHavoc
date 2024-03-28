@@ -15,6 +15,8 @@ public class UnNetworkPlayer : MonoBehaviour
     public SpellManager spellmanager;
     public bool isGame;
     public bool isArena;
+    public bool isTutorial;
+    public TutorialManager tutorialManager;
     void Start()
     {
         
@@ -42,7 +44,7 @@ public class UnNetworkPlayer : MonoBehaviour
             {
                 transform.position = currentPillar.playerPoint.transform.position;
 
-                transform.forward = currentPillar.playerPoint.transform.forward;
+               // transform.forward = currentPillar.playerPoint.transform.forward;
                 isArena = true;
 
             }

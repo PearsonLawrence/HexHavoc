@@ -13,6 +13,7 @@ TagManager:
   - CreateLobby
   - PortalLobby
   - PlayerBody
+  - TpPortal
   layers:
   - Default
   - TransparentFX
