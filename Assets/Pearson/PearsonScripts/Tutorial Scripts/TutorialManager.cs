@@ -22,6 +22,18 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float delayTimer, delayTimerReset;
     [SerializeField] private bool currentInfoFinish;
     [SerializeField] private bool tpFinish;
+    [SerializeField] private bool nextDialogue;
+    [SerializeField] private int tutorialActionNum;
+
+    public void setTutorialActionNum(int val)
+    {
+        tutorialActionNum = val;
+    }
+
+    public int getTutorialActionNum()
+    {
+        return tutorialActionNum;
+    }
     public TutorialStages getCurrentStage()
     {
         return currentStage;

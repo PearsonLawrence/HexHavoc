@@ -43,13 +43,11 @@ public class UnNetworkPlayer : MonoBehaviour
             if(!isArena)
             {
                 transform.position = currentPillar.playerPoint.transform.position;
-
-               // transform.forward = currentPillar.playerPoint.transform.forward;
+                
                 isArena = true;
 
             }
             transform.position = currentPillar.playerPoint.transform.position;
-
         }
 
         if (triggerValue > 0.1f)

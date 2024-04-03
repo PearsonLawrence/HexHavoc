@@ -7,6 +7,8 @@ public class PortalTeleportComponent : MonoBehaviour
     [SerializeField] private GameObject tpToPoint;
     [SerializeField] private PillarLogic tpToPillar;
     [SerializeField] private GameObject tpPoint;
+    [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private bool isTutorialActionComplete;
 
     public GameObject getTpPoint()
     {
@@ -20,7 +22,11 @@ public class PortalTeleportComponent : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-
+            if(!isTutorialActionComplete)
+            {
+                isTutorialActionComplete = true;
+                tutorialManager.setTutorialActionNum(tutorialManager.getTutorialActionNum() + 1);
+            }
         }
     }
     // Start is called before the first frame update

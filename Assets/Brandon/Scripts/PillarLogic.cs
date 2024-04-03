@@ -18,6 +18,8 @@ public class PillarLogic : NetworkBehaviour
     [HideInInspector] public NetworkVariable<bool> playerOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     HealthManager tempManager;
     NetworkObject networkObject;
+    [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private bool isTutorialActionComplete;
 
     public bool test, testTwo;
 
