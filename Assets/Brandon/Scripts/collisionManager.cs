@@ -55,7 +55,7 @@ public class collisionManager : NetworkBehaviour
         {
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
 
-            if (tempSpell == null && !other.CompareTag("Player")) return;
+            if (tempSpell == null && !other.CompareTag("PlayerBody")) return;
 
             //Debug.Log(tempSpell);
             //Debug.Log(other.gameObject.tag + "spell");
@@ -67,7 +67,7 @@ public class collisionManager : NetworkBehaviour
 
             GameObject spellOwner = spell.getOwner();
 
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("PlayerBody"))
             {
                 //Debug.Log("hit player");
                 switch (spell.spellType)
