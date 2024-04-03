@@ -1,72 +1,99 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class UnnetworkedSpellManager : MonoBehaviour
+public class UnNetworkedSpellManager : MonoBehaviour
 {
     [SerializeField] private Transform fireballPrefab;
+    [SerializeField] private Transform windBlastPrefab;
+    [SerializeField] private Transform waterShotPrefab;
+    [SerializeField] private Transform earthSpearPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Transform fireWallPrefab;
+    [SerializeField] private Transform waterWallPrefab;
+    [SerializeField] private Transform windWallPrefab;
+    [SerializeField] private Transform earthWallPrefab;
 
-    // Update is called once per frame
-    void Update()
+    // Collection of spawned spells for potential future reference or management
+    private List<Transform> castedSpells = new List<Transform>();
+
+    private elementType playerSpecialzation = elementType.EARTH;
+    private Transform desieredProjectile;
+    private Transform desiredWall;
+
+    private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Y))
+        if (Input.GetKeyUp(KeyCode.Y))
         {
             SpawnProjectile();
+            Debug.Log("further back");
+        }
+        if(Input.GetKeyUp(KeyCode.X))
+        {
+            SpawnWall();
         }
     }
 
+    // Method for spawning a projectile
     public void SpawnProjectile()
     {
-        // Define the distance in front of the player where the fireball will spawn
-        float spawnDistance = 2f;
-
-        // Calculate the spawn position based on the player's position and forward direction
-        //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        switch (playerSpecialzation)
+        {
+            case elementType.EARTH:
+                desieredProjectile = earthSpearPrefab.transform;
+                break;
+            case elementType.FIRE:
+                desieredProjectile = fireballPrefab.transform;
+                break;
+            case elementType.WIND:
+                desieredProjectile = windBlastPrefab.transform;
+                break;
+            case elementType.WATER:
+                desieredProjectile = waterShotPrefab.transform;
+                break;
+        }
+        Debug.Log("in spawn");
         Vector3 spawnPosition = Vector3.zero;
-
-
-        // Instantiate the fireball at the calculated spawn position
-
-        NetworkedProjectileComponent projectile = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity /*LeftHandPos.rotation*/).GetComponent<NetworkedProjectileComponent>();
-        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
-
-        if (networkObject != null)
+        var projectile = Instantiate(desieredProjectile, spawnPosition, Quaternion.identity).GetComponent<ProjectileComponent>();
+        if (projectile != null)
         {
-            networkObject.Spawn(); // Spawn the object on the network
-
-            projectile.setOwner(this.gameObject); // Now safe to set the owner
-
-            //Debug.Log(this.gameObject);
-
-            // Additional initialization as needed
-            Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(/*RightHandPos.*/Vector3.forward);
-            // projectile.SetDirection(Vector3.forward);
+            projectile.setOwner(this.gameObject);
+            castedSpells.Add(projectile.transform); 
+            projectile.SetDirection(Vector3.forward);
         }
         else
         {
-            Debug.LogError("NetworkObject not found on the fireball prefab.");
-        }
-
-        // Add the fireball to the list of casted spells
-        //castedSpells.Add(projectile.transform);
-
-        // Set the parent in the fireball component
-        NetworkedProjectileComponent Projectile = projectile.GetComponent<NetworkedProjectileComponent>();
-        if (Projectile != null)
-        {
-            Projectile.unNetworkedParent = this;
-        }
-        else
-        {
-            Debug.LogError("fireball component not found on the fireball prefab.");
+            Debug.LogError("ProjectileComponent not found on the instantiated prefab.");
         }
     }
+
+    public void SpawnWall()
+    {
+        switch (playerSpecialzation)
+        {
+            case elementType.EARTH:
+                desiredWall = earthWallPrefab.transform;
+                break;
+            case elementType.FIRE:
+                desiredWall = fireWallPrefab.transform;
+                break;
+            case elementType.WIND:
+                desiredWall = windWallPrefab.transform;
+                break;
+            case elementType.WATER:
+                desiredWall = waterWallPrefab.transform;
+                break;
+        }
+
+        Vector3 spawnPosition = new Vector3(0, 0, 10);
+        WallComponent wall = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<WallComponent>();
+
+        if(wall != null)
+        {
+            wall.setOwner(this.gameObject);
+        }
+    }
+
 }
