@@ -8,6 +8,8 @@ public class GestureEventProcessor : MonoBehaviour
     public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
     public SpellManager spellmanager;
+    public UnNetworkedSpellManager unNetworkSpellmanager;
+    public UnNetworkPlayer unNetworkPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,25 +30,30 @@ public class GestureEventProcessor : MonoBehaviour
             if (gestureCompletionData.gestureName == "Left Wall") {
                 
                 Debug.Log("Left Wall Gesture Successfully Casted");
-                if (spellmanager) spellmanager.fireLeftWall();
+                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnWall(true);
+                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireLeftWall();
             }
             //Casts Right Hand Wall Spell
             if (gestureCompletionData.gestureName == "Right Wall")
             {
+                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnWall(false);
                 Debug.Log("Right Wall Gesture Successfully Casted");
-                if (spellmanager) spellmanager.fireRightWall();
+                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightWall();
             }
             //Casts Left Hand Cast Spell
             if (gestureCompletionData.gestureName == "Left Cast")
             {
+
+                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnProjectile(true);
                 Debug.Log("Left Cast Gesture Successfully Casted");
-               if (spellmanager) spellmanager.fireLeftProjectile();
+               if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireLeftProjectile();
             }
             //Casts Right Hand Cast Spell
             if (gestureCompletionData.gestureName == "Right Cast")
             {
+                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnProjectile(false);
                 Debug.Log("Right Cast Gesture Successfully Casted");
-                if (spellmanager) spellmanager.fireRightProjectile();
+                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightProjectile();
             }
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")

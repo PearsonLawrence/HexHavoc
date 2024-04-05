@@ -9,6 +9,8 @@ public class PortalTeleportComponent : MonoBehaviour
     [SerializeField] private GameObject tpPoint;
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool isTutorialActionComplete;
+    public bool isTutorialGate;
+    public bool isArenaGate;
 
     public GameObject getTpPoint()
     {

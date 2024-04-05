@@ -11,7 +11,7 @@ public class HandInteractableComponent : NetworkBehaviour
     public bool isSelecting, isHolding;
     public NetworkPlayer parentObj;
     public UnNetworkPlayer parentUnNetworkObj;
-    public UnnetworkedSpellManager spellManager;
+    public UnNetworkedSpellManager spellManager;
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -63,6 +63,8 @@ public class HandInteractableComponent : NetworkBehaviour
         {
            PortalTeleportComponent temp = other.gameObject.GetComponent<PortalTeleportComponent>();
             parentUnNetworkObj.currentPillar = temp.getTpToPillar();
+            if (temp.isTutorialGate) parentUnNetworkObj.isTutorial = (parentUnNetworkObj.isTutorial) ? false : true;
+            if (temp.isArenaGate) parentUnNetworkObj.isArena = (parentUnNetworkObj.isArena) ? false : true;
         }
     }
     public void release()

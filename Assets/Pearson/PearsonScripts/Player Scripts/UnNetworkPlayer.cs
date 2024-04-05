@@ -58,17 +58,18 @@ public class UnNetworkPlayer : MonoBehaviour
 
                 }
             }
-            /*else
+            else
             {
 
                 if (isTeleported)
                 {
                     transform.position = currentPillar.playerPoint.transform.position;
+                    offset.transform.position = currentPillar.playerPoint.transform.position;
 
 
                     isTeleported = false;
                 }
-            }*/
+            }
         }
 
         if (triggerValue > 0.1f)

@@ -23,11 +23,11 @@ public class ProjectileComponent : UnNetworkedSpellComponent
     {
         // Movement logic remains unchanged
         Debug.Log("In movemnet");
-        transform.position += moveDirection * speed * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
         lifeTime -= Time.deltaTime;
         if (lifeTime < 0)
         {
-            //DoImpact();
+            DoImpact();
         }
     }
 

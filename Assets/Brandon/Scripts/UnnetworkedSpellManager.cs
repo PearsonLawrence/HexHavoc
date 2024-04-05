@@ -22,23 +22,35 @@ public class UnNetworkedSpellManager : MonoBehaviour
     private elementType playerSpecialzation = elementType.EARTH;
     private Transform desieredProjectile;
     private Transform desiredWall;
+    [SerializeField] private Transform Lhand;
+    [SerializeField] private Transform Rhand;
+    public float spawnDistance = 2;
+    public void setPlayerSpecialization(elementType var)
+    {
+        playerSpecialzation = var;
+    }
 
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Y))
         {
-            SpawnProjectile();
+            SpawnProjectile(false);
             Debug.Log("further back");
         }
         if(Input.GetKeyUp(KeyCode.X))
         {
-            SpawnWall();
+            SpawnWall(false);
         }
     }
 
     // Method for spawning a projectile
-    public void SpawnProjectile()
+    public void SpawnProjectile(bool isLeft)
     {
+
+        Vector3 spawnPosition = (isLeft) ? Lhand.position + Lhand.forward * spawnDistance : Rhand.position + Rhand.forward * spawnDistance;
+
+        Quaternion spawnRotation = (isLeft) ? Lhand.rotation : Rhand.rotation;
+
         switch (playerSpecialzation)
         {
             case elementType.EARTH:
@@ -55,8 +67,7 @@ public class UnNetworkedSpellManager : MonoBehaviour
                 break;
         }
         Debug.Log("in spawn");
-        Vector3 spawnPosition = Vector3.zero;
-        var projectile = Instantiate(desieredProjectile, spawnPosition, Quaternion.identity).GetComponent<ProjectileComponent>();
+        var projectile = Instantiate(desieredProjectile, spawnPosition, spawnRotation).GetComponent<ProjectileComponent>();
         if (projectile != null)
         {
             projectile.setOwner(this.gameObject);
@@ -69,7 +80,7 @@ public class UnNetworkedSpellManager : MonoBehaviour
         }
     }
 
-    public void SpawnWall()
+    public void SpawnWall(bool isLeft)
     {
         switch (playerSpecialzation)
         {
@@ -87,8 +98,9 @@ public class UnNetworkedSpellManager : MonoBehaviour
                 break;
         }
 
-        Vector3 spawnPosition = new Vector3(0, 0, 10);
-        WallComponent wall = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<WallComponent>();
+        Vector3 spawnPosition = (isLeft) ? Lhand.position + Lhand.forward * spawnDistance : Rhand.position + Rhand.forward * spawnDistance;
+        Quaternion spawnRotation = (isLeft) ? Lhand.rotation : Rhand.rotation;
+        WallComponent wall = Instantiate(desiredWall, spawnPosition, spawnRotation).GetComponent<WallComponent>();
 
         if(wall != null)
         {
