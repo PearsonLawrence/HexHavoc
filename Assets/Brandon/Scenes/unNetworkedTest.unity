@@ -871,7 +871,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527c2950bfe7ef84595b333483bafbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballPrefab: {fileID: 5260285124799700843, guid: 569ea0d702b929046bd45b5b726b67b3, type: 3}
+  fireballPrefab: {fileID: 5260285124799700843, guid: 544d18aefd9073e43b1a48c78775a508, type: 3}
+  windBlastPrefab: {fileID: 5260285124799700843, guid: f55d721b867d4874ca845febd20886bb, type: 3}
+  waterShotPrefab: {fileID: 5260285124799700843, guid: 4681ff84a2f006d4c903ec9f25d8687c, type: 3}
+  earthSpearPrefab: {fileID: 5260285124799700843, guid: 5a63fd90de368ed4dbc5c6390811e4b5, type: 3}
+  fireWallPrefab: {fileID: 2598347465385144083, guid: dc0a7a9044f7113428cae54880ca54ce, type: 3}
+  waterWallPrefab: {fileID: 2598347465385144083, guid: 78feb4a7c021eb346b6bacbd78b6ffde, type: 3}
+  windWallPrefab: {fileID: 2598347465385144083, guid: e5499cb1121bb03419aee9d70cd90263, type: 3}
+  earthWallPrefab: {fileID: 2598347465385144083, guid: cc56c7064275e45429d91cff7b1cfcce, type: 3}
 --- !u!136 &1949296659
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -953,8 +960,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949296657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.19, y: 0.99, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.1900005, y: 0.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

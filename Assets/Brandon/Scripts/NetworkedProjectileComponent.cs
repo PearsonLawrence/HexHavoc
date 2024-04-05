@@ -21,7 +21,6 @@ public class NetworkedProjectileComponent : SpellComponent
     //information about spell
     public elementType elementtype;
     public SpellManager parent;
-    public UnnetworkedSpellManager unNetworkedParent;
 
 
     //varibles for all spells
