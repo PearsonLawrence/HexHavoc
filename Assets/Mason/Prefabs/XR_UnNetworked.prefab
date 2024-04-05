@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       propertyPath: m_Name
-      value: XR_UnNetworked Variant
+      value: XR_UnNetworked
       objectReference: {fileID: 0}
     - target: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       propertyPath: m_IsActive
@@ -145,7 +145,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7166008204692645691, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6228413695494828219}
+    - targetCorrespondingSourceObject: {fileID: 6125069214911231191, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6392999394853943478}
   m_SourcePrefab: {fileID: 100100000, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+--- !u!1 &1803894470123434381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6125069214911231191, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
+  m_PrefabInstance: {fileID: 5478670217918367066}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6392999394853943478
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803894470123434381}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d0c255d07fd68f14b94e55d388e7e6bb, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3338dde1ae80a3b43826deca5c238356, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3421297519331910241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7166008204692645691, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
@@ -164,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationManager: {fileID: 7019105818811301700}
+  spellmanager: {fileID: 0}
 --- !u!1 &8096910264257166089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4347703676254191187, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
@@ -181,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3304735437
+  GlobalObjectIdHash: 1035363234
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -202,6 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationManager: {fileID: 7019105818811301700}
+  spellmanager: {fileID: 0}
 --- !u!1 &8299405826893887532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
@@ -220,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationRayPrefab: {fileID: 0}
+  xr: {fileID: 0}
 --- !u!114 &3388649946292722453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,3 +265,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationManager: {fileID: 7019105818811301700}
+  spellmanager: {fileID: 0}

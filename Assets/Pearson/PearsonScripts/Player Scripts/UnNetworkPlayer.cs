@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,8 +16,10 @@ public class UnNetworkPlayer : MonoBehaviour
     public SpellManager spellmanager;
     public bool isGame;
     public bool isArena;
+    public bool isTeleported;
     public bool isTutorial;
     public TutorialManager tutorialManager;
+    public GameObject offset;
     void Start()
     {
         
@@ -42,12 +45,30 @@ public class UnNetworkPlayer : MonoBehaviour
         {
             if(!isArena)
             {
-                transform.position = currentPillar.playerPoint.transform.position;
-                
-                isArena = true;
+                if (isTeleported)
+                {
+                    transform.position = currentPillar.playerPoint.transform.position;
+                    Vector3 temp = new Vector3(currentPillar.playerPoint.transform.position.x, currentPillar.playerPoint.transform.position.y, currentPillar.playerPoint.transform.position.z);
+                    offset.transform.position = currentPillar.playerPoint.transform.position;
 
+                    transform.forward = currentPillar.playerPoint.transform.position;
+                    offset.transform.forward = transform.forward;
+
+                    isTeleported = false;
+
+                }
             }
-            transform.position = currentPillar.playerPoint.transform.position;
+            /*else
+            {
+
+                if (isTeleported)
+                {
+                    transform.position = currentPillar.playerPoint.transform.position;
+
+
+                    isTeleported = false;
+                }
+            }*/
         }
 
         if (triggerValue > 0.1f)
@@ -57,7 +78,7 @@ public class UnNetworkPlayer : MonoBehaviour
         else if (triggerValue <= 0.1f )
         {
             interactleft.isSelecting = false;
-            interactleft.isHolding = false;
+            interactleft .isHolding = false;
         }
         if (triggerValue2 > 0.1f)
         {

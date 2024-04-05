@@ -32,7 +32,10 @@ public class TeleportationManager : MonoBehaviour
             gestureEventProcessor.ResetTeleportGesture();
         }
     }
-
+    public void OnTriggerEnter(Collider other)
+    {
+      
+    }
     //Called when Teleport gesture is recognized
     public void Teleport()
     {
@@ -40,6 +43,7 @@ public class TeleportationManager : MonoBehaviour
 
         //Uses direction vector from where player is currently facing
         Vector3 rayDirection = playerHead.forward;
+
 
         //Creates ray from left hand position
         Ray ray = new Ray(playerHead.position, rayDirection);
@@ -56,7 +60,9 @@ public class TeleportationManager : MonoBehaviour
                 PillarLogic pillarLogic = hit.collider.gameObject.GetComponent<PillarLogic>();
                 if (pillarLogic)
                 {
-                    xr.GetComponent<UnNetworkPlayer>().currentPillar = pillarLogic;
+                    var component = xr.GetComponent<UnNetworkPlayer>();
+                    component.currentPillar = pillarLogic;
+                    component.isTeleported = true; ;
                 }
             }
         }

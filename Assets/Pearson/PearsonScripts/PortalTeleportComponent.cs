@@ -22,10 +22,12 @@ public class PortalTeleportComponent : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            if(!isTutorialActionComplete)
+            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.currentPillar = tpToPillar;
+            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.isTeleported = true;
+            if (!isTutorialActionComplete)
             {
                 isTutorialActionComplete = true;
-                tutorialManager.setTutorialActionNum(tutorialManager.getTutorialActionNum() + 1);
+                //tutorialManager.setTutorialActionNum(tutorialManager.getTutorialActionNum() + 1);
             }
         }
     }
