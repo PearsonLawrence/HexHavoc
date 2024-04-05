@@ -36,12 +36,15 @@ public class SpellManager : NetworkBehaviour
     [SerializeField] private Transform selectPoint2;
     [SerializeField] private Transform selectPoint3;
     [SerializeField] private Transform selectPoint4;
+
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
     public Transform LeftHandPos, RightHandPos;
     public Transform desiredProjectile;
     private Transform desiredWall;
     //private bool setSpecialization = false;
+
+    public int earthShotCount = 0;
 
     public List<Transform> chooseOrbs;
 
@@ -147,8 +150,20 @@ public class SpellManager : NetworkBehaviour
 
         }
 
+        if (desiredProjectile == earthSpearPrefab)
+        {
+            if(earthShotCount == 4)
+            {
+                earthShotCount = 0;
+            }
+            else
+            {
+                earthShotCount++;
+            }
+        }
+
         // Instantiate the fireball at the calculated spawn position
-       
+
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 

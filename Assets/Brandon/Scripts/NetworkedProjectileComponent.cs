@@ -40,6 +40,8 @@ public class NetworkedProjectileComponent : SpellComponent
     public bool fireWentThroughWall;
     public bool waterWallThroughWall;
 
+    SpellManager spellManager;
+
 
 
     public void SetWentThroughWall(bool newVal, elementType element)
@@ -71,6 +73,8 @@ public class NetworkedProjectileComponent : SpellComponent
 
     void Start()
     {
+        spellManager = this.getOwner().GetComponent<SpellManager>();
+
         speed = maxspeed;
         lifeTime = maxlifeTime;
 

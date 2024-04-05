@@ -95,4 +95,13 @@ public class NetworkedWallComponent : SpellComponent
 
         }
     }
+
+    public void DestroyWall()
+    {
+        GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+
+        Destroy(temp, 3);
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
+    }
 }
