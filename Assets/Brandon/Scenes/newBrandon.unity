@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fedbe48a1c2c84b4ab959eafa9201c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testJumbo: 0
   resetTime: 10
   maxResetTime: 10
   loserId: 0
@@ -332,7 +333,7 @@ MonoBehaviour:
   - {fileID: 1833860178}
   - {fileID: 1702665548}
   healthBars: []
-  tronMove: {fileID: 0}
+  tronMove: {fileID: 2018236586}
   playerBody: {fileID: 1376782123}
   spawnPosition2: {fileID: 1794865018}
   gameSpawnPosition1: {fileID: 43053569}
@@ -672,10 +673,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8380154977400856568, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2018236586}
+      addedObject: {fileID: 2018236592}
     - targetCorrespondingSourceObject: {fileID: 8380154977400856568, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2018236592}
+      addedObject: {fileID: 2018236586}
   m_SourcePrefab: {fileID: 100100000, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
 --- !u!1 &1130673240
 GameObject:
