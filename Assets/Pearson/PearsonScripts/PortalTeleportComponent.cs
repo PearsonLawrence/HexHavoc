@@ -9,6 +9,8 @@ public class PortalTeleportComponent : MonoBehaviour
     [SerializeField] private GameObject tpPoint;
     [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private bool isTutorialActionComplete;
+    [SerializeField] private GameObject toArea;
+    [SerializeField] private GameObject fromArea;
     public bool isTutorialGate;
     public bool isArenaGate;
 
@@ -24,8 +26,10 @@ public class PortalTeleportComponent : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            toArea.SetActive(true);
             other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.currentPillar = tpToPillar;
             other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.isTeleported = true;
+            fromArea.SetActive(false);
             if (!isTutorialActionComplete)
             {
                 isTutorialActionComplete = true;
