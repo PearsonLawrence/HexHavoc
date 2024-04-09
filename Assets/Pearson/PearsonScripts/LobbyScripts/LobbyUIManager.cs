@@ -24,7 +24,7 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private PlatformDialComponent platDial;
     [SerializeField] private float lobbyUpdateTime = 5;
     private float lobbyUpdateTimer;
-    bool isJoin;
+    bool isJoin, isClient;
     public PlatformDialComponent getPlatformDial()
     {
         return platDial;
@@ -171,6 +171,7 @@ public class LobbyUIManager : MonoBehaviour
         player.transform.rotation = tpPos1.transform.rotation;
         gameLobby.JoinSelectedLobby();
         isJoin = true;
+        isClient = true;
     }
 
     private void Update()
@@ -225,6 +226,11 @@ public class LobbyUIManager : MonoBehaviour
         {
             gameLobby.RefreshLobbyList();
             lobbyUpdateTimer = lobbyUpdateTime;
+        }
+        if(gameLobby.getIsJoined() && isClient)
+        {
+            player.GetComponent<UnNetworkPlayer>().currentPillar = GuestPillar;
+            player.GetComponent<UnNetworkPlayer>().isTeleported = true;
         }
 
     }

@@ -57,6 +57,8 @@ public class UnNetworkPlayer : MonoBehaviour
                     isTeleported = false;
 
                 }
+
+                
             }
             else
             {
