@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class TronMove : MonoBehaviour
+public class TronMove : NetworkBehaviour
 {
     // Start is called before the first frame update
 
     private bool isMoving = false;
+    public bool moveTron = false;
 
     [SerializeField] private Transform startPosition;
     [SerializeField] private Transform endPosition;
@@ -21,7 +22,11 @@ public class TronMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(moveTron)
+        {
+            moveTron = false;
+            MoveJumboTronClientRpc();
+        }
     }
 
     [ClientRpc]

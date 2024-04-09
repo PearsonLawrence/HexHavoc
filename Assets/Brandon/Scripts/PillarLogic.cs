@@ -12,7 +12,8 @@ public enum pillarDirection
 public class PillarLogic : NetworkBehaviour
 {
     private MatchManager matchManager;
-    private bool canTeleport;
+    public bool canTeleport;
+    public bool isWindPillar;
     [SerializeField] private GameObject firePillar;
 
     [HideInInspector] public NetworkVariable<bool> playerOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -189,5 +190,11 @@ public class PillarLogic : NetworkBehaviour
 
         transform.position = endPos;
         isMoving = false;
+    }
+
+    [ClientRpc]
+    public void DestroyPillarClientRpc()
+    {
+
     }
 }

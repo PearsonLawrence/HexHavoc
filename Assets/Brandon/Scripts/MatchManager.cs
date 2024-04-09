@@ -11,6 +11,7 @@ public class MatchManager : NetworkBehaviour
     public Dictionary<ulong, HealthManager> playerHealthDict = new Dictionary<ulong, HealthManager>();
     private int pOneWinTally;
     private int pTwoWinTally;
+    public bool testJumbo = false;
 
     [SerializeField] private float resetTime = 10f, maxResetTime = 10f;
     public ulong loserId;
@@ -69,6 +70,11 @@ public class MatchManager : NetworkBehaviour
         if (playerHealthDict.Count >= 1 && resetTime <= 0f)
         {
             isRoundReset.Value = false;
+        }
+        if (testJumbo)
+        {
+            testJumbo = false;
+            tronMove.MoveJumboTronClientRpc();
         }
     }
 
