@@ -155,7 +155,7 @@ public class LobbyUIManager : MonoBehaviour
                 gameLobby.QuickJoin();
                 break;
             case 2:
-                gameLobby.JoinSelectedLobby();
+                gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
                 break;
         }
     }
@@ -169,7 +169,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         player.transform.position = tpPos1.transform.position;
         player.transform.rotation = tpPos1.transform.rotation;
-        gameLobby.JoinSelectedLobby();
+        gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
         isJoin = true;
         isClient = true;
     }
@@ -204,14 +204,14 @@ public class LobbyUIManager : MonoBehaviour
                 if (tempComp.getPillar().getIsPosition() && Input.GetMouseButtonDown(0))
                 {
                     player.transform.position = tpPos1.transform.position;
-                    gameLobby.JoinSelectedLobby();
+                    gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
                 }
             }
             
         }
         if(Input.GetKeyDown(KeyCode.J) && gameLobby.getSelectedLobby())
         {
-            gameLobby.JoinSelectedLobby();
+            gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
         }
 
 
@@ -238,7 +238,9 @@ public class LobbyUIManager : MonoBehaviour
     {
         gameLobby.CreateLobby();
         player.transform.position = HostPillar.playerPoint.transform.position;
-        player.GetComponent<UnNetworkPlayer>().currentPillar = HostPillar ;
+        UnNetworkPlayer playerController = player.GetComponent<UnNetworkPlayer>();
+        playerController.currentPillar = HostPillar;
+        playerController.currentPillar = HostPillar;
         isJoin = true;
     }
     //Turn on basic create or join UI
