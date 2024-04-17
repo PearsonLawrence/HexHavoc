@@ -18,6 +18,8 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isArena;
     public bool isTeleported;
     public bool isTutorial;
+    public bool isConnected;
+    public bool isJoining;
     public TutorialManager tutorialManager;
     public GameObject offset;
     void Start()
@@ -60,14 +62,34 @@ public class UnNetworkPlayer : MonoBehaviour
             }
             else
             {
-
-                if (isTeleported)
+                if (!isConnected && !isJoining)
                 {
-                    transform.position = currentPillar.playerPoint.transform.position;
-                    offset.transform.position = currentPillar.playerPoint.transform.position;
+
+                    if (isTeleported)
+                    {
+                        transform.position = currentPillar.playerPoint.transform.position;
+                        offset.transform.position = currentPillar.playerPoint.transform.position;
 
 
-                    isTeleported = false;
+                        isTeleported = false;
+                    }
+                }
+                if (isConnected && !isJoining)
+                {
+
+                    if (isTeleported)
+                    {
+                        transform.position = currentPillar.playerPoint.transform.position;
+                        offset.transform.position = currentPillar.playerPoint.transform.position;
+
+
+                        isTeleported = false;
+                    }
+                }
+                if (isConnected && isJoining)
+                {
+
+                    isJoining = false;
                 }
             }
         }

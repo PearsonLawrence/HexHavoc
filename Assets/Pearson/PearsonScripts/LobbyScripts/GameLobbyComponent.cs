@@ -330,12 +330,13 @@ public class GameLobbyComponent : MonoBehaviour
         }
     }
     //Join lobby that the user selects in the list
-    public void JoinSelectedLobby()
+    public bool JoinSelectedLobby(UnNetworkPlayer P)
     {
         Debug.Log(selectedLobby.getCurrentLobby());
-        JoinLobbyByLobby(selectedLobby.getCurrentLobby());
+        JoinLobbyByLobby(selectedLobby.getCurrentLobby(), P);
+        return true;
     }
-    private async void JoinLobbyByLobby(Lobby lobby)
+    public async void JoinLobbyByLobby(Lobby lobby, UnNetworkPlayer P)
     {
         //get player info that is joining
         Player player = GetPlayer();
@@ -345,6 +346,7 @@ public class GameLobbyComponent : MonoBehaviour
         joinedLobby = tempLobby;
         PrintPlayers(joinedLobby);
         isJoined = true;
+        P.isConnected = true;
         Debug.Log("joined lobby with code " + joinedLobby.LobbyCode);
 
 
