@@ -57,7 +57,7 @@ public class collisionManager : NetworkBehaviour
             //SpellManager spellManager = spell.getOwner().GetComponent<SpellManager>();
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
 
-            if (tempSpell == null && !other.CompareTag("PlayerBody") && !other.CompareTag("Pillar")) return;
+            if (tempSpell == null && !other.CompareTag("PlayerBody") && !other.CompareTag("Pillar") && !other.CompareTag("PlayerHand")) return;
 
             //Debug.Log(tempSpell);
             //Debug.Log(other.gameObject.tag + "spell");
@@ -69,13 +69,15 @@ public class collisionManager : NetworkBehaviour
 
             GameObject spellOwner = spell.getOwner();
 
-            if (other.CompareTag("playerHand"))
+            if (other.CompareTag("PlayerHand"))
             {
+                Debug.Log("hit with hamd");
                 NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
 
                 if (temp.elementtype == elementType.EARTH)
                 {
-
+                    Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
+                    temp.SetDirection(directionBetween);
                 }
             }
 

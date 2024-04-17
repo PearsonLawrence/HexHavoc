@@ -190,7 +190,10 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(Vector3.forward);
+            if(desiredProjectile != earthSpearPrefab)
+            {
+                projectile.SetDirection(Vector3.forward);
+            }
             // projectile.SetDirection(Vector3.forward);
         }
         else
