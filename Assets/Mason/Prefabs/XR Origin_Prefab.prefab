@@ -3117,7 +3117,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  handAnimator: {fileID: 1772787982264048636}
+  handAnimator: {fileID: 0}
 --- !u!114 &998634995441406925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3155,11 +3155,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   handAnimator: {fileID: 0}
---- !u!95 &1772787982264048636 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5686134208192617028, guid: 1fd3a7c43c8190f4d8c167ebde694364, type: 3}
-  m_PrefabInstance: {fileID: 6229324536562221496}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8394820735899079481
 PrefabInstance:
   m_ObjectHideFlags: 0

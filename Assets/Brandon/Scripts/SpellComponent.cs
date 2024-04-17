@@ -15,7 +15,7 @@ public class SpellComponent : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<NetworkObjectReference> networkedOwner = new NetworkVariable<NetworkObjectReference>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    [SerializeField] private NetworkVariable<SpellManager> spellManager = new NetworkVariable<SpellManager>(default,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> earthShot = new NetworkVariable<int>(default,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
     public GameObject getOwner()
     {
@@ -26,19 +26,15 @@ public class SpellComponent : NetworkBehaviour
         return null;
     }
 
-    public SpellManager getSpellManager()
+    /*public void getEarthShot()
     {
-        if(spellManager.Value.TryGetComponent(out SpellManager spellManagerObject))
-        {
-            return spellManagerObject;
-        }
-        return null;
+        return earthShot.Value;
     }
 
-    public void SetSpellManager(SpellManager spellmanager)
+    public void setEarthSot(int count)
     {
-        spellManager.Value = spellmanager;
-    }
+        earthShot.Value = count;
+    }*/
 
     public void setOwner(GameObject temp)
     {

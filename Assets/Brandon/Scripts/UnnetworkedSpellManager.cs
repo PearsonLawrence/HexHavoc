@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class UnNetworkedSpellManager : MonoBehaviour
 {
+    public GameObject cheese;
+
     [SerializeField] private Transform fireballPrefab;
     [SerializeField] private Transform windBlastPrefab;
     [SerializeField] private Transform waterShotPrefab;
@@ -19,7 +21,7 @@ public class UnNetworkedSpellManager : MonoBehaviour
     // Collection of spawned spells for potential future reference or management
     private List<Transform> castedSpells = new List<Transform>();
 
-    private elementType playerSpecialzation = elementType.EARTH;
+    private elementType playerSpecialzation = elementType.WATER;
     private Transform desieredProjectile;
     private Transform desiredWall;
     [SerializeField] private Transform Lhand;
@@ -40,6 +42,49 @@ public class UnNetworkedSpellManager : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.X))
         {
             SpawnWall(false);
+        }
+
+        if( Input.GetKeyUp(KeyCode.Z))
+        {
+            SpawnTheProjectile();
+        }
+
+        if(Input.GetKeyUp (KeyCode.W))
+        {
+            cheese.SetActive(true);
+        }
+    }
+
+    public void SpawnTheProjectile()
+    {
+        Vector3 spawnPosition = new Vector3(-5,15,-8);
+
+        switch (playerSpecialzation)
+        {
+            case elementType.EARTH:
+                desieredProjectile = earthSpearPrefab.transform;
+                break;
+            case elementType.FIRE:
+                desieredProjectile = fireballPrefab.transform;
+                break;
+            case elementType.WIND:
+                desieredProjectile = windBlastPrefab.transform;
+                break;
+            case elementType.WATER:
+                desieredProjectile = waterShotPrefab.transform;
+                break;
+        }
+        Debug.Log("in spawn");
+        var projectile = Instantiate(desieredProjectile, spawnPosition, Quaternion.identity).GetComponent<ProjectileComponent>();
+        if (projectile != null)
+        {
+            projectile.setOwner(this.gameObject);
+            castedSpells.Add(projectile.transform);
+            projectile.SetDirection(Vector3.forward);
+        }
+        else
+        {
+            Debug.LogError("ProjectileComponent not found on the instantiated prefab.");
         }
     }
 

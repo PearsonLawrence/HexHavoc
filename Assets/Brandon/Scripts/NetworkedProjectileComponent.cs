@@ -73,7 +73,6 @@ public class NetworkedProjectileComponent : SpellComponent
 
     void Start()
     {
-        spellManager = this.getOwner().GetComponent<SpellManager>();
 
         speed = maxspeed;
         lifeTime = maxlifeTime;
@@ -89,6 +88,7 @@ public class NetworkedProjectileComponent : SpellComponent
             case elementType.EARTH:
                 break;
         }
+        //Debug.Log(earthShot.Value);
     }
 
     //update the fireballs position in launch direction

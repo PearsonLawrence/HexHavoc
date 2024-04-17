@@ -57,7 +57,7 @@ public class collisionManager : NetworkBehaviour
             //SpellManager spellManager = spell.getOwner().GetComponent<SpellManager>();
             SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
 
-            if (tempSpell == null && !other.CompareTag("PlayerBody")) return;
+            if (tempSpell == null && !other.CompareTag("PlayerBody") && !other.CompareTag("Pillar")) return;
 
             //Debug.Log(tempSpell);
             //Debug.Log(other.gameObject.tag + "spell");
@@ -68,6 +68,16 @@ public class collisionManager : NetworkBehaviour
             }
 
             GameObject spellOwner = spell.getOwner();
+
+            if (other.CompareTag("playerHand"))
+            {
+                NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
+
+                if (temp.elementtype == elementType.EARTH)
+                {
+
+                }
+            }
 
             if (other.CompareTag("PlayerBody"))
             {
@@ -102,7 +112,7 @@ public class collisionManager : NetworkBehaviour
 
                             case elementType.EARTH:
                                 Debug.Log("Player hit with Earth Spear");
-                               /* switch (spellManager.earthShotCount)
+                               switch (spell.earthShot.Value)
                                 {
                                     case 0:
                                         matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 15);
@@ -119,17 +129,39 @@ public class collisionManager : NetworkBehaviour
                                     case 4:
                                         matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 35);
                                         break;
-                                }*/
+                                }
                                 break;
                         }
 
-                        //Debug.Log("Hit Player" + networkObject.OwnerClientId);
+                        Debug.Log("Hit Player" + networkObject.OwnerClientId);
 
                         //delete the projectile
                         NetworkedProjectileComponent projectileSelf = (NetworkedProjectileComponent)spell;
                         projectileSelf.DoImpact();
 
                         break;
+                }
+            }
+
+            else if (other.CompareTag("Pillar"))
+            {
+                NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
+
+                if (temp.elementtype == elementType.EARTH)
+                {
+                    if (temp.earthShot.Value == 4)
+                    {
+                        PillarLogic pillarLogic = other.transform.gameObject.GetComponent<PillarLogic>();
+                        pillarLogic.DestroyPillarClientRpc();
+                    }
+                    else
+                    {
+                        temp.DoImpact();
+                    }
+                }
+                else
+                {
+                    temp.DoImpact();
                 }
             }
 
@@ -309,19 +341,7 @@ public class collisionManager : NetworkBehaviour
                     }
                 }
             }
-            else if (other.CompareTag("Pillar"))
-            {
-                NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
-
-                if(temp.elementtype == elementType.EARTH)
-                {
-                   /* if(spellManager.earthShotCount == 4)
-                    {
-                        PillarLogic pillarLogic = other.transform.gameObject.GetComponent<PillarLogic>();
-                        pillarLogic.DestroyPillarClientRpc();
-                    }*/
-                }
-            }
+            
             //(Origonal location)SpellComponent tempSpell = other.transform.gameObject.GetComponent<SpellComponent>();
             /*if (tempSpell)
             {

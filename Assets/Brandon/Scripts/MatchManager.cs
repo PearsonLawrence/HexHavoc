@@ -188,6 +188,8 @@ public class MatchManager : NetworkBehaviour
             playerTwoHealth.Value -= damage;
         }
 
+        Debug.Log("Player1 Health:" + playerOneHealth.Value + " Player2 Health " + playerTwoHealth.Value);
+
         if (playerOneHealth.Value <= 0)
         {
             pTwoWinTally += 1;
