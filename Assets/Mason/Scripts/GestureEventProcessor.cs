@@ -7,10 +7,12 @@ public class GestureEventProcessor : MonoBehaviour
 {
     public TeleportationManager teleportationManager;
     private bool isTeleportGestureRecognized = false;
-    private bool isBowSpawned = false;
+    private bool isWeaponSpawned = false;
+    private bool isTouchingElement = false;
     public SpellManager spellmanager;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
+    //public GestureRecognition gr = newGestureRecognition();
     // Start is called before the first frame update
     void Start()
     {
@@ -60,18 +62,18 @@ public class GestureEventProcessor : MonoBehaviour
             if (gestureCompletionData.gestureName == "Left Bow Spawn" || gestureCompletionData.gestureName == "Right Bow Spawn")
             {
                 Debug.Log("Bow Successfully Spawned");
-                isBowSpawned = true;
+                isWeaponSpawned = true;
             }
 
             //Casts Arrow Draw
-            if(isBowSpawned = true)
+            if(isWeaponSpawned = true)
             {
                 if (gestureCompletionData.gestureName == "Left Arrow Draw" || gestureCompletionData.gestureName == "Right Arrow Draw")
                 {
                     Debug.Log("Arrow Successfully Fired");
                 }
             }
-            else if(isBowSpawned = false)
+            else if(isWeaponSpawned = false)
             {
                 if (gestureCompletionData.gestureName == "Left Arrow Draw" || gestureCompletionData.gestureName == "Right Arrow Draw")
                 {
@@ -147,8 +149,14 @@ public class GestureEventProcessor : MonoBehaviour
     }
 
     //Checks if Bow has been spawned
-    public bool IsBowSpawned()
+    public bool IsWeaponSpawned()
     {
-        return isBowSpawned;
+        return isWeaponSpawned;
+    }
+
+    //Checks if Player is touching element
+    public bool IsTouchingElement()
+    {
+        return isTouchingElement;
     }
 }
