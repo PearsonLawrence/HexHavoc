@@ -29,7 +29,8 @@ public class Outline : MonoBehaviour
         foreach (var renderer in renderers)
         {
             // Append outline shaders
-            var materials = renderer.sharedMaterials.ToList();
+            
+              List<Material> materials = new List<Material> (renderer.sharedMaterials);
 
             materials.Add(outlineMaskMaterial);
             materials.Add(outlineFillMaterial);

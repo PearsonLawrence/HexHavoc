@@ -2,7 +2,7 @@
 //Written by Braden Turner
 
  //reference audio
-    public AudioManager audioManager;
+   /* public AudioManager audioManager;
 
     private void Start()
     {
@@ -50,3 +50,4 @@ audioManager.PlayWaterWallSound();
 audioManager.PlayEarthWallSound();
 
 
+*/
