@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class HealthBar : NetworkBehaviour
+public class HealthBar : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
@@ -15,7 +15,7 @@ public class HealthBar : NetworkBehaviour
 
     void Start()
     {
-        UpdateHealthBarClientRpc();
+        //UpdateHealthBarClientRpc();
 
         currentHealth = maxHealth;
     }
@@ -28,10 +28,10 @@ public class HealthBar : NetworkBehaviour
             if (playerOneHealthBar)
             {
                 float healthPercentage = matchManager.playerOneHealth.Value / maxHealth;
-                //Debug.Log(matchManager.playerOneHealth.Value);
+                Debug.Log(matchManager.playerOneHealth.Value);
                 if (healthBar != null)
                 {
-                    Debug.LogError(healthPercentage);
+                    Debug.Log("BAR PERCENT : " + healthPercentage);
                     healthBar.fillAmount = healthPercentage;
                     Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
                     healthBar.color = healthColor;
@@ -72,7 +72,7 @@ public class HealthBar : NetworkBehaviour
     }
 
 
-
+    /*
     [ServerRpc]
     public void UpdateHealthBarServerRpc()
     {

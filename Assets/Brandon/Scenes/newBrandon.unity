@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4498515, g: 0.4434463, b: 0.43662816, a: 1}
+  m_IndirectSpecularColor: {r: 0.449852, g: 0.44344687, b: 0.4366288, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -27966,6 +27966,38 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 282663497}
+    - target: {fileID: 3591980375862187542, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591980375862187542, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 066d3840badf4d24dba1d42b4c59b888, type: 3}
+    - target: {fileID: 3591980375862187542, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591980375862187542, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833180633307200325, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833180633307200325, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 98e8e1cf8dc7dbf469617c2e40c8a944, type: 3}
+    - target: {fileID: 3833180633307200325, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833180633307200325, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4352283144055259309, guid: e04eb21a5ba831846815a725af3158e6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

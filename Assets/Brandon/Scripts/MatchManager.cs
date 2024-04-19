@@ -267,7 +267,7 @@ public class MatchManager : NetworkBehaviour
 
         foreach (HealthBar t in healthBars)
         {
-            t.UpdateHealthBarServerRpc();
+            //t.UpdateHealthBarServerRpc();
         }
     }
 }

@@ -90,6 +90,7 @@ public class UnNetworkPlayer : MonoBehaviour
                         if(i >= 2)
                         {
                             isJoining = false;
+                            Debug.LogError("SET FALSE SET FALSE");
                         }
                     }
                 }
