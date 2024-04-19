@@ -20,6 +20,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isTutorial;
     public bool isConnected;
     public bool isJoining;
+    public bool isStarting;
     public TutorialManager tutorialManager;
     public GameObject offset;
     void Start()
@@ -87,6 +88,14 @@ public class UnNetworkPlayer : MonoBehaviour
 
                         isTeleported = false;
                     }
+                }
+                if (isConnected && !isJoining && isStarting)
+                {
+
+                    
+                        transform.position = currentPillar.playerPoint.transform.position;
+                        offset.transform.position = currentPillar.playerPoint.transform.position;
+
                 }
                 if (isConnected && isJoining)
                 {

@@ -346,7 +346,6 @@ public class GameLobbyComponent : MonoBehaviour
         joinedLobby = tempLobby;
         PrintPlayers(joinedLobby);
         isJoined = true;
-        P.isConnected = true;
         Debug.Log("joined lobby with code " + joinedLobby.LobbyCode);
 
 
@@ -457,6 +456,7 @@ public class GameLobbyComponent : MonoBehaviour
                     if (playerID != lobby.HostId) //user is not the host
                     {
                         isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value); //update lobby start
+                        XR_Player.GetComponent<UnNetworkPlayer>().isConnected = true;
                     }
 
                     joinedLobby = null;

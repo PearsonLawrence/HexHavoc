@@ -29,6 +29,7 @@ public class PortalTeleportComponent : MonoBehaviour
             toArea.SetActive(true);
             other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.currentPillar = tpToPillar;
             other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.isTeleported = true;
+            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.gameObject.transform.forward = tpToPillar.playerPoint.transform.forward;
             fromArea.SetActive(false);
             if (!isTutorialActionComplete)
             {
