@@ -258,44 +258,45 @@ public class SpiritGuide : MonoBehaviour
     {
         switch (tutorialManager.getCurrentStage())
         {
-            case TutorialStages.stage1:
+            case 0:
                 Stage1();
                 break;
 
-            case TutorialStages.stage2:
+            case 1:
                 Stage2();
                 break;
 
-            case TutorialStages.stage3:
+            case 2:
                 Stage3();
                 break;
 
-            case TutorialStages.stage4:
+            case 3:
                 Stage4();
                 break;
 
-            case TutorialStages.stage5:
+            case 4:
                 Stage5();
                 break;
 
-            case TutorialStages.stage6:
+            case 5:
                 Stage6();
                 break;
 
-            case TutorialStages.stage7:
+            case 6:
                 Stage7();
                 break;
 
-            case TutorialStages.stage8:
+            case 7:
                 Stage8();
                 break;
 
-            case TutorialStages.stage9:
+            case 8:
                 Stage9();
                 break;
 
         }
     }
+
     // Update is called once per frame
     void Update()
     {

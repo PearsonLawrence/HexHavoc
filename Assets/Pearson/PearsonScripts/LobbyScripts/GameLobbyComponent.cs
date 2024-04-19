@@ -174,6 +174,7 @@ public class GameLobbyComponent : MonoBehaviour
                     }
                 });
 
+                XR_Player.GetComponent<UnNetworkPlayer>().isConnected = true;
                 joinedLobby = lobby;
                 isLobbyStart = true; //If true this will intiate connecting to host relay on next tick
 
@@ -458,7 +459,6 @@ public class GameLobbyComponent : MonoBehaviour
                         isLobbyStart = await currentRelay.JoinRelay(joinedLobby.Data["StartGame"].Value); //update lobby start
                         XR_Player.GetComponent<UnNetworkPlayer>().isConnected = true;
                     }
-
                     joinedLobby = null;
 
                 }

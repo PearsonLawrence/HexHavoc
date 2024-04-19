@@ -190,6 +190,9 @@ public class PillarLogic : NetworkBehaviour
 
         transform.position = endPos;
         isMoving = false;
+
+        if(matchManager.isGameStarting.Value)
+            matchManager.DisableIsGameStartingServerRPC();
     }
 
     [ClientRpc]

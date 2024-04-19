@@ -21,6 +21,8 @@ public class MatchManager : NetworkBehaviour
 
     [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<int> joinedPlayerCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> isGameStarting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
@@ -102,19 +104,29 @@ public class MatchManager : NetworkBehaviour
         {
             playerOneSpellManager = spellManager;
             playerOneNetwork = playerNetwork;
+            joinedPlayerCount.Value++; 
         }
         else if (clientId == 1)
         {
             playerTwoSpellManager = spellManager;
             playerTwoNetwork = playerNetwork;
+            joinedPlayerCount.Value++; 
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DisableIsGameStartingServerRPC()
+    {
+        if(isGameStarting.Value)
+        {
+            isGameStarting.Value = false;
+        } 
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void StartMatchServerRpc(ulong clientId)
     {
         Debug.Log(playerOneSpellManager.GetSetSpecialization() + " : " + playerTwoSpellManager.GetSetSpecialization());
-        
         if (clientId == 0)
         {
             playerOneOrb = true;
@@ -127,6 +139,7 @@ public class MatchManager : NetworkBehaviour
         }
         if(playerOneOrb && playerTwoOrb)
         {
+            isGameStarting.Value = true;
             Debug.Log("both set and ready"); // DisableChooseOrbs();
             foreach (PillarLogic t in pillarLogicList)
             {

@@ -23,9 +23,10 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isStarting;
     public TutorialManager tutorialManager;
     public GameObject offset;
+    public MatchManager manager;
     void Start()
     {
-        
+        manager = MatchManager.Instance;
     }
 
     public void setSpellManagerProcessors()
@@ -65,9 +66,35 @@ public class UnNetworkPlayer : MonoBehaviour
             }
             else
             {
-                if (!isConnected && !isJoining)
+                if (isConnected)
                 {
+                    if (!isJoining)
+                    {
+                        if (isTeleported)
+                        {
+                            transform.position = currentPillar.playerPoint.transform.position;
+                            offset.transform.position = currentPillar.playerPoint.transform.position;
 
+
+                            isTeleported = false;
+                        }
+                        else if (isConnected && !isJoining && manager.isGameStarting.Value)
+                        {
+                            transform.position = currentPillar.playerPoint.transform.position;
+                            offset.transform.position = currentPillar.playerPoint.transform.position;
+                        }
+                    }
+                    else
+                    {
+                        int i = GameObject.FindObjectsOfType(typeof(NetworkPlayer)).Length;
+                        if(i >= 2)
+                        {
+                            isJoining = false;
+                        }
+                    }
+                }
+                else
+                {
                     if (isTeleported)
                     {
                         transform.position = currentPillar.playerPoint.transform.position;
@@ -77,31 +104,8 @@ public class UnNetworkPlayer : MonoBehaviour
                         isTeleported = false;
                     }
                 }
-                if (isConnected && !isJoining)
-                {
 
-                    if (isTeleported)
-                    {
-                        transform.position = currentPillar.playerPoint.transform.position;
-                        offset.transform.position = currentPillar.playerPoint.transform.position;
-
-
-                        isTeleported = false;
-                    }
-                }
-                if (isConnected && !isJoining && isStarting)
-                {
-
-                    
-                        transform.position = currentPillar.playerPoint.transform.position;
-                        offset.transform.position = currentPillar.playerPoint.transform.position;
-
-                }
-                if (isConnected && isJoining)
-                {
-
-                    isJoining = false;
-                }
+                
             }
         }
 
