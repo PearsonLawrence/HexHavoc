@@ -42,8 +42,8 @@ public class Outline : MonoBehaviour
     // Function to apply outline opacity to outline materials
     private void ApplyOutlineOpacity()
     {
-        outlineMaskMaterial.SetFloat("_Opacity", outlineOpacity);
-        outlineFillMaterial.SetFloat("_Opacity", outlineOpacity);
+      //  outlineMaskMaterial.SetFloat("_Opacity", outlineOpacity);
+       // outlineFillMaterial.SetFloat("_Opacity", outlineOpacity);
     }
 
     // Function to update outline opacity when it changes
