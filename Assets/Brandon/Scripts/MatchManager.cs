@@ -191,7 +191,7 @@ public class MatchManager : NetworkBehaviour
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
     {
         //Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: ");
-       
+        Debug.Log("Calling update health");
         if (clientId == 0)
         {
             playerOneHealth.Value -= damage;
@@ -230,10 +230,11 @@ public class MatchManager : NetworkBehaviour
             }
         }
 
-        foreach(HealthBar t in healthBars)
+        /*foreach(HealthBar t in healthBars)
         {
+            Debug.Log("Calling health shit");
             t.UpdateHealthBarClientRpc();
-        }
+        }*/
 
         //isRoundReset.Value = true;
         resetTime = maxResetTime;

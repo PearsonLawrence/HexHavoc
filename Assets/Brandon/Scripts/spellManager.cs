@@ -53,6 +53,8 @@ public class SpellManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     private NetworkVariable<int> earthShotCount = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+
+    AudioManager audioManager;
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
@@ -70,6 +72,7 @@ public class SpellManager : NetworkBehaviour
     private void Start()
     {
         //ActivateChooseOrbs();
+        audioManager = AudioManager.Instance;
     }
 
     public override void OnNetworkSpawn()
@@ -158,7 +161,7 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        desiredProjectile = earthSpearPrefab;
+        desiredProjectile = fireballPrefab;
 
         if (desiredProjectile == earthSpearPrefab)
         {
@@ -176,6 +179,24 @@ public class SpellManager : NetworkBehaviour
 
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
+
+        switch (elementSpeicalization)
+        {
+            case elementType.FIRE:
+                SpellSFX(0);
+                break;
+            case elementType.WATER:
+                SpellSFX(0);
+                break;
+            case elementType.WIND:
+                SpellSFX(0);
+                break;
+            case elementType.EARTH:
+                SpellSFX(0);
+                break;
+
+        }
+
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
@@ -258,6 +279,7 @@ public class SpellManager : NetworkBehaviour
 
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
+
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
@@ -629,4 +651,20 @@ public class SpellManager : NetworkBehaviour
         setIsOrbDisabled.Value = false;
     }
     
+
+    public void SpellSFX(int soundNumber)
+    {
+        switch (soundNumber)
+        {
+            case 0:
+                audioManager.PlayFireballSound();
+                break;
+            case 1:
+                audioManager.PlayEarthSpearSound();
+                break;
+            case 2:
+                //audioManager.PlayEarthSpearThrow();
+                break;
+        }
+    }
 }

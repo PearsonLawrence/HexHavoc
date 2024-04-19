@@ -16,7 +16,62 @@ public class HealthBar : NetworkBehaviour
     void Start()
     {
         UpdateHealthBarClientRpc();
+
+        currentHealth = maxHealth;
     }
+
+    private void Update()
+    {
+        MatchManager matchManager = MatchManager.Instance;
+        if (matchManager != null)
+        {
+            if (playerOneHealthBar)
+            {
+                float healthPercentage = matchManager.playerOneHealth.Value / maxHealth;
+                //Debug.Log(matchManager.playerOneHealth.Value);
+                if (healthBar != null)
+                {
+                    Debug.LogError(healthPercentage);
+                    healthBar.fillAmount = healthPercentage;
+                    Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
+                    healthBar.color = healthColor;
+                }
+                else
+                {
+                    //Debug.LogError("healthBar is null.");
+                }
+            }
+            else
+            {
+                //Debug.LogError("Player one health bar or player one health is null.");
+            }
+
+            if (playerTwoHealthBar)
+            {
+                float healthPercentage = matchManager.playerTwoHealth.Value / maxHealth;
+                if (healthBar != null)
+                {
+                    healthBar.fillAmount = healthPercentage;
+                    Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
+                    healthBar.color = healthColor;
+                }
+                else
+                {
+                    //Debug.LogError("healthBar is null.");
+                }
+            }
+            else
+            {
+                //Debug.LogError("Player two health bar or player two health is null.");
+            }
+        }
+        else
+        {
+            //Debug.LogError("MatchManager is null.");
+        }
+    }
+
+
 
     [ServerRpc]
     public void UpdateHealthBarServerRpc()
@@ -38,15 +93,17 @@ public class HealthBar : NetworkBehaviour
             healthBar.color = healthColor;
         }
     }
+
     [ClientRpc]
     public void UpdateHealthBarClientRpc()
     {
+        Debug.Log("in health bar update");
         if(playerOneHealthBar) 
         {
             float healthPercentage = MatchManager.Instance.playerOneHealth.Value / maxHealth;
             healthBar.fillAmount = healthPercentage;
             Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
-           healthBar.color = healthColor;
+            healthBar.color = healthColor;
         }
 
         if (playerTwoHealthBar)

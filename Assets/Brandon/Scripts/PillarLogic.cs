@@ -76,7 +76,7 @@ public class PillarLogic : NetworkBehaviour
             //StartCoroutine(TurnOffFirePillar(3f));
         }
 
-        if (other.gameObject.CompareTag("Fireball"))
+        /*if (other.gameObject.CompareTag("Fireball"))
         {
             firePillar.SetActive(true);
             NetworkedProjectileComponent fb = other.gameObject.GetComponent<NetworkedProjectileComponent>();
@@ -91,7 +91,7 @@ public class PillarLogic : NetworkBehaviour
                 }
                 StartCoroutine(TurnOffFirePillar(3f));
             }
-        }
+        }*/
     }
 
     [ServerRpc]

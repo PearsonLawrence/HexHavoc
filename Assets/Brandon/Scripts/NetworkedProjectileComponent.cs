@@ -70,21 +70,10 @@ public class NetworkedProjectileComponent : SpellComponent
 
     void Start()
     {
+        AudioManager audioManager = AudioManager.Instance;
 
         speed = maxspeed;
         lifeTime = maxlifeTime;
-
-        switch (elementtype)
-        {
-            case elementType.WIND:
-                break;
-            case elementType.FIRE:
-                break;
-            case elementType.WATER:
-                break;
-            case elementType.EARTH:
-                break;
-        }
         //Debug.Log(earthShot.Value);
     }
 
