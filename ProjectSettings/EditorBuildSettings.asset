@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Pearson/Scenes/NetworkTest2.unity
     guid: e89e3db6b7f86d64e885554fd183dac0
   - enabled: 0
-    path: Assets/Brady/New folder/Scenes/BradyNetworkTest_01.unity
+    path: Assets/Brady/Scenes/BradyNetworkTest_01.unity
     guid: 3307a567b39b3434490b8e4afe0270c5
   - enabled: 0
     path: Assets/Mason/Scenes/HexHavocBuildTest.unity
