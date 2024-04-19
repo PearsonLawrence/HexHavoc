@@ -195,6 +195,6 @@ public class PillarLogic : NetworkBehaviour
     [ClientRpc]
     public void DestroyPillarClientRpc()
     {
-
+        gameObject.SetActive(false);
     }
 }

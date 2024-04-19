@@ -39,10 +39,7 @@ public class NetworkedProjectileComponent : SpellComponent
     //varibles for different spell types
     public bool fireWentThroughWall;
     public bool waterWallThroughWall;
-
-    SpellManager spellManager;
-
-
+    public bool dontMove = true;
 
     public void SetWentThroughWall(bool newVal, elementType element)
     {
@@ -73,7 +70,6 @@ public class NetworkedProjectileComponent : SpellComponent
 
     void Start()
     {
-        spellManager = this.getOwner().GetComponent<SpellManager>();
 
         speed = maxspeed;
         lifeTime = maxlifeTime;
@@ -89,68 +85,74 @@ public class NetworkedProjectileComponent : SpellComponent
             case elementType.EARTH:
                 break;
         }
+        //Debug.Log(earthShot.Value);
     }
 
     //update the fireballs position in launch direction
     void Update()
     {
-        switch (elementtype)
+        if (!dontMove)
         {
-            case elementType.WIND:
+            switch (elementtype)
+            {
+                case elementType.WIND:
 
-                Vector3 windNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
-                transform.position = windNewPosition;
+                    Vector3 windNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                    transform.position = windNewPosition;
 
-                lifeTime -= Time.deltaTime;
+                    lifeTime -= Time.deltaTime;
 
-                if (lifeTime < 0)
-                {
-                    DoImpact();
-                }
-                break;
+                    if (lifeTime < 0)
+                    {
+                        DoImpact();
+                    }
+                    break;
 
-            case elementType.FIRE:
+                case elementType.FIRE:
 
-                Vector3 fireNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
-                transform.position = fireNewPosition;
+                    Vector3 fireNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                    transform.position = fireNewPosition;
 
-                lifeTime -= Time.deltaTime;
+                    lifeTime -= Time.deltaTime;
 
-                if (lifeTime < 0)
-                {
-                    DoImpact();
-                }
-                break;
+                    if (lifeTime < 0)
+                    {
+                        DoImpact();
+                    }
+                    break;
 
-            case elementType.WATER:
-                Vector3 waterNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
-                transform.position = waterNewPosition;
+                case elementType.WATER:
+                    Vector3 waterNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                    transform.position = waterNewPosition;
 
-                lifeTime -= Time.deltaTime;
+                    lifeTime -= Time.deltaTime;
 
-                if (lifeTime < 0)
-                {
-                    DoImpact();
-                }
-                break;
+                    if (lifeTime < 0)
+                    {
+                        DoImpact();
+                    }
+                    break;
 
-            case elementType.EARTH:
-                Vector3 earthNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
-                transform.position = earthNewPosition;
+                case elementType.EARTH:
 
-                lifeTime -= Time.deltaTime;
+                    Vector3 earthNewPosition = transform.position + moveDirection * speed * Time.deltaTime;
+                    transform.position = earthNewPosition;
 
-                if (lifeTime < 0)
-                {
-                    DoImpact();
-                }
-                break;
+                    lifeTime -= Time.deltaTime;
+
+                    if (lifeTime < 0)
+                    {
+                        DoImpact();
+                    }
+                    break;
+            }
         }
     }
 
     public void SetDirection(Vector3 direction)
     {
         moveDirection = direction.normalized;
+        dontMove = false;
     }
 
     //instantiate particle effect and despawn from network

@@ -13,6 +13,8 @@ public enum SpellType
     wall
 }
 
+[GenerateSerializationForType(typeof(SpellManager))]
+
 public class SpellManager : NetworkBehaviour
 {
     //All projectile prefabs
@@ -44,13 +46,13 @@ public class SpellManager : NetworkBehaviour
     private Transform desiredWall;
     //private bool setSpecialization = false;
 
-    public int earthShotCount = 0;
-
     public List<Transform> chooseOrbs;
 
     elementType elementSpeicalization;
     [HideInInspector] public NetworkVariable<bool> setSpecialization = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    private NetworkVariable<int> earthShotCount = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
@@ -156,15 +158,17 @@ public class SpellManager : NetworkBehaviour
 
         }
 
+        desiredProjectile = earthSpearPrefab;
+
         if (desiredProjectile == earthSpearPrefab)
         {
-            if (earthShotCount == 4)
+            if (earthShotCount.Value == 4)
             {
-                earthShotCount = 0;
+                earthShotCount.Value = 0;
             }
             else
             {
-                earthShotCount++;
+                earthShotCount.Value++;
             }
         }
 
@@ -180,13 +184,16 @@ public class SpellManager : NetworkBehaviour
 
             projectile.setOwner(this.gameObject); // Now safe to set the owner
 
-            projectile.SetSpellManager(this);
+            projectile.earthShot.Value = earthShotCount.Value;
 
             //Debug.Log(this.gameObject);
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(Vector3.forward);
+            if(desiredProjectile != earthSpearPrefab)
+            {
+                projectile.SetDirection(Vector3.forward);
+            }
             // projectile.SetDirection(Vector3.forward);
         }
         else
@@ -237,13 +244,13 @@ public class SpellManager : NetworkBehaviour
 
         if (desiredProjectile == earthSpearPrefab)
         {
-            if(earthShotCount == 4)
+            if(earthShotCount.Value == 4)
             {
-                earthShotCount = 0;
+                earthShotCount.Value = 0;
             }
             else
             {
-                earthShotCount++;
+                earthShotCount.Value++;
             }
         }
 

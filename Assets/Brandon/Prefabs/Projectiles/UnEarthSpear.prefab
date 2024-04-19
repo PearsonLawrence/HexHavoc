@@ -152,8 +152,8 @@ MonoBehaviour:
   elementtype: 3
   speed: 5
   maxspeed: 5
-  lifeTime: 3
-  maxlifeTime: 3
+  lifeTime: 5
+  maxlifeTime: 5
   destroyPrefab: {fileID: 1845955007268882, guid: 67a684e320da6e7439421a07e3fa265c, type: 3}
 --- !u!114 &456726302838037606
 MonoBehaviour:

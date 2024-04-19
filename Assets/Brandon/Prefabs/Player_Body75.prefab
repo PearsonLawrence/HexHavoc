@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4674623164180139821}
   m_Layer: 0
   m_Name: Player_Body75
-  m_TagString: Player
+  m_TagString: PlayerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1931773001
+  GlobalObjectIdHash: 2072147467
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   SpawnedObjectPrefab: {fileID: 6991774483731237265, guid: c7914ed8e02672f488b04e01d6300d20, type: 3}
   spellManager: {fileID: 7481583416022226290}
   playerNetwork: {fileID: -9088720042694082336}
+  moveDuration: 5
 --- !u!114 &-6996475820697557477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,11 +204,19 @@ MonoBehaviour:
   chooseFirePrefab: {fileID: 1900147598515455402, guid: 61ae1209286908447a08a77288b5c199, type: 3}
   chooseWaterPrefab: {fileID: 8628199668783050400, guid: 145bcfd5e85fa4e4ea17b510f6e452c0, type: 3}
   chooseWindPrefab: {fileID: 8972151258000335928, guid: b4612ec31c30bcd48b2d78f99ee86b56, type: 3}
+  selectPoint1: {fileID: 0}
+  selectPoint2: {fileID: 0}
+  selectPoint3: {fileID: 0}
+  selectPoint4: {fileID: 0}
   castedSpells: []
   LeftHandPos: {fileID: 0}
   RightHandPos: {fileID: 0}
   desiredProjectile: {fileID: 0}
   chooseOrbs: []
+  setSpecialization:
+    m_InternalValue: 0
+  setIsOrbDisabled:
+    m_InternalValue: 0
 --- !u!114 &6562082182037483385
 MonoBehaviour:
   m_ObjectHideFlags: 0
