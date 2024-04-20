@@ -38,7 +38,17 @@ public class GestureEventProcessor : MonoBehaviour
             //Casts Left Hand Wall Spell
             Debug.Log("Gesture");
 
-
+            switch(spellmanager.elementSpeicalization)
+            {
+                case elementType.FIRE:
+                    break;
+                case elementType.WATER:
+                    break;
+                case elementType.EARTH:
+                    break;
+                case elementType.WIND:
+                    break;
+            }
             /*if (gestureCompletionData.gestureName == "Left Wall") {
                 
                 Debug.Log("Left Wall Gesture Successfully Casted");

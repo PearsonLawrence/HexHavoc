@@ -119,7 +119,7 @@ public class SpellSpawner : MonoBehaviour
             hand = other.GetComponent<HandInteractableComponent>();
             gesture = hand.parentObj.GetComponent<GestureEventProcessor>();
 
-            gesture.IsTouchingElement = true;
+            gesture.isTouchingElement = true;
         }
     }
 

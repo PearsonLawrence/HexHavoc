@@ -83,7 +83,7 @@ public class collisionManager : NetworkBehaviour
                     if (hand.isHolding)
                     {
                         temp.followHand.Value = true;
-                        gestures.IsTouchingElement = true;
+                        gestures.isTouchingElement = true;
                     }
                     else
                     {
