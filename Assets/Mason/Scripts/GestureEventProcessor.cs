@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.InputSystem;
+using System.IO;
 
 public class GestureEventProcessor : MonoBehaviour
 {
@@ -34,11 +35,12 @@ public class GestureEventProcessor : MonoBehaviour
     public SpellManager spellmanager;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
-    //public GestureRecognition gr = newGestureRecognition();
+    private GestureRecognition gr;
     // Start is called before the first frame update
     void Start()
     {
-        //gr.loadFromFile("StreamingAssets/1and2HandGestures.dat");
+        gr = new GestureRecognition();
+        gr.loadFromFile(Path.Combine(Application.streamingAssetsPath, "myGestureDatabaseFile.dat"));
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxAmmo;
         currentGunAmmo = maxAmmo;
