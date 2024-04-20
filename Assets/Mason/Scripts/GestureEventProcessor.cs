@@ -1,4 +1,5 @@
-//Created by Mason Smith using MiVRy Gesture Recognition Tutorial. Reads player input gestures, and completes specific tasks according to the value of the gesture.
+//Created by Mason Smith and Pearson Lawrence using MiVRy Gesture Recognition Tutorial. Reads player input gestures, and completes specific tasks according to the value of the gesture.
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class GestureEventProcessor : MonoBehaviour
     void Start()
     {
         gr = new GestureRecognition();
-        gr.loadFromFile(Path.Combine(Application.streamingAssetsPath, "myGestureDatabaseFile.dat"));
+        gr.loadFromFile(Application.streamingAssetsPath + "/1and2HandedGestures.dat");
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxBowAmmo;
         currentGunAmmo = maxAmmo;
@@ -291,47 +292,6 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                 }
             }
-            
-
-            //Casts Left Hand Wall Spell
-            /*if (gestureCompletionData.gestureName == "Left Wall") {
-                
-                Debug.Log("Left Wall Gesture Successfully Casted");
-                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnWall(true);
-                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireLeftWall();
-            }
-            //Casts Right Hand Wall Spell
-            if (gestureCompletionData.gestureName == "Right Wall")
-            {
-                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnWall(false);
-                Debug.Log("Right Wall Gesture Successfully Casted");
-                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightWall();
-            }
-            //Casts Left Hand Cast Spell
-            if (gestureCompletionData.gestureName == "Left Cast")
-            {
-
-                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnProjectile(true);
-                Debug.Log("Left Cast Gesture Successfully Casted");
-                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireLeftProjectile();
-            }
-            //Casts Right Hand Cast Spell
-            if (gestureCompletionData.gestureName == "Right Cast")
-            {
-                if (unNetworkSpellmanager && unNetworkPlayer.isTutorial) unNetworkSpellmanager.SpawnProjectile(false);
-                Debug.Log("Right Cast Gesture Successfully Casted");
-                if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightProjectile();
-            }*/
-            
-            
-
-            
-
-            
-
-            
-
-            
 
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
