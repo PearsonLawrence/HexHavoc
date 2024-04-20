@@ -17,6 +17,8 @@ public class collisionManager : NetworkBehaviour
 
     GameObject tempSpellOwner;
 
+    HandInteractableComponent hand;
+
     public SpellComponent getSpell()
     {
         return spell;
@@ -48,6 +50,18 @@ public class collisionManager : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(hand != null)
+        {
+            if(hand.isHolding == false)
+            {
+                NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
+                temp.followHand.Value = false;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.gameObject);
@@ -73,7 +87,7 @@ public class collisionManager : NetworkBehaviour
                 Debug.Log("hit with hamd");
                 NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
 
-                HandInteractableComponent hand = other.GetComponent<HandInteractableComponent>();
+                hand = other.GetComponent<HandInteractableComponent>();
 
                 GestureEventProcessor gestures = hand.parentObj.GetComponent<GestureEventProcessor>();
                 
@@ -92,6 +106,34 @@ public class collisionManager : NetworkBehaviour
                     }
                     
                 }
+
+                if (temp.elementtype == elementType.WATER)
+                {
+                    if (hand.isHolding)
+                    {
+                        temp.followHand.Value = true;
+                        gestures.isTouchingElement = true;
+                    }
+                }
+
+                if (temp.elementtype == elementType.FIRE)
+                {
+                    if (hand.isHolding)
+                    {
+                        temp.followHand.Value = true;
+                        gestures.isTouchingElement = true;
+                    }
+                }
+
+                if (temp.elementtype == elementType.WIND)
+                {
+                    if (hand.isHolding)
+                    {
+                        temp.followHand.Value = true;
+                        gestures.isTouchingElement = true;
+                    }
+                }
+
             }
 
             if (other.CompareTag("PlayerBody"))
