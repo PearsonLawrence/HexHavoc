@@ -21,7 +21,8 @@ public class GestureEventProcessor : MonoBehaviour
     private bool isGunSpawnedLeft = false;
     private bool isGunSpawnedRight = false;
     public bool isTouchingElement = false;
-    
+    public bool isElementSpawned = false;
+
     private bool hasAmmo = false;
     private bool hasShotLeft = false;
     private bool hasShotRight = false;
@@ -33,6 +34,7 @@ public class GestureEventProcessor : MonoBehaviour
 
     public TeleportationManager teleportationManager;
     public SpellManager spellmanager;
+    public SpellSpawner spellSpawner;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
     //public GestureRecognition gr = newGestureRecognition();
@@ -52,6 +54,15 @@ public class GestureEventProcessor : MonoBehaviour
         bool triggerValue = leftTriggerProperty.action.IsPressed();
         bool triggerValue2 = rightTriggerProperty.action.IsPressed();
         //Prevents gun from firing multiple times on trigger hold
+
+        if(spellmanager)
+        {
+            if(!spellSpawner.spellManager)
+            {
+                spellSpawner.spellManager = spellmanager;
+            }
+        }
+
         if (!triggerValue && hasShotLeft)
         {
             hasShotLeft = false;
@@ -86,11 +97,19 @@ public class GestureEventProcessor : MonoBehaviour
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
         if (gestureCompletionData.similarity >= 0.7) {
             //Casts Element Spawn (for Earth, Water, and Air)
-            if ((gestureCompletionData.gestureName == "Left Element Spawn" || gestureCompletionData.gestureName == "Right Element Spawn") && isTouchingElement)
+            if (gestureCompletionData.gestureName == "Right Element Spawn" && !isElementSpawned)
             {
+                isElementSpawned = true;
+                spellSpawner.SpawnElementRight();
                 Debug.Log("Element Successfully Spawned");
             }
-            if(spellmanager)
+            if (gestureCompletionData.gestureName == "Left Element Spawn" && !isElementSpawned)
+            {
+                isElementSpawned = true;
+                Debug.Log("Element Successfully Spawned");
+                spellSpawner.SpawnElementLeft();
+            }
+            if (spellmanager)
             {
                 switch (spellmanager.elementSpeicalization)
                 {
@@ -133,6 +152,7 @@ public class GestureEventProcessor : MonoBehaviour
                                 isTouchingElement = false;
                                 isBowSpawnedLeft = false;
                                 isBowSpawnedRight = false;
+                                isElementSpawned = false;
                                 //Destroy(BowGameObject);
                             }
                         }
@@ -164,6 +184,7 @@ public class GestureEventProcessor : MonoBehaviour
                                 isTouchingElement = false;
                                 isBowSpawnedLeft = false;
                                 isBowSpawnedRight = false;
+                                isElementSpawned = false;
                                 //Destroy(BowGameObject);
                             }
                         }
@@ -180,11 +201,13 @@ public class GestureEventProcessor : MonoBehaviour
                         {
                             Debug.Log("Fire Wall Successfully Casted");
                             spellmanager.fireLeftWall();
+                            isElementSpawned = false;
                         }
                         if (gestureCompletionData.gestureName == "Left Fire Wall" && isTouchingElement)
                         {
                             Debug.Log("Fire Wall Successfully Casted");
                             spellmanager.fireRightWall();
+                            isElementSpawned = false;
                         }
                         break;
                     case elementType.EARTH:
@@ -193,12 +216,14 @@ public class GestureEventProcessor : MonoBehaviour
                         {
                             Debug.Log("Rock Wall Successfully Spawned");
                             spellmanager.fireRightWall();
+                            isElementSpawned = false;
                         }
                         //Casts Rock Wall
                         if (gestureCompletionData.gestureName == "Left Rock Wall" && isTouchingElement)
                         {
                             Debug.Log("Rock Wall Successfully Spawned");
                             spellmanager.fireLeftWall();
+                            isElementSpawned = false;
                         }
                         break;
                     case elementType.WIND:
@@ -210,6 +235,7 @@ public class GestureEventProcessor : MonoBehaviour
                             hasAmmo = true;
                             reloadCount++;
                             Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
+                            isElementSpawned = false;
                         }
 
                         //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
@@ -219,6 +245,7 @@ public class GestureEventProcessor : MonoBehaviour
                             isGunSpawnedLeft = true;
                             hasAmmo = true;
                             currentGunAmmo = maxAmmo;
+                            isElementSpawned = true;
                         }
 
                         //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
@@ -228,12 +255,14 @@ public class GestureEventProcessor : MonoBehaviour
                             isGunSpawnedRight = true;
                             hasAmmo = true;
                             currentGunAmmo = maxAmmo;
+                            isElementSpawned = true;
                         }
 
                         //Casts Air Shield
                         if (gestureCompletionData.gestureName == "Air Shield" && isTouchingElement)
                         {
                             Debug.Log("Air Shield Successfully Spawned");
+                            isElementSpawned = false;
                         }
 
                         break;
@@ -247,11 +276,13 @@ public class GestureEventProcessor : MonoBehaviour
                         if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
                         {
                             Debug.Log("Water Shield Successfully Spawned");
+                            isElementSpawned = false;
                             spellmanager.fireLeftWall();
                         }
                         if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
                         {
                             Debug.Log("Water Shield Successfully Spawned");
+                            isElementSpawned = false;
                             spellmanager.fireRightWall();
                         }
                         break;

@@ -12,6 +12,7 @@ public class HandInteractableComponent : NetworkBehaviour
     public NetworkPlayer parentObj;
     public UnNetworkPlayer parentUnNetworkObj;
     public UnNetworkedSpellManager spellManager;
+    public GestureEventProcessor gestureEP;
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -46,6 +47,17 @@ public class HandInteractableComponent : NetworkBehaviour
                         currentInteractableItem = other.gameObject;
                         isHolding = true;
 
+                    }
+                }
+                break;
+            case "Element":
+                if (!isHolding)
+                {
+                    if (isSelecting)
+                    {
+                        currentInteractableItem = other.gameObject;
+                        isHolding = true;
+                        gestureEP.isTouchingElement = true;
                     }
                 }
                 break;
@@ -84,7 +96,16 @@ public class HandInteractableComponent : NetworkBehaviour
                 }
                 break;
             case "PortalLobby":
-                
+
+                break;
+            case "Element":
+                Rigidbody tempRB2 = currentInteractableItem.GetComponent<Rigidbody>();
+                currentInteractableItem = null;
+                if (tempRB2)
+                {
+                    tempRB2.velocity = Vector3.zero;
+                }
+                gestureEP.isTouchingElement = false;
                 break;
         }
     }

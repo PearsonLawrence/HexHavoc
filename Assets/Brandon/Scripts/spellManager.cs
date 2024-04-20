@@ -213,9 +213,9 @@ public class SpellManager : NetworkBehaviour
             Vector3 playerForward = Camera.main.transform.forward;
             if(desiredProjectile != earthSpearPrefab)
             {
-                //projectile.SetDirection(Vector3.forward);
+                projectile.SetDirection(Vector3.forward);
             }
-            // projectile.SetDirection(Vector3.forward);
+            projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -280,6 +280,8 @@ public class SpellManager : NetworkBehaviour
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
 
+        projectile.SetDirection(RightHandPos.forward);
+
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
@@ -296,8 +298,8 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            //projectile.SetDirection(RightHandPos.forward);
-            // projectile.SetDirection(Vector3.forward);
+            projectile.SetDirection(RightHandPos.forward);
+            //projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -348,6 +350,8 @@ public class SpellManager : NetworkBehaviour
 
         // Instantiate the fireball at the calculated spawn position
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, RightHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
+
+        projectile.SetDirection(RightHandPos.forward);
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
         if (networkObject != null)
@@ -364,7 +368,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            //projectile.SetDirection(RightHandPos.forward);
+            projectile.SetDirection(RightHandPos.forward);
            // projectile.SetDirection(Vector3.forward);
         }
         else
@@ -390,8 +394,8 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
-        Vector3 spawnPosition = Vector3.zero;
+        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        //Vector3 spawnPosition = Vector3.zero;
 
         spawnPosition.Set(0, 0, 7);
 
@@ -412,9 +416,10 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
+        Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
+        Quaternion tempRotation = Quaternion.Euler(tempRot);
 
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, tempRotation).GetComponent<NetworkedWallComponent>();
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
@@ -464,10 +469,12 @@ public class SpellManager : NetworkBehaviour
                 break;
 
         }
-
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedWallComponent>();
+        Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
+        Quaternion tempRotation = Quaternion.Euler(tempRot);
+        
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, tempRotation).GetComponent<NetworkedWallComponent>();
         //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
-
+        
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
@@ -569,8 +576,10 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, RightHandPos.rotation).GetComponent<NetworkedWallComponent>();
-        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
+        Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
+        Quaternion tempRotation = Quaternion.Euler(tempRot);
+
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, tempRotation).GetComponent<NetworkedWallComponent>();
 
         NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();

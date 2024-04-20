@@ -276,14 +276,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2930572510356264868}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.06104851, y: 0, z: 0, w: 0.99813485}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1002514411811238416}
   m_Father: {fileID: 8941643027808587316}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7, y: 0, z: 0}
 --- !u!33 &2480523304205031251
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -353,6 +353,7 @@ MonoBehaviour:
   parentObj: {fileID: 0}
   parentUnNetworkObj: {fileID: 0}
   spellManager: {fileID: 0}
+  gestureEP: {fileID: 0}
 --- !u!135 &8196293139342366404
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -430,14 +431,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3141107870537888508}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.06104851, y: 0, z: 0, w: 0.99813485}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8118399898962025269}
   m_Father: {fileID: 6178788066534013154}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7, y: 0, z: 0}
 --- !u!33 &6590611006965177226
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -528,6 +529,7 @@ MonoBehaviour:
   parentObj: {fileID: 0}
   parentUnNetworkObj: {fileID: 0}
   spellManager: {fileID: 0}
+  gestureEP: {fileID: 0}
 --- !u!54 &6273179062021268637
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -713,10 +715,11 @@ MonoBehaviour:
   selectPoint3: {fileID: 6667214078960048035}
   selectPoint4: {fileID: 792176891917057591}
   castedSpells: []
-  LeftHandPos: {fileID: 6178788066534013154}
-  RightHandPos: {fileID: 8941643027808587316}
+  LeftHandPos: {fileID: 6527613182462552203}
+  RightHandPos: {fileID: 5003784469846811384}
   desiredProjectile: {fileID: 0}
   chooseOrbs: []
+  elementSpeicalization: 0
   setSpecialization:
     m_InternalValue: 0
   setIsOrbDisabled:

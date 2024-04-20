@@ -15,6 +15,7 @@ TagManager:
   - PlayerBody
   - TpPortal
   - PlayerHand
+  - Element
   layers:
   - Default
   - TransparentFX
