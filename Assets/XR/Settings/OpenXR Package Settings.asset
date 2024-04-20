@@ -69,7 +69,7 @@ MonoBehaviour:
   - {fileID: 4799357409832720481}
   - {fileID: 8033309317631645293}
   - {fileID: -7537594351150171342}
-  m_renderMode: 1
+  m_renderMode: 0
   m_depthSubmissionMode: 0
   m_symmetricProjection: 0
 --- !u!114 &-7615685068615277836
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Name: iPhone
   m_EditorClassIdentifier: 
   features: []
-  m_renderMode: 1
+  m_renderMode: 0
   m_depthSubmissionMode: 0
   m_symmetricProjection: 0
 --- !u!114 &6146128284917316178
