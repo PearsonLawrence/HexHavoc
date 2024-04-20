@@ -161,7 +161,7 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        desiredProjectile = fireballPrefab;
+        desiredProjectile = windBlastPrefab;
 
         if (desiredProjectile == earthSpearPrefab)
         {
@@ -213,7 +213,7 @@ public class SpellManager : NetworkBehaviour
             Vector3 playerForward = Camera.main.transform.forward;
             if(desiredProjectile != earthSpearPrefab)
             {
-                projectile.SetDirection(Vector3.forward);
+                //projectile.SetDirection(Vector3.forward);
             }
             // projectile.SetDirection(Vector3.forward);
         }
@@ -296,7 +296,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(RightHandPos.forward);
+            //projectile.SetDirection(RightHandPos.forward);
             // projectile.SetDirection(Vector3.forward);
         }
         else
@@ -364,7 +364,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(RightHandPos.forward);
+            //projectile.SetDirection(RightHandPos.forward);
            // projectile.SetDirection(Vector3.forward);
         }
         else
