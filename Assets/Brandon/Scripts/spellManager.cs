@@ -48,7 +48,7 @@ public class SpellManager : NetworkBehaviour
 
     public List<Transform> chooseOrbs;
 
-    elementType elementSpeicalization;
+    public elementType elementSpeicalization;
     [HideInInspector] public NetworkVariable<bool> setSpecialization = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -288,6 +288,10 @@ public class SpellManager : NetworkBehaviour
 
             projectile.setOwner(this.gameObject); // Now safe to set the owner
 
+            projectile.earthShot.Value = earthShotCount.Value;
+
+            projectile.handToFollow = LeftHandPos;
+
             //Debug.Log(this.gameObject);
 
             // Additional initialization as needed
@@ -351,6 +355,10 @@ public class SpellManager : NetworkBehaviour
             networkObject.Spawn(); // Spawn the object on the network
 
             projectile.setOwner(this.gameObject); // Now safe to set the owner
+
+            projectile.earthShot.Value = earthShotCount.Value;
+
+            projectile.handToFollow = RightHandPos;
 
             //Debug.Log(this.gameObject);
 

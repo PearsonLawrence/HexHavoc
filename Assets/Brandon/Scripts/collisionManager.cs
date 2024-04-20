@@ -15,7 +15,6 @@ public class collisionManager : NetworkBehaviour
 
     private MatchManager matchManager;
 
-
     GameObject tempSpellOwner;
 
     public SpellComponent getSpell()
@@ -74,10 +73,24 @@ public class collisionManager : NetworkBehaviour
                 Debug.Log("hit with hamd");
                 NetworkedProjectileComponent temp = (NetworkedProjectileComponent)spell;
 
+                HandInteractableComponent hand = other.GetComponent<HandInteractableComponent>();
+
+                GestureEventProcessor gestures = hand.parentObj.GetComponent<GestureEventProcessor>();
+                
+
                 if (temp.elementtype == elementType.EARTH)
                 {
-                    Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
-                    temp.SetDirection(directionBetween);
+                    if (hand.isHolding)
+                    {
+                        temp.followHand.Value = true;
+                        gestures.IsTouchingElement = true;
+                    }
+                    else
+                    {
+                        Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
+                        temp.SetDirection(directionBetween);
+                    }
+                    
                 }
             }
 

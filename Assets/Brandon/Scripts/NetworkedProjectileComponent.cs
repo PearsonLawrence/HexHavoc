@@ -41,6 +41,9 @@ public class NetworkedProjectileComponent : SpellComponent
     public bool waterWallThroughWall;
     public bool dontMove = true;
 
+    public NetworkVariable<bool> followHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public Transform handToFollow;
+
     public void SetWentThroughWall(bool newVal, elementType element)
     {
         switch (element)
@@ -134,6 +137,11 @@ public class NetworkedProjectileComponent : SpellComponent
                         DoImpact();
                     }
                     break;
+            }
+
+            if(followHand.Value == true && dontMove)
+            {
+                transform.position = handToFollow.position;
             }
         }
     }
