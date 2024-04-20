@@ -2,28 +2,77 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.InputSystem;
 
 public class GestureEventProcessor : MonoBehaviour
 {
-    public TeleportationManager teleportationManager;
+    public InputActionProperty leftTriggerProperty;
+    public InputActionProperty rightTriggerProperty;
+
+    private bool isEarthClass = false;
+    private bool isFireClass = false;
+    private bool isWaterClass = false;
+    private bool isAirClass = false;
+
     private bool isTeleportGestureRecognized = false;
-    private bool isLeftWeaponSpawned = false;
-    private bool isRightWeaponSpawned = false;
-    public bool isTouchingElement = false;
-    public bool isRightElementSpawned = false;
-    public bool isLeftElementSpawned = false;
+    private bool isBowSpawnedLeft = false;
+    private bool isBowSpawnedRight = false;
+    private bool isGunSpawnedLeft = false;
+    private bool isGunSpawnedRight = false;
+    private bool isTouchingElement = false;
+    
+    private bool hasAmmo = false;
+    private bool hasShotLeft = false;
+    private bool hasShotRight = false;
+    public int maxAmmo = 5;
+    private int currentBowAmmo;
+    private int currentGunAmmo;
+    private int reloadCount;
+
+    public TeleportationManager teleportationManager;
     public SpellManager spellmanager;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
-    public int WaterHitCount;
-    public int AirBulletAmmo = 4, AirBulletAmmoMax = 4;
-    public int ArrowAmmo = 4, ArrowAmmoMax = 4;
-
     //public GestureRecognition gr = newGestureRecognition();
     // Start is called before the first frame update
     void Start()
     {
         //gr.loadFromFile("StreamingAssets/1and2HandGestures.dat");
+        //Sets current ammo to max ammo when bow/gun is spawned
+        currentBowAmmo = maxAmmo;
+        currentGunAmmo = maxAmmo;
+        reloadCount = 0;
+    }
+
+    //Update is called once per frame
+    void Update()
+    {
+        bool triggerValue = leftTriggerProperty.action.IsPressed();
+        bool triggerValue2 = rightTriggerProperty.action.IsPressed();
+        //Prevents gun from firing multiple times on trigger hold
+        if (!triggerValue && hasShotLeft)
+        {
+            hasShotLeft = false;
+        }
+        else if (triggerValue && isGunSpawnedLeft && !hasShotLeft)
+        {
+            FireLeftGun();
+            hasShotLeft = true;
+        }
+        if (!triggerValue2 && hasShotRight)
+        {
+            hasShotRight = false;
+        }
+        else if (triggerValue2 && isGunSpawnedRight && !hasShotRight)
+        {
+            FireRightGun();
+            hasShotRight = true;
+        }
+        if (currentGunAmmo == 0)
+        {
+            hasAmmo = false;
+        }
     }
 
     public void OnGestureCompleted(GestureCompletionData gestureCompletionData)
@@ -34,148 +83,8 @@ public class GestureEventProcessor : MonoBehaviour
             return;
         }
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
-        if (gestureCompletionData.similarity >= 0.5) {
+        if (gestureCompletionData.similarity >= 0.7) {
             //Casts Left Hand Wall Spell
-            Debug.Log("Gesture");
-
-            //Casts Element Spawn (for Earth, Water, and Air)
-            if (gestureCompletionData.gestureName == "Left Element Spawn" && !isRightElementSpawned)
-            {
-                Debug.Log("Element Successfully Spawned");
-                isLeftElementSpawned = true;
-                isLeftElementSpawned = false;
-            }
-            if (gestureCompletionData.gestureName == "Right Element Spawn" && !isLeftElementSpawned)
-            {
-                Debug.Log("Element Successfully Spawned");
-                isRightElementSpawned = true;
-                isRightElementSpawned = false;
-            }
-
-            switch (spellmanager.elementSpeicalization)
-            {
-                case elementType.FIRE:
-                    if (gestureCompletionData.gestureName == "Right Bow Spawn" && isTouchingElement)
-                    {
-                        Debug.Log("Bow Successfully Spawned");
-                        isRightWeaponSpawned = true;
-                        isLeftWeaponSpawned = false;
-                        ArrowAmmo = ArrowAmmoMax;
-                    }
-
-                    if (gestureCompletionData.gestureName == "Left Bow Spawn" && isTouchingElement)
-                    {
-                        Debug.Log("Bow Successfully Spawned");
-                        isLeftWeaponSpawned = true;
-                        isRightWeaponSpawned = false;
-                        ArrowAmmo = ArrowAmmoMax;
-                    }
-
-                    //Casts Arrow Draw
-                    if (isLeftWeaponSpawned == true)
-                    {
-                        if (gestureCompletionData.gestureName == "Left Arrow Draw")
-                        {
-                            Debug.Log("Arrow Successfully Fired");
-                            ArrowAmmo--;
-                            if (ArrowAmmo <= 0)
-                            {
-                                isLeftWeaponSpawned = false;
-                                isRightWeaponSpawned = false;
-                            }
-                        }
-                    }
-                    if (isRightWeaponSpawned == true)
-                    {
-                        if (gestureCompletionData.gestureName == "Right Arrow Draw")
-                        {
-                            Debug.Log("Arrow Successfully Fired");
-                        }
-                        ArrowAmmo--;
-                        if (ArrowAmmo <= 0)
-                        {
-                            isLeftWeaponSpawned = false;
-                            isRightWeaponSpawned = false;
-                        }
-                    }
-
-                    if (gestureCompletionData.gestureName == "Left Fire Wall" && isTouchingElement)
-                    {
-                        Debug.Log("Fire Wall Successfully Casted");
-                    }
-                    if (gestureCompletionData.gestureName == "Right Fire Wall" && isTouchingElement)
-                    {
-                        Debug.Log("Fire Wall Successfully Casted");
-                    }
-                    break;
-                case elementType.WATER:
-                    //Casts Hit (for Water and Earth)
-                    if (gestureCompletionData.gestureName == "Left Hit" && isTouchingElement)
-                    {
-                        WaterHitCount++;
-                        if (WaterHitCount >= 2)
-                        {
-                            //launch spell
-                        }
-                        else if (WaterHitCount == 1)
-                        {
-                            //attach Hand;
-                        }
-                        Debug.Log("Hit Successfully Casted");
-                    }
-                    if (gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
-                    {
-                        WaterHitCount++;
-                        if (WaterHitCount >= 2)
-                        {
-                            //launch spell
-                        }
-                        else if (WaterHitCount == 1)
-                        {
-                            //attach Hand;
-                        }
-                        Debug.Log("Hit Successfully Casted");
-                    }
-
-                    //Casts Water Shield
-                    if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
-                    {
-                        Debug.Log("Water Shield Successfully Spawned");
-                    }
-                    if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
-                    {
-                        Debug.Log("Water Shield Successfully Spawned");
-                    }
-                    break;
-                case elementType.EARTH:
-                    //Casts Rock Wall
-                    if (gestureCompletionData.gestureName == "Left Rock Wall" && isTouchingElement)
-                    {
-                        Debug.Log("Rock Wall Successfully Spawned");
-                    }
-                    if (gestureCompletionData.gestureName == "Right Rock Wall" && isTouchingElement)
-                    {
-                        Debug.Log("Rock Wall Successfully Spawned");
-                    }
-                    break;
-                case elementType.WIND:
-                    //Casts Reload
-                    if (gestureCompletionData.gestureName == "Left Reload" && isTouchingElement)
-                    {
-                        Debug.Log("Reload Successfully Casted");
-                    }
-                    if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement)
-                    {
-                        Debug.Log("Reload Successfully Casted");
-                    }
-
-                    //Casts Air Shield
-                    if (gestureCompletionData.gestureName == "Air Shield" && isTouchingElement)
-                    {
-                        Debug.Log("Air Shield Successfully Spawned");
-                    }
-                    break;
-            }
             /*if (gestureCompletionData.gestureName == "Left Wall") {
                 
                 Debug.Log("Left Wall Gesture Successfully Casted");
@@ -204,17 +113,140 @@ public class GestureEventProcessor : MonoBehaviour
                 Debug.Log("Right Cast Gesture Successfully Casted");
                 if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightProjectile();
             }*/
-            //Casts Bow Spawn
             
-            /* else if(isLeftWeaponSpawned == false || isRightWeaponSpawned == false)
-             {
-                 if (gestureCompletionData.gestureName == "Left Arrow Draw" || gestureCompletionData.gestureName == "Right Arrow Draw")
-                 {
-                     Debug.Log("Cannot Fire Arrow, Bow Has Not Been Spawned");
-                 }
-             }*/
+            //Casts Left Bow Spawn
+            if (gestureCompletionData.gestureName == "Left Bow Spawn")
+            {
+                Debug.Log("Left Bow Successfully Spawned");
+                isBowSpawnedLeft = true;
+                hasAmmo = true;
+            }
 
+            //Casts Right Bow Spawn
+            if (gestureCompletionData.gestureName == "Right Bow Spawn")
+            {
+                Debug.Log("Right Bow Successfully Spawned");
+                isBowSpawnedRight = true;
+                hasAmmo = true;
+            }
 
+            //Casts Left Arrow Draw
+            //Checks if Bow is spawned. If not, will not fire arrow.
+            if (isBowSpawnedLeft)
+            {
+                //Checks if Bow has ammo. If not, will not fire arrow.
+                if (hasAmmo && currentBowAmmo > 0)
+                {
+                    if (gestureCompletionData.gestureName == "Left Arrow Draw")
+                    {
+                        currentBowAmmo--;
+                        Debug.Log("Arrow Successfully Fired From Left Bow. Current Ammo Left: " + currentBowAmmo);
+                    }
+                }
+                else if (!hasAmmo && currentBowAmmo == 0)
+                {
+                    Debug.Log("Cannot Fire Arrow, Left Bow Has No Ammo. Bow Despawned.");
+                    //Destroy(BowGameObject);
+                }
+            }
+            else if(!isBowSpawnedLeft)
+            {
+                if (gestureCompletionData.gestureName == "Left Arrow Draw")
+                {
+                    Debug.Log("Cannot Fire Arrow, Left Bow Has Not Been Spawned");
+                }
+            }
+
+            //Casts Right Arrow Draw
+            //Checks if Bow is spawned. If not, will not fire arrow.
+            if (isBowSpawnedRight)
+            {
+                //Checks if Bow has ammo. If not, will not fire arrow.
+                if (hasAmmo && currentBowAmmo > 0)
+                {
+                    if (gestureCompletionData.gestureName == "Right Arrow Draw")
+                    {
+                        currentBowAmmo--;
+                        Debug.Log("Arrow Successfully Fired From Right Bow. Current Ammo Left: " + currentBowAmmo);
+                    }
+                }
+                else if (!hasAmmo)
+                {
+                    Debug.Log("Cannot Fire Arrow, Right Bow Has No Ammo. Bow Despawned.");
+                    //Destroy(BowGameObject);
+                }
+            }
+            else if (!isBowSpawnedRight)
+            {
+                if (gestureCompletionData.gestureName == "Right Arrow Draw")
+                {
+                    Debug.Log("Cannot Fire Arrow, Right Bow Has Not Been Spawned");
+                }
+            }
+
+            //Casts Fire Wall
+            if (gestureCompletionData.gestureName == "Left Fire Wall" || gestureCompletionData.gestureName == "Right Fire Wall")
+            {
+                Debug.Log("Fire Wall Successfully Casted");
+            }
+
+            //Casts Element Spawn (for Earth, Water, and Air)
+            if (gestureCompletionData.gestureName == "Left Element Spawn" || gestureCompletionData.gestureName == "Right Element Spawn")
+            {
+                Debug.Log("Element Successfully Spawned");
+            }
+
+            //Casts Hit (for Water and Earth)
+            if (gestureCompletionData.gestureName == "Left Hit" || gestureCompletionData.gestureName == "Right Hit")
+            {
+                Debug.Log("Hit Successfully Casted");
+            }
+
+            //Casts Rock Wall
+            if (gestureCompletionData.gestureName == "Left Rock Wall" || gestureCompletionData.gestureName == "Right Rock Wall")
+            {
+                Debug.Log("Rock Wall Successfully Spawned");
+            }
+
+            //Casts Reload
+            if (gestureCompletionData.gestureName == "Left Reload" || gestureCompletionData.gestureName == "Right Reload")
+            {
+                //Refills ammo back to maxAmmo value
+                currentGunAmmo = maxAmmo;
+                hasAmmo = true;
+                reloadCount++;
+                Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
+            }
+
+            //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
+            if (gestureCompletionData.gestureName == "Left Bow Spawn")
+            {
+                Debug.Log("Left Gun Successfully Spawned");
+                isGunSpawnedLeft = true;
+                hasAmmo = true;
+                currentGunAmmo = maxAmmo;
+            }
+
+            //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
+            if (gestureCompletionData.gestureName == "Right Bow Spawn")
+            {
+                Debug.Log("Right Gun Successfully Spawned");
+                isGunSpawnedRight = true;
+                hasAmmo = true;
+                currentGunAmmo = maxAmmo;
+            }
+
+            //Casts Air Shield
+            if (gestureCompletionData.gestureName == "Air Shield")
+            {
+                Debug.Log("Air Shield Successfully Spawned");
+            }
+
+            //Casts Water Shield
+            if (gestureCompletionData.gestureName == "Left Water Shield" || gestureCompletionData.gestureName == "Right Water Shield")
+            {
+                Debug.Log("Water Shield Successfully Spawned");
+            }
 
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
@@ -241,15 +273,170 @@ public class GestureEventProcessor : MonoBehaviour
         return isTeleportGestureRecognized;
     }
 
-    //Checks if Bow has been spawned
-    /*public bool IsWeaponSpawned()
+    //Checks if Player chose Earth Class
+    public bool IsEarthClass()
     {
-        return isWeaponSpawned;
-    }*/
+        return isEarthClass;
+    }
+
+    //Checks if Player chose Fire Class
+    public bool IsFireClass()
+    {
+        return isFireClass;
+    }
+
+    //Checks if Player chose Water Class
+    public bool IsWaterClass()
+    {
+        return isWaterClass;
+    }
+
+    //Checks if Player chose Air Class
+    public bool IsAirClass()
+    {
+        return isAirClass;
+    }
+
+    //Checks if Bow has been spawned in Left hand
+    public bool IsBowSpawnedLeft()
+    {
+        return isBowSpawnedLeft;
+    }
+
+    //Checks if Bow has been spawned in Right hand
+    public bool IsBowSpawnedRight()
+    {
+        return isBowSpawnedRight;
+    }
+
+    //Checks if Gun has been spawned in Left hand
+    public bool IsGunSpawnedLeft()
+    {
+        return isGunSpawnedLeft;
+    }
+
+    //Checks if Gun has been spawned in Right hand
+    public bool IsGunSpawnedRight()
+    {
+        return isGunSpawnedRight;
+    }
 
     //Checks if Player is touching element
     public bool IsTouchingElement()
     {
         return isTouchingElement;
+    }
+
+    public bool HasAmmo()
+    {
+        return hasAmmo;
+    }
+
+    //Gets state of triggers for FireGun() function
+    public bool GetTriggerButtonState(InputFeatureUsage<bool> usage, XRNode controllerNode)
+    {
+        UnityEngine.XR.InputDevice device = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(controllerNode);
+        bool value;
+        if (device.TryGetFeatureValue(usage, out value))
+        {
+            return value;
+        }
+        return false;
+    }
+
+    //Fires Left Gun
+    public void FireLeftGun()
+    {
+        //Checks if Left Gun is spawned. If not, will not fire gun.
+        if (isGunSpawnedLeft)
+        {
+            //Checks if Left Gun has ammo. If not, will not fire gun.
+            if (hasAmmo && currentGunAmmo > 0)
+            {
+                //Checks if correct trigger has been pulled. If not, will not fire gun.
+                if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.LeftHand))
+                {
+                    currentGunAmmo--;
+                    Debug.Log("Left Gun Fired. Current Ammo Left: " + currentGunAmmo);
+                }
+                else if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.RightHand))
+                {
+                    Debug.Log("Cannot Fire Left Gun. Left gun spawned but right button tried to fire.");
+                }
+            }
+            else if (!hasAmmo)
+            {
+                //Checks if gun has been reloaded once. If so, will despawn after ammo depletion.
+                if (reloadCount >= 1)
+                {
+                    Debug.Log("Cannot Fire Gun, Left Gun Has No Ammo. Gun Despawned.");
+                    //Destroy(GunGameObject);
+                    reloadCount = 0;
+                }
+                else
+                {
+                    Debug.Log("Cannot Fire Gun, Left Gun Has No Ammo. Must Reload.");
+                }
+            }
+        }
+        else if (!isGunSpawnedLeft)
+        {
+            if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.LeftHand))
+            {
+                Debug.Log("Cannot Fire Gun, Left Gun Not Spawned.");
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR: Could Not Fire Left Gun");
+        }
+    }
+
+    //Fires Right Gun
+    public void FireRightGun()
+    {
+        //Checks if Right Gun is spawned. If not, will not fire gun.
+        if (isGunSpawnedRight)
+        {
+            //Checks if Right Gun has ammo. If not, will not fire gun.
+            if (hasAmmo && currentGunAmmo > 0)
+            {
+                //Checks if correct trigger has been pulled. If not, will not fire gun.
+                if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.RightHand))
+                {
+                    currentGunAmmo--;
+                    Debug.Log("Right Gun Fired. Current Ammo Left: " + currentGunAmmo);
+                }
+                else if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.LeftHand))
+                {
+                    Debug.Log("Could Not Fire Right Gun. Right gun spawned but left button tried to fire.");
+                }
+            }
+            else if (!hasAmmo)
+            {
+                //Checks if gun has been reloaded once. If so, will despawn after ammo depletion.
+                if (reloadCount >= 1)
+                {
+                    Debug.Log("Cannot Fire Gun, Right Gun Has No Ammo. Gun Despawned.");
+                    //Destroy(GunGameObject);
+                    reloadCount = 0;
+                }
+                else
+                {
+                    Debug.Log("Cannot Fire Gun, Right Gun Has No Ammo. Must Reload.");
+                }
+            }
+        }
+        else if (!isGunSpawnedRight)
+        {
+            if (GetTriggerButtonState(UnityEngine.XR.CommonUsages.triggerButton, XRNode.RightHand))
+            {
+                Debug.Log("Cannot Fire Gun, Right Gun Not Spawned.");
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR: Could Not Fire Right Gun");
+        }
     }
 }
