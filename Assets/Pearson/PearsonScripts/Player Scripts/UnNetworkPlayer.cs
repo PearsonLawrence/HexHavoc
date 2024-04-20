@@ -24,6 +24,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public TutorialManager tutorialManager;
     public GameObject offset;
     public MatchManager manager;
+    public GestureEventProcessor gestureEP;
     void Start()
     {
         manager = MatchManager.Instance;

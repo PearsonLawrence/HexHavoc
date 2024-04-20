@@ -53,6 +53,7 @@ public class MatchManager : NetworkBehaviour
 
     public Transform gameSpawnPosition1;
     public Transform gameSpawnPosition2;
+    public UnNetworkPlayer XRUnNetwork;
 
     void Awake()
     {
@@ -106,12 +107,17 @@ public class MatchManager : NetworkBehaviour
         {
             playerOneSpellManager = spellManager;
             playerOneNetwork = playerNetwork;
+            XRUnNetwork.spellmanager = playerOneSpellManager;
+            XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
+            
             joinedPlayerCount.Value++; 
         }
         else if (clientId == 1)
         {
             playerTwoSpellManager = spellManager;
             playerTwoNetwork = playerNetwork;
+            XRUnNetwork.spellmanager = playerTwoSpellManager;
+            XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
             joinedPlayerCount.Value++; 
         }
     }
