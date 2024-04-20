@@ -55,9 +55,9 @@ public class GestureEventProcessor : MonoBehaviour
         bool triggerValue2 = rightTriggerProperty.action.IsPressed();
         //Prevents gun from firing multiple times on trigger hold
 
-        if(spellmanager)
+        if(spellmanager != null)
         {
-            if(!spellSpawner.spellManager)
+            if(spellSpawner.spellManager == null)
             {
                 spellSpawner.spellManager = spellmanager;
             }
