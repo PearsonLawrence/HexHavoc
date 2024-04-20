@@ -38,15 +38,142 @@ public class GestureEventProcessor : MonoBehaviour
             //Casts Left Hand Wall Spell
             Debug.Log("Gesture");
 
-            switch(spellmanager.elementSpeicalization)
+            //Casts Element Spawn (for Earth, Water, and Air)
+            if (gestureCompletionData.gestureName == "Left Element Spawn" && !isRightElementSpawned)
+            {
+                Debug.Log("Element Successfully Spawned");
+                isLeftElementSpawned = true;
+                isLeftElementSpawned = false;
+            }
+            if (gestureCompletionData.gestureName == "Right Element Spawn" && !isLeftElementSpawned)
+            {
+                Debug.Log("Element Successfully Spawned");
+                isRightElementSpawned = true;
+                isRightElementSpawned = false;
+            }
+
+            switch (spellmanager.elementSpeicalization)
             {
                 case elementType.FIRE:
+                    if (gestureCompletionData.gestureName == "Right Bow Spawn" && isTouchingElement)
+                    {
+                        Debug.Log("Bow Successfully Spawned");
+                        isRightWeaponSpawned = true;
+                        isLeftWeaponSpawned = false;
+                        ArrowAmmo = ArrowAmmoMax;
+                    }
+
+                    if (gestureCompletionData.gestureName == "Left Bow Spawn" && isTouchingElement)
+                    {
+                        Debug.Log("Bow Successfully Spawned");
+                        isLeftWeaponSpawned = true;
+                        isRightWeaponSpawned = false;
+                        ArrowAmmo = ArrowAmmoMax;
+                    }
+
+                    //Casts Arrow Draw
+                    if (isLeftWeaponSpawned == true)
+                    {
+                        if (gestureCompletionData.gestureName == "Left Arrow Draw")
+                        {
+                            Debug.Log("Arrow Successfully Fired");
+                            ArrowAmmo--;
+                            if (ArrowAmmo <= 0)
+                            {
+                                isLeftWeaponSpawned = false;
+                                isRightWeaponSpawned = false;
+                            }
+                        }
+                    }
+                    if (isRightWeaponSpawned == true)
+                    {
+                        if (gestureCompletionData.gestureName == "Right Arrow Draw")
+                        {
+                            Debug.Log("Arrow Successfully Fired");
+                        }
+                        ArrowAmmo--;
+                        if (ArrowAmmo <= 0)
+                        {
+                            isLeftWeaponSpawned = false;
+                            isRightWeaponSpawned = false;
+                        }
+                    }
+
+                    if (gestureCompletionData.gestureName == "Left Fire Wall" && isTouchingElement)
+                    {
+                        Debug.Log("Fire Wall Successfully Casted");
+                    }
+                    if (gestureCompletionData.gestureName == "Right Fire Wall" && isTouchingElement)
+                    {
+                        Debug.Log("Fire Wall Successfully Casted");
+                    }
                     break;
                 case elementType.WATER:
+                    //Casts Hit (for Water and Earth)
+                    if (gestureCompletionData.gestureName == "Left Hit" && isTouchingElement)
+                    {
+                        WaterHitCount++;
+                        if (WaterHitCount >= 2)
+                        {
+                            //launch spell
+                        }
+                        else if (WaterHitCount == 1)
+                        {
+                            //attach Hand;
+                        }
+                        Debug.Log("Hit Successfully Casted");
+                    }
+                    if (gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
+                    {
+                        WaterHitCount++;
+                        if (WaterHitCount >= 2)
+                        {
+                            //launch spell
+                        }
+                        else if (WaterHitCount == 1)
+                        {
+                            //attach Hand;
+                        }
+                        Debug.Log("Hit Successfully Casted");
+                    }
+
+                    //Casts Water Shield
+                    if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
+                    {
+                        Debug.Log("Water Shield Successfully Spawned");
+                    }
+                    if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
+                    {
+                        Debug.Log("Water Shield Successfully Spawned");
+                    }
                     break;
                 case elementType.EARTH:
+                    //Casts Rock Wall
+                    if (gestureCompletionData.gestureName == "Left Rock Wall" && isTouchingElement)
+                    {
+                        Debug.Log("Rock Wall Successfully Spawned");
+                    }
+                    if (gestureCompletionData.gestureName == "Right Rock Wall" && isTouchingElement)
+                    {
+                        Debug.Log("Rock Wall Successfully Spawned");
+                    }
                     break;
                 case elementType.WIND:
+                    //Casts Reload
+                    if (gestureCompletionData.gestureName == "Left Reload" && isTouchingElement)
+                    {
+                        Debug.Log("Reload Successfully Casted");
+                    }
+                    if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement)
+                    {
+                        Debug.Log("Reload Successfully Casted");
+                    }
+
+                    //Casts Air Shield
+                    if (gestureCompletionData.gestureName == "Air Shield" && isTouchingElement)
+                    {
+                        Debug.Log("Air Shield Successfully Spawned");
+                    }
                     break;
             }
             /*if (gestureCompletionData.gestureName == "Left Wall") {
@@ -78,49 +205,7 @@ public class GestureEventProcessor : MonoBehaviour
                 if (spellmanager && !unNetworkPlayer.isTutorial) spellmanager.fireRightProjectile();
             }*/
             //Casts Bow Spawn
-            if (gestureCompletionData.gestureName == "Right Bow Spawn" && isTouchingElement)
-            {
-                Debug.Log("Bow Successfully Spawned");
-                isRightWeaponSpawned = true;
-                isLeftWeaponSpawned = false;
-                ArrowAmmo = ArrowAmmoMax;
-            }
-
-            if (gestureCompletionData.gestureName == "Left Bow Spawn" && isTouchingElement)
-            {
-                Debug.Log("Bow Successfully Spawned");
-                isLeftWeaponSpawned = true;
-                isRightWeaponSpawned = false;
-                ArrowAmmo = ArrowAmmoMax;
-            }
-
-            //Casts Arrow Draw
-            if (isLeftWeaponSpawned == true)
-            {
-                if (gestureCompletionData.gestureName == "Left Arrow Draw")
-                {
-                    Debug.Log("Arrow Successfully Fired");
-                    ArrowAmmo--;
-                    if(ArrowAmmo <= 0)
-                    {
-                        isLeftWeaponSpawned = false;
-                        isRightWeaponSpawned = false;
-                    }
-                }
-            }
-            if(isRightWeaponSpawned == true)
-            {
-                if (gestureCompletionData.gestureName == "Right Arrow Draw")
-                {
-                    Debug.Log("Arrow Successfully Fired");
-                }
-                ArrowAmmo--;
-                if (ArrowAmmo <= 0)
-                {
-                    isLeftWeaponSpawned = false;
-                    isRightWeaponSpawned = false;
-                }
-            }
+            
             /* else if(isLeftWeaponSpawned == false || isRightWeaponSpawned == false)
              {
                  if (gestureCompletionData.gestureName == "Left Arrow Draw" || gestureCompletionData.gestureName == "Right Arrow Draw")
@@ -129,93 +214,7 @@ public class GestureEventProcessor : MonoBehaviour
                  }
              }*/
 
-            //Casts Fire Wall
-            if (gestureCompletionData.gestureName == "Left Fire Wall" && isTouchingElement)
-            {
-                Debug.Log("Fire Wall Successfully Casted");
-            }
-            if (gestureCompletionData.gestureName == "Right Fire Wall" && isTouchingElement)
-            {
-                Debug.Log("Fire Wall Successfully Casted");
-            }
 
-            //Casts Element Spawn (for Earth, Water, and Air)
-            if (gestureCompletionData.gestureName == "Left Element Spawn" && !isRightElementSpawned)
-            {
-                Debug.Log("Element Successfully Spawned");
-                isLeftElementSpawned = true;
-                isLeftElementSpawned = false;
-            }
-            if (gestureCompletionData.gestureName == "Right Element Spawn" && !isLeftElementSpawned)
-            {
-                Debug.Log("Element Successfully Spawned");
-                isRightElementSpawned = true;
-                isRightElementSpawned = false;
-            }
-
-            //Casts Hit (for Water and Earth)
-            if (gestureCompletionData.gestureName == "Left Hit" && isTouchingElement)
-            {
-                WaterHitCount++;
-                if(WaterHitCount >= 2)
-                {
-                    //launch spell
-                }
-                else if(WaterHitCount == 1)
-                {
-                    //attach Hand;
-                }
-                Debug.Log("Hit Successfully Casted");
-            }
-            if (gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
-            {
-                WaterHitCount++;
-                if (WaterHitCount >= 2)
-                {
-                    //launch spell
-                }
-                else if (WaterHitCount == 1)
-                {
-                    //attach Hand;
-                }
-                Debug.Log("Hit Successfully Casted");
-            }
-
-            //Casts Rock Wall
-            if (gestureCompletionData.gestureName == "Left Rock Wall" && isTouchingElement)
-            {
-                Debug.Log("Rock Wall Successfully Spawned");
-            }
-            if (gestureCompletionData.gestureName == "Right Rock Wall" && isTouchingElement)
-            {
-                Debug.Log("Rock Wall Successfully Spawned");
-            }
-
-            //Casts Reload
-            if (gestureCompletionData.gestureName == "Left Reload" && isTouchingElement)
-            {
-                Debug.Log("Reload Successfully Casted");
-            }
-            if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement)
-            {
-                Debug.Log("Reload Successfully Casted");
-            }
-
-            //Casts Air Shield
-            if (gestureCompletionData.gestureName == "Air Shield" && isTouchingElement)
-            {
-                Debug.Log("Air Shield Successfully Spawned");
-            }
-
-            //Casts Water Shield
-            if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
-            {
-                Debug.Log("Water Shield Successfully Spawned");
-            }
-            if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
-            {
-                Debug.Log("Water Shield Successfully Spawned");
-            }
 
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
