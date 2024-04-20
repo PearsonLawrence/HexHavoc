@@ -23,7 +23,7 @@ public class ElementSelect : SpellComponent
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("collided");
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("PlayerHand"))
         {
             HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
             NetworkPlayer networkPlayer = temp.parentObj;

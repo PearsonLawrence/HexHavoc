@@ -19,7 +19,7 @@ public class ReadyButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("PlayerHand"))
         {
             Debug.Log("Touched sensually");
             HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();

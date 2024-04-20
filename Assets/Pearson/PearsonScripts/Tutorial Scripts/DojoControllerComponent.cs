@@ -10,7 +10,19 @@ public class DojoControllerComponent : MonoBehaviour
     [SerializeField] private List<GameObject> elementDisplays;
 
     // Start is called before the first frame update
-
+    public void ToggleDisplay()
+    {
+        if(orbholder.activeSelf)
+        {
+            orbholder.SetActive(false);
+            displayHolder.SetActive(true);
+        }
+        else
+        {
+            orbholder.SetActive(false);
+            displayHolder.SetActive(true);
+        }
+    }
     public void setElementDisplay(int idx)
     {
         orbholder.SetActive(false);

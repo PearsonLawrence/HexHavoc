@@ -21,7 +21,7 @@ public class UnNetworkedSpellManager : MonoBehaviour
     // Collection of spawned spells for potential future reference or management
     private List<Transform> castedSpells = new List<Transform>();
 
-    private elementType playerSpecialzation = elementType.WATER;
+    public elementType playerSpecialzation = elementType.WATER;
     private Transform desieredProjectile;
     private Transform desiredWall;
     [SerializeField] private Transform Lhand;

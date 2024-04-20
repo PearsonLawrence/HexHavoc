@@ -24,7 +24,7 @@ public class PortalTeleportComponent : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("PlayerHand"))
         {
             toArea.SetActive(true);
             other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.currentPillar = tpToPillar;

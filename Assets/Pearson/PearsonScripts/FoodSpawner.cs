@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab;
+   /* [SerializeField] private GameObject prefab;
     private const int MaxPrefabCount = 50;
     // Start is called before the first frame update
     void Start()
@@ -44,5 +44,5 @@ public class FoodSpawner : MonoBehaviour
             if (NetworkObjectPool.Singleton.GetCurrentPrefabCount(prefab) < MaxPrefabCount)
                 SpawnFood();
         }
-    }
+    }*/
 }

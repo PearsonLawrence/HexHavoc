@@ -6,14 +6,22 @@ public class DojoOrbSelector : MonoBehaviour
 {
     public int OrbIdx;
     public DojoControllerComponent controller;
+    public bool isSwitch;
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("PlayerHand"))
         {
-            var component = other.GetComponent<HandInteractableComponent>().spellManager;
-            setPlayerElement(component);
+            if(isSwitch)
+            {
+                controller.ToggleDisplay();
+            }
+            else
+            {
+                var component = other.GetComponent<HandInteractableComponent>().spellManager;
+                setPlayerElement(component);
 
-            controller.setElementDisplay(OrbIdx);
+                controller.setElementDisplay(OrbIdx);
+            }
         }
     }
 
