@@ -19,6 +19,8 @@ public class MatchManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<bool> isThereWinner = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    [HideInInspector] public NetworkVariable<bool> resetRound = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> joinedPlayerCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -212,7 +214,12 @@ public class MatchManager : NetworkBehaviour
             }
             else
             {
-                ResetRound();
+                resetRound.Value = true;
+                Debug.Log("Round Reseting");
+                playerOneHealth.Value = 100;
+                playerTwoHealth.Value = 100;
+                Debug.Log(playerOneHealth.Value);
+                Debug.Log(playerTwoHealth.Value);
             }
 
         }
@@ -226,15 +233,14 @@ public class MatchManager : NetworkBehaviour
             }
             else
             {
-                ResetRound();
+                resetRound.Value = true;
+                Debug.Log("Round Reseting");
+                playerOneHealth.Value = 100;
+                playerTwoHealth.Value = 100;
+                Debug.Log(playerOneHealth.Value);
+                Debug.Log(playerTwoHealth.Value);
             }
         }
-
-        /*foreach(HealthBar t in healthBars)
-        {
-            Debug.Log("Calling health shit");
-            t.UpdateHealthBarClientRpc();
-        }*/
 
         //isRoundReset.Value = true;
         resetTime = maxResetTime;

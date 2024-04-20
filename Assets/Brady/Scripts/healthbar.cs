@@ -28,10 +28,10 @@ public class HealthBar : MonoBehaviour
             if (playerOneHealthBar)
             {
                 float healthPercentage = matchManager.playerOneHealth.Value / maxHealth;
-                Debug.Log(matchManager.playerOneHealth.Value);
+                //Debug.Log(matchManager.playerOneHealth.Value);
                 if (healthBar != null)
                 {
-                    Debug.Log("BAR PERCENT : " + healthPercentage);
+                    //Debug.Log("BAR PERCENT : " + healthPercentage);
                     healthBar.fillAmount = healthPercentage;
                     Color healthColor = Color.Lerp(Color.red, Color.green, healthPercentage);
                     healthBar.color = healthColor;
