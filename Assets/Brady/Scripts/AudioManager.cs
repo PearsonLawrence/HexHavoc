@@ -20,6 +20,18 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip waterWallSound;
     [SerializeField] private AudioClip earthWallSound;
 
+    [SerializeField] private AudioClip AmatchStartSound;
+
+    [SerializeField] private AudioClip AelmChooseSound;
+
+    [SerializeField] private AudioClip Around1;
+
+    [SerializeField] private AudioClip Around2;
+
+    [SerializeField] private AudioClip Around3;
+
+    [SerializeField] private AudioClip AfinishSound; 
+
     private AudioSource backgroundMusicSource;
     private AudioSource soundEffectSource;
 
@@ -113,4 +125,35 @@ public class AudioManager : MonoBehaviour
     {
         PlaySound(earthWallSound);
     }
+
+    public void PlayAmatchStartsound()
+    {
+        PlaySound(AmatchStartSound);
+    }
+
+    public void PlayAelmChoose()
+    {
+        PlaySound(AelmChooseSound);
+    }
+
+    public void PlayAround1()
+    {
+        PlaySound(Around1);
+    }
+
+    public void PlayAround2()
+    {
+        PlaySound(Around2);
+    }
+
+    public void PlayAround3()
+    {
+        PlaySound(Around3);
+    }
+
+    public void PlayAfinish()
+    {
+        PlaySound(AfinishSound);
+    }
+
 }

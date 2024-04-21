@@ -50,4 +50,16 @@ audioManager.PlayWaterWallSound();
 audioManager.PlayEarthWallSound();
 
 
+// NEW STUFF 2 ADD
+audioManager.PlayAmatchStartsound();
+
+audioManager.PlayAelmChoose();
+
+audioManager.PlayAround1();
+
+audioManager.PlayAround2();
+
+audioManager.PlayAround3();
+
+audioManager.PlayAfinish();
 */
