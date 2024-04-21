@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,66 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &206799086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206799088}
+  - component: {fileID: 206799087}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &206799087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206799086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6992da0513a50c1439f4e14d329a53a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMenuMusic: {fileID: 0}
+  backgroundMatchMusic: {fileID: 0}
+  fireballSound: {fileID: 8300000, guid: 22bc2709bbb98c64aad606cf1870de70, type: 3}
+  windBlastSound: {fileID: 8300000, guid: cd1f1d59302de074c8230f72cae78d88, type: 3}
+  waterShotSound: {fileID: 8300000, guid: 9957da0dfa6d29947be82ab86df7fe75, type: 3}
+  earthSpearSound: {fileID: 8300000, guid: aa39cd326db6e2641961b44b9c4f519e, type: 3}
+  fireWallSound: {fileID: 8300000, guid: 044245afd4f059c44a094cb15c58cf87, type: 3}
+  windWallSound: {fileID: 8300000, guid: 4f329ade6858da0448babb92c67071a0, type: 3}
+  waterWallSound: {fileID: 8300000, guid: 0b9e6227402ec0841bb21169af51e390, type: 3}
+  earthWallSound: {fileID: 8300000, guid: 7bfb2856de96abf409006a918ec2df11, type: 3}
+  AmatchStartSound: {fileID: 0}
+  AelmChooseSound: {fileID: 0}
+  Around1: {fileID: 0}
+  Around2: {fileID: 0}
+  Around3: {fileID: 0}
+  AfinishSound: {fileID: 0}
+--- !u!4 &206799088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206799086}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9541132, y: 4.559686, z: 1.8774797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,3 +542,4 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 648336927623991789}
   - {fileID: 1832869299}
+  - {fileID: 206799088}
