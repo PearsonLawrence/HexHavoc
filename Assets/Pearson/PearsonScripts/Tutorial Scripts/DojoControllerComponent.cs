@@ -13,18 +13,10 @@ public class DojoControllerComponent : MonoBehaviour
     // Start is called before the first frame update
     public void ToggleDisplay()
     {
-        if(toggle)
-        {
-            orbholder.SetActive(false);
-            displayHolder.SetActive(true);
-            toggle = false;
-        }
-        else
-        {
-            orbholder.SetActive(true);
-            displayHolder.SetActive(false);
-            toggle = true;
-        }
+        
+        orbholder.SetActive(true);
+        displayHolder.SetActive(false);
+           
     }
     public void setElementDisplay(int idx)
     {

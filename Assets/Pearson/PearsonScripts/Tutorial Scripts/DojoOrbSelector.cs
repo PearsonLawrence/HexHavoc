@@ -9,7 +9,7 @@ public class DojoOrbSelector : MonoBehaviour
     public bool isSwitch;
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("NetworkHand"))
+        if(other.CompareTag("PlayerHand"))
         {
             if(isSwitch)
             {
