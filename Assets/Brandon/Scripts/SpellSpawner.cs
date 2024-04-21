@@ -5,29 +5,32 @@ using UnityEngine;
 public class SpellSpawner : MonoBehaviour
 {
     public Transform LeftHandPos, RightHandPos;
-    public Transform windVFX;
-    public Transform fireVFX;
-    public Transform waterVFX;
-    public Transform earthVFX;
+    public GameObject windVFX;
+    public GameObject fireVFX;
+    public GameObject waterVFX;
+    public GameObject earthVFX;
 
     private HandInteractableComponent hand;
-    private GestureEventProcessor gesture;
+    public GestureEventProcessor gesture;
 
-    public SpellManager spellManager;
+    public UnNetworkedSpellManager spellManager;
 
     private int castedWith;
 
     public bool handIn = false;
 
-
+    public GameObject currentSpawnedElementLeft, currentSpawnedElementRight;
     Transform spawnedSpell;
-
+    public Vector3 offset = new Vector3(0,5,0);
     // Start is called before the first frame update
     void Start()
     {
         
     }
-
+    public void DeSpawnElement()
+    {
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -35,7 +38,8 @@ public class SpellSpawner : MonoBehaviour
         {
             spawnWindElement();
         }
-
+        
+        
         /*if (hand.isHolding && handIn)
         {
             if(castedWith == 1)
@@ -51,30 +55,29 @@ public class SpellSpawner : MonoBehaviour
 
     public void spawnWindElement()
     {
-        if (spawnedSpell == null)
+        /*if (spawnedSpell == null)
         {
             float spawnDistance = 1f;
 
-            Vector3 endPosition = new Vector3(0,0,0);
-            Vector3 startPosition = endPosition - new Vector3(0, 5, 0);
+            Vector3 endPosition = LeftHandPos.transform.position;
+            Vector3 startPosition = endPosition - offset;
             switch(spellManager.elementSpeicalization)
             {
                 case elementType.FIRE:
-                    spawnedSpell = Instantiate(fireVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElement = Instantiate(fireVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WATER:
-                    spawnedSpell = Instantiate(waterVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElement = Instantiate(waterVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.EARTH:
-                    spawnedSpell = Instantiate(earthVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElement = Instantiate(earthVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WIND:
-                    spawnedSpell = Instantiate(windVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElement = Instantiate(windVFX, startPosition, Quaternion.identity);
                     break;
             }
-
-            StartCoroutine(move(spawnedSpell, startPosition, endPosition));
-        }
+            StartCoroutine(move(currentSpawnedElement.transform, startPosition, endPosition));
+        }*/
     }
 
     public void SpawnElementLeft()
@@ -83,25 +86,27 @@ public class SpellSpawner : MonoBehaviour
         {
             float spawnDistance = 1f;
 
-            Vector3 endPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
-            Vector3 startPosition = endPosition - new Vector3(0, 5, 0);
+            Vector3 endPosition = LeftHandPos.position;
+            Vector3 startPosition = endPosition - offset;
+            gesture.isElementSpawned = true;
 
             switch (spellManager.elementSpeicalization)
             {
                 case elementType.FIRE:
-                    spawnedSpell = Instantiate(fireVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementLeft = Instantiate(fireVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WATER:
-                    spawnedSpell = Instantiate(waterVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementLeft = Instantiate(waterVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.EARTH:
-                    spawnedSpell = Instantiate(earthVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementLeft = Instantiate(earthVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WIND:
-                    spawnedSpell = Instantiate(windVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementLeft = Instantiate(windVFX, startPosition, Quaternion.identity);
                     break;
             }
-            StartCoroutine(move(spawnedSpell, startPosition, endPosition));
+            gesture.CurrentElement = currentSpawnedElementLeft.GetComponent<DestroyManager>();
+            StartCoroutine(move(currentSpawnedElementLeft.transform, startPosition, endPosition));
 
             castedWith = 1;
         }
@@ -114,25 +119,27 @@ public class SpellSpawner : MonoBehaviour
         {
             float spawnDistance = 1f;
 
-            Vector3 endPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
-            Vector3 startPosition = endPosition - new Vector3(0, 5, 0);
-
+            Vector3 endPosition = RightHandPos.position;
+            Vector3 startPosition = endPosition - offset;
+            gesture.isElementSpawned = true;
             switch (spellManager.elementSpeicalization)
             {
                 case elementType.FIRE:
-                    spawnedSpell = Instantiate(fireVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementRight = Instantiate(fireVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WATER:
-                    spawnedSpell = Instantiate(waterVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementRight = Instantiate(waterVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.EARTH:
-                    spawnedSpell = Instantiate(earthVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementRight = Instantiate(earthVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.WIND:
-                    spawnedSpell = Instantiate(windVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementRight = Instantiate(windVFX, startPosition, Quaternion.identity);
                     break;
             }
-            StartCoroutine(move(spawnedSpell, startPosition, endPosition));
+
+            gesture.CurrentElement = currentSpawnedElementRight.GetComponent<DestroyManager>();
+            StartCoroutine(move(currentSpawnedElementRight.transform, startPosition, endPosition));
 
             castedWith = 2;
         }

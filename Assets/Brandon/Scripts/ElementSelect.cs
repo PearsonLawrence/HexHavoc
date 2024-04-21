@@ -23,9 +23,9 @@ public class ElementSelect : SpellComponent
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("collided");
-        if (other.gameObject.CompareTag("PlayerHand"))
+        if (other.gameObject.CompareTag("NetworkHand"))
         {
-            HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+            NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
             NetworkPlayer networkPlayer = temp.parentObj;
             //Debug.Log("isplayer");
             //playerSpellManager = other.GetComponent<SpellManager>();

@@ -13,6 +13,8 @@ public class HandInteractableComponent : NetworkBehaviour
     public UnNetworkPlayer parentUnNetworkObj;
     public UnNetworkedSpellManager spellManager;
     public GestureEventProcessor gestureEP;
+    public bool isTPTrigger;
+    public bool isInteractableItem;
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -61,6 +63,17 @@ public class HandInteractableComponent : NetworkBehaviour
                     }
                 }
                 break;
+            case "PlayerHand":
+                if (!isHolding)
+                {
+                    if (isSelecting)
+                    {
+                        isTPTrigger = true;
+                        isHolding = true;
+                    }
+                }
+                break;
+            
         }
 
     }
@@ -138,13 +151,20 @@ public class HandInteractableComponent : NetworkBehaviour
     {
         if(isHolding)
         {
-            currentInteractableItem.transform.position = transform.position;
+            if(!isTPTrigger) currentInteractableItem.transform.position = transform.position;
         }
         else
         {
            if(currentInteractableItem != null)
             {
                 release();
+            }
+           else
+            {
+                if(isTPTrigger)
+                {
+                    isTPTrigger = false;
+                }
             }
         }
     }

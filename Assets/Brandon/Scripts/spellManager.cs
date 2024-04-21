@@ -48,17 +48,19 @@ public class SpellManager : NetworkBehaviour
 
     public List<Transform> chooseOrbs;
 
-    public elementType elementSpeicalization;
     [HideInInspector] public NetworkVariable<bool> setSpecialization = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [HideInInspector] public NetworkVariable<elementType> elementSpeicalization = new NetworkVariable<elementType>(elementType.WIND, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     private NetworkVariable<int> earthShotCount = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
     AudioManager audioManager;
+
+    public float spawnProjectileDistance = 2, spawnWallDistance = 2;
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
-        elementSpeicalization = elementType;
+        elementSpeicalization.Value = elementType;
         setSpecialization.Value = true;
         //DisableChooseOrbsServerRpc();
         MatchManager.Instance.StartMatchServerRpc(GetComponent<NetworkObject>().OwnerClientId);
@@ -144,7 +146,7 @@ public class SpellManager : NetworkBehaviour
         //Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
         Vector3 spawnPosition = Vector3.zero;
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredProjectile = fireballPrefab;
@@ -180,7 +182,7 @@ public class SpellManager : NetworkBehaviour
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 SpellSFX(0);
@@ -243,10 +245,10 @@ public class SpellManager : NetworkBehaviour
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnProjectileDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredProjectile = fireballPrefab;
@@ -283,6 +285,8 @@ public class SpellManager : NetworkBehaviour
         projectile.SetDirection(RightHandPos.forward);
 
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
+
+        projectile.SetDirection(RightHandPos.forward);
 
         if (networkObject != null)
         {
@@ -328,10 +332,10 @@ public class SpellManager : NetworkBehaviour
         float spawnDistance = 2f;
 
         // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnProjectileDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredProjectile = fireballPrefab;
@@ -353,7 +357,7 @@ public class SpellManager : NetworkBehaviour
 
         projectile.SetDirection(RightHandPos.forward);
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
-
+        projectile.SetDirection(RightHandPos.forward);
         if (networkObject != null)
         {
             networkObject.Spawn(); // Spawn the object on the network
@@ -397,9 +401,8 @@ public class SpellManager : NetworkBehaviour
         Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
-        spawnPosition.Set(0, 0, 7);
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredWall = fireWallPrefab;
@@ -448,12 +451,11 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Camera.main.gameObject.transform.position + Camera.main.gameObject.transform.forward * spawnWallDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
-        spawnPosition.Set(0, 0, 7);
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredWall = fireWallPrefab;
@@ -472,12 +474,13 @@ public class SpellManager : NetworkBehaviour
         Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
         Quaternion tempRotation = Quaternion.Euler(tempRot);
         
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, tempRotation).GetComponent<NetworkedWallComponent>();
-        //NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<NetworkedWallComponent>();
-        
-        NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Camera.main.transform.rotation).GetComponent<NetworkedWallComponent>();
+        //WallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<WallComponent>();
+
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
+        NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
+        
         // Check if the components are not null before proceeding
         if (networkedObject != null && wallComponent != null)
         {
@@ -554,12 +557,11 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = RightHandPos.position + RightHandPos.forward * spawnDistance;
+        Vector3 spawnPosition = Camera.main.gameObject.transform.position + Camera.main.gameObject.transform.forward * spawnWallDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
-        spawnPosition.Set(0, 0, 7);
 
-        switch (elementSpeicalization)
+        switch (elementSpeicalization.Value)
         {
             case elementType.FIRE:
                 desiredWall = fireWallPrefab;
@@ -575,15 +577,14 @@ public class SpellManager : NetworkBehaviour
                 break;
 
         }
+        Vector3 tempRot = new Vector3(0, Camera.main.gameObject.transform.rotation.eulerAngles.y, 0);
 
-        Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
-        Quaternion tempRotation = Quaternion.Euler(tempRot);
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Camera.main.transform.rotation).GetComponent<NetworkedWallComponent>();
 
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, tempRotation).GetComponent<NetworkedWallComponent>();
-
-        NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 
+        NetworkObject networkedObject = wallSpell.transform.GetComponent<NetworkObject>();
+        
         // Check if the components are not null before proceeding
         if (networkedObject != null && wallComponent != null)
         {

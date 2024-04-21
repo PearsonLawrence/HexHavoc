@@ -12,6 +12,7 @@ public class ProjectileComponent : UnNetworkedSpellComponent
     public float maxlifeTime;
     private Vector3 moveDirection;
     public GameObject destroyPrefab;
+    public UnNetworkedSpellManager parent;
 
     void Start()
     {
@@ -38,7 +39,7 @@ public class ProjectileComponent : UnNetworkedSpellComponent
 
     public void DoImpact()
     {
-        Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+        //Instantiate(destroyPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

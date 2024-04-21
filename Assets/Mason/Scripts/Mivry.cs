@@ -958,7 +958,7 @@ public class Mivry : MonoBehaviour
                     data.gestureName = (data.gestureID >= 0)
                         ? gc.getGestureCombinationName(data.gestureID)
                         : GestureRecognition.getErrorMessage(data.gestureID);
-                    OnGestureCompletion.Invoke(data);
+                    OnGestureCompletion.Invoke(data); 
                     #if MIVRY_USE_BOLT
                     CustomEvent.Trigger(this.gameObject, data.gestureName, data);
                     #endif

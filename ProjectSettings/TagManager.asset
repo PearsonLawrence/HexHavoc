@@ -16,6 +16,7 @@ TagManager:
   - TpPortal
   - PlayerHand
   - Element
+  - NetworkHand
   layers:
   - Default
   - TransparentFX

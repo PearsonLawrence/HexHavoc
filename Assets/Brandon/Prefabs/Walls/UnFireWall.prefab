@@ -120,7 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellType: 1
-  lifeTime: 5
+  parent: {fileID: 0}
+  lifeTime: 15
   explodePrefab: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
   wallHealth: 2
   elementtype: 1

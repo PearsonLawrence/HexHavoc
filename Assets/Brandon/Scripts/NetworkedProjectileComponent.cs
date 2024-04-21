@@ -155,8 +155,8 @@ public class NetworkedProjectileComponent : SpellComponent
     //instantiate particle effect and despawn from network
     public void DoImpact()
     {
-        GameObject temp = Instantiate(destroyPrefab, transform.position, Quaternion.identity);
-        Destroy(temp, 3);
+        //GameObject temp = Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+        //Destroy(temp, 3);
         if (IsServer) 
         {
             GetComponent<NetworkObject>().Despawn();

@@ -19,10 +19,10 @@ public class ReadyButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PlayerHand"))
+        if (other.gameObject.CompareTag("NetworkHand"))
         {
             Debug.Log("Touched sensually");
-            HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+            NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
             NetworkPlayer networkPlayer = temp.parentObj;
             if (networkPlayer)
             {

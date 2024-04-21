@@ -31,9 +31,9 @@ public class NetworkedWallComponent : SpellComponent
 
                 if (lifeTime < 0)
                 {
-                    GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+                    //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-                    Destroy(temp, 3);
+                    ////Destroy(temp, 3);
                     GetComponent<NetworkObject>().Despawn();
                     Destroy(gameObject);
                 }
@@ -44,9 +44,9 @@ public class NetworkedWallComponent : SpellComponent
 
                 if (lifeTime < 0)
                 {
-                    GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+                    //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-                    Destroy(temp, 3);
+                    ////Destroy(temp, 3);
                     GetComponent<NetworkObject>().Despawn();
                     Destroy(gameObject);
                 }
@@ -57,9 +57,9 @@ public class NetworkedWallComponent : SpellComponent
 
                 if (lifeTime < 0)
                 {
-                    GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+                    //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-                    Destroy(temp, 3);
+                    //Destroy(temp, 3);
                     GetComponent<NetworkObject>().Despawn();
                     Destroy(gameObject);
                 }
@@ -70,9 +70,9 @@ public class NetworkedWallComponent : SpellComponent
 
                 if (lifeTime < 0)
                 {
-                    GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+                    //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-                    Destroy(temp, 3);
+                    //Destroy(temp, 3);
                     GetComponent<NetworkObject>().Despawn();
                     Destroy(gameObject);
                 }
@@ -87,9 +87,9 @@ public class NetworkedWallComponent : SpellComponent
         //TODO: Only call this function if 1. it does not collide with a spell from the player
         if (spellsTanked > maxSpellsToAbsorb)
         {
-            GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+            //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-            Destroy(temp, 3);
+            //Destroy(temp, 3);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
 
@@ -98,9 +98,9 @@ public class NetworkedWallComponent : SpellComponent
 
     public void DestroyWall()
     {
-        GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
+        //GameObject temp = Instantiate(explodePrefab, transform.position, Quaternion.identity);
 
-        Destroy(temp, 3);
+        //Destroy(temp, 3);
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }

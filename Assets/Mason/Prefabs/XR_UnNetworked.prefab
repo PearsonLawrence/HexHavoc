@@ -192,8 +192,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 74da079f-efbd-457c-ad33-ac5c45093f0a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  rightTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 006b6ea6-9fb7-4d03-90be-699eef0f4d82
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  isTouchingElement: 0
+  isElementSpawned: 0
+  maxAmmo: 5
+  maxBowAmmo: 5
   teleportationManager: {fileID: 7019105818811301700}
   spellmanager: {fileID: 0}
+  spellSpawner: {fileID: 0}
+  unNetworkSpellmanager: {fileID: 0}
+  unNetworkPlayer: {fileID: 0}
 --- !u!1 &8096910264257166089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4347703676254191187, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
@@ -231,8 +262,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: f016db99-2228-4ecb-80fb-74bf3f97a67c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  rightTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9ac8d3b0-85a0-440d-a042-8a962f75a460
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  isTouchingElement: 0
+  isElementSpawned: 0
+  maxAmmo: 5
+  maxBowAmmo: 5
   teleportationManager: {fileID: 7019105818811301700}
   spellmanager: {fileID: 0}
+  spellSpawner: {fileID: 0}
+  unNetworkSpellmanager: {fileID: 0}
+  unNetworkPlayer: {fileID: 0}
 --- !u!1 &8299405826893887532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4550126740363050358, guid: f87148aa071a4e643aa28f6a1e82d025, type: 3}
@@ -264,5 +326,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca03c897796d5444eaf6db174737ed71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Left Trigger Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 7fe76781-164c-432d-9199-5f646323ecbd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  rightTriggerProperty:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Right Trigger Property
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 3cc4aa4b-5214-4943-9e5f-5aca8691e5ca
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  isTouchingElement: 0
+  isElementSpawned: 0
+  maxAmmo: 5
+  maxBowAmmo: 5
   teleportationManager: {fileID: 7019105818811301700}
   spellmanager: {fileID: 0}
+  spellSpawner: {fileID: 0}
+  unNetworkSpellmanager: {fileID: 0}
+  unNetworkPlayer: {fileID: 0}

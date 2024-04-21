@@ -25,6 +25,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public GameObject offset;
     public MatchManager manager;
     public GestureEventProcessor gestureEP;
+    public TPPortalRenderManager portalRenderManager;
     void Start()
     {
         manager = MatchManager.Instance;
@@ -82,7 +83,8 @@ public class UnNetworkPlayer : MonoBehaviour
                         else if (isConnected && !isJoining && manager.isGameStarting.Value)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
-                            offset.transform.position = currentPillar.playerPoint.transform.position;
+                            transform.rotation = currentPillar.playerPoint.transform.rotation;
+                            //offset.transform.position = currentPillar.playerPoint.transform.position;
                         }
                     }
                     else
@@ -118,7 +120,7 @@ public class UnNetworkPlayer : MonoBehaviour
         else if (triggerValue <= 0.1f )
         {
             interactleft.isSelecting = false;
-            interactleft .isHolding = false;
+            interactleft.isHolding = false;
         }
         if (triggerValue2 > 0.1f)
         {
@@ -128,6 +130,26 @@ public class UnNetworkPlayer : MonoBehaviour
         {
             interactRight.isSelecting = false;
             interactRight.isHolding = false;
+        }
+
+        if(interactRight.isTPTrigger && interactleft.isTPTrigger )
+        {
+            if(!portalRenderManager.isUpdating)
+            {
+                portalRenderManager.StartThis();
+            }
+            else
+            {
+                portalRenderManager.updatePortal();
+            }
+
+        }
+        else
+        {
+            if (portalRenderManager.isUpdating)
+            {
+                portalRenderManager.resetThis();
+            }
         }
     }
 }

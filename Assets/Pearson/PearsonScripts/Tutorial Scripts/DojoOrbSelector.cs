@@ -9,7 +9,7 @@ public class DojoOrbSelector : MonoBehaviour
     public bool isSwitch;
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerHand"))
+        if(other.CompareTag("NetworkHand"))
         {
             if(isSwitch)
             {
@@ -30,16 +30,16 @@ public class DojoOrbSelector : MonoBehaviour
         switch(OrbIdx)
         {
             case 0:
-                spellManager.setPlayerSpecialization(elementType.FIRE);
+                spellManager.elementSpeicalization = elementType.FIRE;
                 break;
             case 1:
-                spellManager.setPlayerSpecialization(elementType.WATER);
+                spellManager.elementSpeicalization = elementType.WATER;
                 break;
             case 2:
-                spellManager.setPlayerSpecialization(elementType.EARTH);
+                spellManager.elementSpeicalization = elementType.EARTH;
                 break;
             case 3:
-                spellManager.setPlayerSpecialization(elementType.WIND);
+                spellManager.elementSpeicalization = elementType.WIND;
                 break;
         }
     }

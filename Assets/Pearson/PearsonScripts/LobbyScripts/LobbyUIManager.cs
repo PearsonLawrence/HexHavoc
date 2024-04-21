@@ -240,7 +240,6 @@ public class LobbyUIManager : MonoBehaviour
         player.transform.position = HostPillar.playerPoint.transform.position;
         UnNetworkPlayer playerController = player.GetComponent<UnNetworkPlayer>();
         playerController.currentPillar = HostPillar;
-        playerController.currentPillar = HostPillar;
         isJoin = true;
     }
     //Turn on basic create or join UI

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WallComponent : UnNetworkedSpellComponent
 {
-    public float lifeTime = 5f;
+    public UnNetworkedSpellManager parent;
+    public float lifeTime = 20f;
     public GameObject explodePrefab;
     public int wallHealth = 2;
     public elementType elementtype;
@@ -14,7 +15,8 @@ public class WallComponent : UnNetworkedSpellComponent
         lifeTime -= Time.deltaTime;
         if (lifeTime < 0)
         {
-            Instantiate(explodePrefab, transform.position, Quaternion.identity);
+            //Instantiate(explodePrefab, transform.position, Quaternion.identity);
+            
             Destroy(gameObject);
         }
     }

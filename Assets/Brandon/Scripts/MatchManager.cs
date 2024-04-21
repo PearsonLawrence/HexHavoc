@@ -34,7 +34,7 @@ public class MatchManager : NetworkBehaviour
 
     public PillarLogic hostPillar, guestPillar;
 
-    private bool playerOneReady, playerTwoReady;
+    public bool playerOneReady, playerTwoReady;
     private bool playerOneOrb, playerTwoOrb;
     public bool matchGoing = false;
 
@@ -105,20 +105,27 @@ public class MatchManager : NetworkBehaviour
 
         if(clientId == 0)
         {
+
             playerOneSpellManager = spellManager;
             playerOneNetwork = playerNetwork;
-            XRUnNetwork.spellmanager = playerOneSpellManager;
-            XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
-            
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                Debug.Log("Local Player Registered");
+                XRUnNetwork.spellmanager = playerOneSpellManager;
+                XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
+            }
             joinedPlayerCount.Value++; 
         }
         else if (clientId == 1)
         {
             playerTwoSpellManager = spellManager;
             playerTwoNetwork = playerNetwork;
-            XRUnNetwork.spellmanager = playerTwoSpellManager;
-            XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
-            joinedPlayerCount.Value++; 
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                XRUnNetwork.spellmanager = playerTwoSpellManager;
+                XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
+            }
+            joinedPlayerCount.Value++;
         }
     }
 
