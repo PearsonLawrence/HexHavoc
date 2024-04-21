@@ -163,7 +163,7 @@ public class SpellManager : NetworkBehaviour
 
         }
 
-        desiredProjectile = windBlastPrefab;
+        desiredProjectile = fireballPrefab;
 
         if (desiredProjectile == earthSpearPrefab)
         {
@@ -181,23 +181,6 @@ public class SpellManager : NetworkBehaviour
 
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, Quaternion.identity).GetComponent<NetworkedProjectileComponent>();
-
-        switch (elementSpeicalization.Value)
-        {
-            case elementType.FIRE:
-                SpellSFX(0);
-                break;
-            case elementType.WATER:
-                SpellSFX(0);
-                break;
-            case elementType.WIND:
-                SpellSFX(0);
-                break;
-            case elementType.EARTH:
-                SpellSFX(0);
-                break;
-
-        }
 
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 

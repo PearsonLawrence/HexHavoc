@@ -44,6 +44,8 @@ public class NetworkedProjectileComponent : SpellComponent
     public NetworkVariable<bool> followHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public Transform handToFollow;
 
+    public AudioSource spellSound;
+
     public void SetWentThroughWall(bool newVal, elementType element)
     {
         switch (element)
@@ -71,9 +73,9 @@ public class NetworkedProjectileComponent : SpellComponent
         return false;
     }
 
-    void Start()
+    void Awake()
     {
-        AudioManager audioManager = AudioManager.Instance;
+        spellSound.Play();
 
         speed = maxspeed;
         lifeTime = maxlifeTime;
@@ -162,6 +164,7 @@ public class NetworkedProjectileComponent : SpellComponent
             GetComponent<NetworkObject>().Despawn();
 
             Destroy(gameObject);
+            spellSound.Play();
         }
         else
         {

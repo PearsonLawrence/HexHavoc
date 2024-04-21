@@ -131,7 +131,7 @@ public class SpellSpawner : MonoBehaviour
                     currentSpawnedElementRight = Instantiate(waterVFX, startPosition, Quaternion.identity);
                     break;
                 case elementType.EARTH:
-                    currentSpawnedElementRight = Instantiate(earthVFX, startPosition, Quaternion.identity);
+                    currentSpawnedElementRight = Instantiate(earthVFX, startPosition, Quaternion.identity); 
                     break;
                 case elementType.WIND:
                     currentSpawnedElementRight = Instantiate(windVFX, startPosition, Quaternion.identity);
