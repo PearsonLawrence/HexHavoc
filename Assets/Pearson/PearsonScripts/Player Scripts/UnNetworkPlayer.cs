@@ -28,6 +28,9 @@ public class UnNetworkPlayer : MonoBehaviour
     public GestureEventProcessor gestureEP;
     public TPPortalRenderManager portalRenderManager;
     public GameObject TPRealm;
+    public AudioSource PlayerMusic2, PlayerMusic1;
+    public bool musicToggle;
+    public float MaxQuiet = .3f, quietSpeed = .08f;
     void Start()
     {
         manager = MatchManager.Instance;
@@ -49,7 +52,30 @@ public class UnNetworkPlayer : MonoBehaviour
         float triggerValue = leftGripProperty.action.ReadValue<float>();
         float triggerValue2 = rightGripProperty.action.ReadValue<float>();
 
-        if(currentPillar)
+        if (manager.isGameStarting.Value && !musicToggle)
+        {
+            musicToggle = true;
+        }
+
+        if (musicToggle)
+        {
+            if (!PlayerMusic2.isPlaying)
+                PlayerMusic2.Play();
+
+
+
+            if (PlayerMusic2.volume <= MaxQuiet)
+                PlayerMusic2.volume += quietSpeed * Time.deltaTime;
+
+            if (PlayerMusic1.volume >= 0)
+                PlayerMusic1.volume -= quietSpeed * Time.deltaTime;
+            else if (PlayerMusic1.volume <= 0 && PlayerMusic2.volume >= MaxQuiet)
+            {
+                PlayerMusic1.Stop();
+                musicToggle = false;
+            }
+        }
+        if (currentPillar)
         {
             if(!isArena)
             {
