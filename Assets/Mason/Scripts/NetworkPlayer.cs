@@ -21,7 +21,7 @@ public class NetworkPlayer : NetworkBehaviour
     public GameObject headObj;
     public PillarLogic currentPillar;
     public Renderer[] meshToDisable;
-
+    private UnNetworkPlayer playerXr;
     public bool isMoving;
     public float moveDuration = 5;
 
@@ -79,11 +79,12 @@ public class NetworkPlayer : NetworkBehaviour
         //body.position = VRRigReferences.Singleton.body.position;
         //body.rotation = VRRigReferences.Singleton.body.rotation;
 
-        if (leftHand) leftHand.position = VRRigReferences.Singleton.leftHand.position;
-        if (leftHand) leftHand.rotation = VRRigReferences.Singleton.leftHand.rotation;
+        if (leftHand) leftHand.position = playerXr.interactleft.gameObject.transform.position;
+        if (leftHand) leftHand.rotation = playerXr.interactleft.gameObject.transform.rotation;
 
-        if (rightHand) rightHand.position = VRRigReferences.Singleton.rightHand.position;
-        if (rightHand) rightHand.rotation = VRRigReferences.Singleton.rightHand.rotation;
+        if (rightHand) rightHand.position = playerXr.interactRight.gameObject.transform.position;
+        if (rightHand) rightHand.rotation = playerXr.interactRight.gameObject.transform.rotation;
+
         leftHandSpell.gripProperty = VRRigReferences.Singleton.leftGripProperty;
         rightHandSpell.gripProperty = VRRigReferences.Singleton.rightGripProperty;
 
@@ -122,16 +123,19 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (MatchManager.Instance.matchGoing)
             {
-                transform.position = MatchManager.Instance.gameSpawnPosition1.position;
+                transform.position = xr.transform.position;
             }
-            currentPillar = MatchManager.Instance.hostPillar; 
-            UnNetworkPlayer playerXr = xr.GetComponent<UnNetworkPlayer>();
-            playerXr.currentPillar = currentPillar;
+            playerXr = xr.GetComponent<UnNetworkPlayer>();
+            playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
             playerXr.setSpellManagerProcessors();
+
+            playerXr.isJoining = false;
+            playerXr.isConnected = true;
+            playerXr.isTeleported = true;
+            playerXr.TPRealm.SetActive(false);
             //currentPillar.playerOn.Value = true;
             //transform.position = MatchManager.Instance.playerBody.position;
-            transform.rotation = MatchManager.Instance.playerBody.rotation;
         }
         if (OwnerClientId == 1 && IsOwner)
         {
@@ -140,17 +144,19 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (MatchManager.Instance.matchGoing)
             {
-                transform.position = MatchManager.Instance.gameSpawnPosition2.position;
+                transform.position = xr.transform.position;
             }
-            currentPillar = MatchManager.Instance.guestPillar;
-            UnNetworkPlayer playerXr = xr.GetComponent<UnNetworkPlayer>();
-            playerXr.currentPillar = currentPillar;
+            playerXr = xr.GetComponent<UnNetworkPlayer>();
+            playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
-            Debug.Log("Err1: " + spellManager);
             playerXr.setSpellManagerProcessors();
+
+            playerXr.isJoining = false;
+            playerXr.isConnected = true;
+            playerXr.isTeleported = true;
+            playerXr.TPRealm.SetActive(false);
             //xr.Origin.transform.position = currentPillar.playerPoint.transform.position;
             //currentPillar.playerOn.Value = true;
-            transform.rotation = currentPillar.playerPoint.transform.rotation;
         }
 
 

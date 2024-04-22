@@ -167,11 +167,16 @@ public class LobbyUIManager : MonoBehaviour
 
     public void doJoin()
     {
+        UnNetworkPlayer temp = player.GetComponent<UnNetworkPlayer>();
         player.transform.position = tpPos1.transform.position;
         player.transform.rotation = tpPos1.transform.rotation;
-        gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
+        gameLobby.JoinSelectedLobby(temp);
+        temp.isJoining = true;
         isJoin = true;
         isClient = true;
+        temp.TPRealm.SetActive(true);
+        temp.currentPillar = GuestPillar;
+        temp.matchPillar = GuestPillar;
     }
 
     private void Update()
@@ -182,7 +187,7 @@ public class LobbyUIManager : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-
+        /*
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitPoint;
         Physics.Raycast(ray, out hitPoint, 1000);
@@ -208,30 +213,18 @@ public class LobbyUIManager : MonoBehaviour
                 }
             }
             
-        }
-        if(Input.GetKeyDown(KeyCode.J) && gameLobby.getSelectedLobby())
-        {
-            gameLobby.JoinSelectedLobby(player.GetComponent<UnNetworkPlayer>());
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            gameLobby.CreateLobby();
-            player.transform.position = HostPillar.playerPoint.transform.position;
-            player.GetComponent<UnNetworkPlayer>();
-            isJoin = true;
-        }
+        }*/
         if (lobbyUpdateTimer <= 0 && !isJoin)
         {
             gameLobby.RefreshLobbyList();
             lobbyUpdateTimer = lobbyUpdateTime;
         }
-        if(gameLobby.getIsJoined() && isClient)
+        /*if (gameLobby.getIsJoined() && isClient)
         {
             player.GetComponent<UnNetworkPlayer>().currentPillar = GuestPillar;
+            player.GetComponent<UnNetworkPlayer>().matchPillar = GuestPillar;
             player.GetComponent<UnNetworkPlayer>().isTeleported = true;
-        }
+        }*/
 
     }
     public void doCreate()
@@ -240,6 +233,9 @@ public class LobbyUIManager : MonoBehaviour
         player.transform.position = HostPillar.playerPoint.transform.position;
         UnNetworkPlayer playerController = player.GetComponent<UnNetworkPlayer>();
         playerController.currentPillar = HostPillar;
+        playerController.matchPillar = HostPillar;
+        playerController.isJoining = false;
+        playerController.isConnected = true;
         isJoin = true;
     }
     //Turn on basic create or join UI
@@ -247,7 +243,7 @@ public class LobbyUIManager : MonoBehaviour
         defaultScreen.SetActive(true);
         joinLobbyScreen.SetActive(false);
         lobbyScreen.SetActive(false);
-    }
+    } 
     //Return to main menu
     public void disableLobbyOptions(){
         defaultScreen.SetActive(false);

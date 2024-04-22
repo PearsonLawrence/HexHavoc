@@ -26,11 +26,27 @@ public class PortalTeleportComponent : MonoBehaviour
     {
         if(other.CompareTag("PlayerHand"))
         {
-            toArea.SetActive(true);
-            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.currentPillar = tpToPillar;
-            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.isTeleported = true;
-            other.GetComponent<HandInteractableComponent>().parentUnNetworkObj.gameObject.transform.forward = tpToPillar.playerPoint.transform.forward;
-            fromArea.SetActive(false);
+            if(isArenaGate)
+            {
+                toArea.SetActive(true);
+                HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+                temp.parentUnNetworkObj.currentPillar = tpToPillar;
+                temp.parentUnNetworkObj.isTeleported = true;
+                temp.parentUnNetworkObj.gameObject.transform.forward = tpToPillar.playerPoint.transform.forward;
+                temp.parentUnNetworkObj.isArena = (temp.parentUnNetworkObj.isArena) ? false : true;
+                fromArea.SetActive(false);
+            }
+            else
+            {
+                toArea.SetActive(true);
+                HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();
+                temp.parentUnNetworkObj.currentPillar = tpToPillar;
+                temp.parentUnNetworkObj.isTeleported = true;
+                temp.parentUnNetworkObj.gameObject.transform.forward = tpToPillar.playerPoint.transform.forward;
+                temp.parentUnNetworkObj.isArena = false;
+                fromArea.SetActive(false);
+            }
+
             if (!isTutorialActionComplete)
             {
                 isTutorialActionComplete = true;

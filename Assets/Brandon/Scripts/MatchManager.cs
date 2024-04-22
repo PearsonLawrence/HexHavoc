@@ -2,6 +2,7 @@
 //Purpose: This script will keep track of teh clients/players that are in the game along with their respective 
 //health manager. Keeps track of winner and loser of rounds along with storeing intial spawn locations
 
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -112,7 +113,7 @@ public class MatchManager : NetworkBehaviour
             {
                 Debug.Log("Local Player Registered");
                 XRUnNetwork.spellmanager = playerOneSpellManager;
-                XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
+                XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager; 
             }
             joinedPlayerCount.Value++; 
         }
@@ -229,10 +230,9 @@ public class MatchManager : NetworkBehaviour
             {
                 resetRound.Value = true;
                 Debug.Log("Round Reseting");
-                playerOneHealth.Value = 100;
-                playerTwoHealth.Value = 100;
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
+                StartCoroutine(delayReset());
             }
 
         }
@@ -248,10 +248,9 @@ public class MatchManager : NetworkBehaviour
             {
                 resetRound.Value = true;
                 Debug.Log("Round Reseting");
-                playerOneHealth.Value = 100;
-                playerTwoHealth.Value = 100;
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
+                StartCoroutine(delayReset());
             }
         }
 
@@ -274,6 +273,15 @@ public class MatchManager : NetworkBehaviour
     public void DeclareWinner(ulong loserClientId)
     {
 
+    }
+
+    public IEnumerator delayReset()
+    {
+        yield return new WaitForSeconds(3);
+
+        resetRound.Value = false;
+        playerOneHealth.Value = 100;
+        playerTwoHealth.Value = 100;
     }
 
     public void ResetRound()

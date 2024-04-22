@@ -41,7 +41,7 @@ public class SpellManager : NetworkBehaviour
 
     //Extra needed varibales
     [SerializeField] private List<Transform> castedSpells = new List<Transform>();
-    public Transform LeftHandPos, RightHandPos;
+    public Transform LeftHandPos, RightHandPos, HeadPos;
     public Transform desiredProjectile;
     private Transform desiredWall;
     //private bool setSpecialization = false;
@@ -265,11 +265,10 @@ public class SpellManager : NetworkBehaviour
 
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
 
-        projectile.SetDirection(RightHandPos.forward);
 
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
 
-        projectile.SetDirection(RightHandPos.forward);
+        projectile.SetDirection(LeftHandPos.forward);
 
         if (networkObject != null)
         {
@@ -285,7 +284,7 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(RightHandPos.forward);
+            projectile.SetDirection(LeftHandPos.forward);
             //projectile.SetDirection(Vector3.forward);
         }
         else
@@ -338,7 +337,6 @@ public class SpellManager : NetworkBehaviour
         // Instantiate the fireball at the calculated spawn position
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, RightHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
 
-        projectile.SetDirection(RightHandPos.forward);
         NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
         projectile.SetDirection(RightHandPos.forward);
         if (networkObject != null)
@@ -434,7 +432,7 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = Camera.main.gameObject.transform.position + Camera.main.gameObject.transform.forward * spawnWallDistance;
+        Vector3 spawnPosition = HeadPos.position + HeadPos.forward * spawnWallDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
 
@@ -454,10 +452,7 @@ public class SpellManager : NetworkBehaviour
                 break;
 
         }
-        Vector3 tempRot = new Vector3(0, LeftHandPos.rotation.eulerAngles.y, 0);
-        Quaternion tempRotation = Quaternion.Euler(tempRot);
-        
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Camera.main.transform.rotation).GetComponent<NetworkedWallComponent>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, HeadPos.rotation).GetComponent<NetworkedWallComponent>();
         //WallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Quaternion.identity).GetComponent<WallComponent>();
 
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
@@ -540,7 +535,7 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("SpawnAttempt");
         float spawnDistance = 4f;
-        Vector3 spawnPosition = Camera.main.gameObject.transform.position + Camera.main.gameObject.transform.forward * spawnWallDistance;
+        Vector3 spawnPosition = HeadPos.position + HeadPos.forward * spawnWallDistance;
         //Vector3 spawnPosition = Vector3.zero;
 
 
@@ -560,9 +555,7 @@ public class SpellManager : NetworkBehaviour
                 break;
 
         }
-        Vector3 tempRot = new Vector3(0, Camera.main.gameObject.transform.rotation.eulerAngles.y, 0);
-
-        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, Camera.main.transform.rotation).GetComponent<NetworkedWallComponent>();
+        NetworkedWallComponent wallSpell = Instantiate(desiredWall, spawnPosition, HeadPos.rotation).GetComponent<NetworkedWallComponent>();
 
         NetworkedWallComponent wallComponent = wallSpell.transform.GetComponent<NetworkedWallComponent>();
 

@@ -50,7 +50,7 @@ public class gameRelayComponent : MonoBehaviour
         }
     }
     //handles joining an existing relay by relay code
-    public async Task<bool> JoinRelay(string joinCode)
+    public async Task<bool> JoinRelay(string joinCode, UnNetworkPlayer p)
     {
         try
         {
@@ -62,7 +62,7 @@ public class gameRelayComponent : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData); //connect over transport layer using unity services on network manager
             NetworkManager.Singleton.StartClient(); //initiate client on relay to transmit data between pcs
-
+            
             return true;
         }
         catch(RelayServiceException e)

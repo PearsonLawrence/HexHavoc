@@ -241,13 +241,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002743131555596689}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08261987, y: 0.03505893, z: -0.04036249, w: 0.9951461}
+  m_LocalRotation: {x: 0.08683624, y: -0.08362313, z: -0.030242989, w: 0.992246}
   m_LocalPosition: {x: 0.0201, y: -0.0236, z: 0}
   m_LocalScale: {x: 0.20120539, y: 0.19445832, z: 0.2017545}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5003784469846811384}
-  m_LocalEulerAnglesHint: {x: 9.629, y: 3.67, z: -4.336}
+  m_LocalEulerAnglesHint: {x: 9.629, y: -10, z: -4.336}
 --- !u!135 &2082026934917537843
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -771,6 +771,7 @@ MonoBehaviour:
   castedSpells: []
   LeftHandPos: {fileID: 8118399898962025269}
   RightHandPos: {fileID: 1002514411811238416}
+  HeadPos: {fileID: 5021647736785445296}
   desiredProjectile: {fileID: 0}
   chooseOrbs: []
   setSpecialization:
@@ -1187,13 +1188,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7379728286452354369}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08541898, y: 0.03981085, z: 0.03404072, w: 0.99496734}
+  m_LocalRotation: {x: 0.082694024, y: 0.08305639, z: 0.040209275, w: 0.9922936}
   m_LocalPosition: {x: -0.0201, y: -0.0236, z: 0}
   m_LocalScale: {x: 0.20120539, y: 0.19445832, z: 0.2017545}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6527613182462552203}
-  m_LocalEulerAnglesHint: {x: 9.629, y: 4.948, z: 4.336}
+  m_LocalEulerAnglesHint: {x: 9.058, y: 10, z: 5.435}
 --- !u!135 &1765461448477509730
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1211,7 +1212,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

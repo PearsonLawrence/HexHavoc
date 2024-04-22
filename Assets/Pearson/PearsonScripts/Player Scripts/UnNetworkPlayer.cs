@@ -12,6 +12,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public InputActionProperty rightGripProperty;
     public HandInteractableComponent interactleft, interactRight;
     public PillarLogic currentPillar;
+    public PillarLogic matchPillar;
     public List<GestureEventProcessor> processors;
     public SpellManager spellmanager;
     public bool isGame;
@@ -26,6 +27,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public MatchManager manager;
     public GestureEventProcessor gestureEP;
     public TPPortalRenderManager portalRenderManager;
+    public GameObject TPRealm;
     void Start()
     {
         manager = MatchManager.Instance;
@@ -68,47 +70,31 @@ public class UnNetworkPlayer : MonoBehaviour
             }
             else
             {
-                if (isConnected)
+                if (!isJoining)
                 {
-                    if (!isJoining)
+                    
+                    if(isConnected)
                     {
                         if (isTeleported)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
                             offset.transform.position = currentPillar.playerPoint.transform.position;
 
-
                             isTeleported = false;
                         }
-                        else if (isConnected && !isJoining && manager.isGameStarting.Value)
+                        else if (manager.resetRound.Value)
+                        {
+                            transform.position = matchPillar.playerPoint.transform.position;
+                            transform.rotation = matchPillar.playerPoint.transform.rotation;
+                        }
+                        else if (manager.isGameStarting.Value)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
                             transform.rotation = currentPillar.playerPoint.transform.rotation;
                             //offset.transform.position = currentPillar.playerPoint.transform.position;
                         }
                     }
-                    else
-                    {
-                        int i = GameObject.FindObjectsOfType(typeof(NetworkPlayer)).Length;
-                        if(i >= 2)
-                        {
-                            isJoining = false;
-                            Debug.LogError("SET FALSE SET FALSE");
-                        }
-                    }
                 }
-                else
-                {
-                    if (isTeleported)
-                    {
-                        transform.position = currentPillar.playerPoint.transform.position;
-                        offset.transform.position = currentPillar.playerPoint.transform.position;
-
-
-                        isTeleported = false;
-                    }
-                }
-
                 
             }
         }
