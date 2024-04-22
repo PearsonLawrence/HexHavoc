@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -25,7 +26,12 @@ public class MatchManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> joinedPlayerCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    [HideInInspector] public NetworkVariable<int> roundCount = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     public NetworkVariable<bool> isGameStarting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public List <TMP_Text> roundNumbers;
 
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
@@ -233,6 +239,13 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
                 StartCoroutine(delayReset());
+
+                roundCount.Value++;
+
+                foreach (TMP_Text t in roundNumbers)
+                {
+                    t.text = "ROUND " + roundCount.Value.ToString();
+                }
             }
 
         }
@@ -251,6 +264,13 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
                 StartCoroutine(delayReset());
+
+                roundCount.Value++;
+
+                foreach (TMP_Text t in roundNumbers)
+                {
+                    t.text = "ROUND " + roundCount.Value.ToString();
+                }
             }
         }
 
