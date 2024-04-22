@@ -244,7 +244,7 @@ public class MatchManager : NetworkBehaviour
 
                 foreach (TMP_Text t in roundNumbers)
                 {
-                    t.text = "ROUND " + roundCount.Value.ToString();
+                    t.text = "round " + roundCount.Value.ToString();
                 }
             }
 
@@ -269,7 +269,7 @@ public class MatchManager : NetworkBehaviour
 
                 foreach (TMP_Text t in roundNumbers)
                 {
-                    t.text = "ROUND " + roundCount.Value.ToString();
+                    t.text = "round " + roundCount.Value.ToString();
                 }
             }
         }
