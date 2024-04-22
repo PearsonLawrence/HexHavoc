@@ -136,7 +136,9 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -784929356514567537, guid: c72f4077f9b401a458273958990973fc, type: 2}
+  - {fileID: -8034961093186764309, guid: 12c37e11b074d7a46ba8e54913edd515, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -955,11 +957,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 223eb260-4b68-4c59-a03d-2e0df8876818
+  cloudProjectId: 8d2b91e1-e1a0-4577-a1f8-14c1b7b8b20e
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ArcaneCaptivity (5)
-  organizationId: pearsonlawrence
+  projectName: ArcaneCaptivity (8)
+  organizationId: mason-smith-331e58b5-a93d-4877-8c9c-80c47be70cf6
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
