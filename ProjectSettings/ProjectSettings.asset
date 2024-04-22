@@ -955,11 +955,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 223eb260-4b68-4c59-a03d-2e0df8876818
+  cloudProjectId: d6c02adf-9585-4301-9b27-c7c2f6aa3e50
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ArcaneCaptivity (5)
-  organizationId: pearsonlawrence
+  projectName: ArcaneCaptivity (3)
+  organizationId: mason-smith-331e58b5-a93d-4877-8c9c-80c47be70cf6
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

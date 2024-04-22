@@ -42,7 +42,7 @@ public class GestureEventProcessor : MonoBehaviour
     public SpellSpawner spellSpawner;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
-    private GestureRecognition gr;
+    private GestureCombinations gc;
 
     public DestroyManager CurrentElement;
     public GameObject AirGunLeft, AirGunRight;
@@ -51,8 +51,16 @@ public class GestureEventProcessor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gr = new GestureRecognition();
-        gr.loadFromFile(Application.streamingAssetsPath + "/1and2HandedGestures.dat");
+        gc = new GestureCombinations(2);
+        #if UNITY_EDITOR // this will happen when using the Unity Editor:
+        int error = gc.loadFromFile("Assets/StreamingAssets/1and2HandedGestures.dat");
+        #else // this will happen in stand-alone build:
+        int error = gc.loadFromFile(Application.streamingAssetsPath + "/1and2HandedGestures.dat");
+        #endif
+        if (error != null)
+        {
+            throw new Exception(GestureRecognition.getErrorMessage(error));
+        }
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxBowAmmo;
         currentGunAmmo = maxAmmo;
@@ -68,9 +76,8 @@ public class GestureEventProcessor : MonoBehaviour
     {
         bool triggerValue = leftTriggerProperty.action.IsPressed();
         bool triggerValue2 = rightTriggerProperty.action.IsPressed();
+
         //Prevents gun from firing multiple times on trigger hold
-
-
         if (!triggerValue && hasShotLeft)
         {
             hasShotLeft = false;
@@ -135,7 +142,6 @@ public class GestureEventProcessor : MonoBehaviour
                             DownBowParticleLeft.Play();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Right Bow Spawn
@@ -149,7 +155,6 @@ public class GestureEventProcessor : MonoBehaviour
                             DownBowParticleRight.Play();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Left Arrow Draw
@@ -239,8 +244,6 @@ public class GestureEventProcessor : MonoBehaviour
                             spellmanager.fireRightWall();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
-
                         }
                         if (gestureCompletionData.gestureName == "Left Fire Wall")
                         {
@@ -282,7 +285,6 @@ public class GestureEventProcessor : MonoBehaviour
                             Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         if (gestureCompletionData.gestureName == "Left Reload" && isTouchingElement && isGunSpawnedRight && !hasAmmo)
@@ -294,7 +296,6 @@ public class GestureEventProcessor : MonoBehaviour
                             Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
@@ -308,7 +309,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunLeft.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
@@ -322,7 +322,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunRight.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Air Shield
@@ -340,8 +339,6 @@ public class GestureEventProcessor : MonoBehaviour
                         if ((gestureCompletionData.gestureName == "Left Hit" || gestureCompletionData.gestureName == "Right Hit") && isTouchingElement)
                         {
                             Debug.Log("Hit Successfully Casted");
-
-
                         }
                         //Casts Water Shield
                         if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
@@ -350,7 +347,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             spellmanager.fireLeftWall();
                             CurrentElement.destroyThis();
-
                         }
                         if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
                         {
@@ -358,7 +354,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             spellmanager.fireRightWall();
                             CurrentElement.destroyThis();
-
                         }
                         break;
                 }
@@ -379,7 +374,6 @@ public class GestureEventProcessor : MonoBehaviour
                             DownBowParticleLeft.Play();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Right Bow Spawn
@@ -393,7 +387,6 @@ public class GestureEventProcessor : MonoBehaviour
                             DownBowParticleRight.Play();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Left Arrow Draw
@@ -483,8 +476,6 @@ public class GestureEventProcessor : MonoBehaviour
                             unNetworkSpellmanager.spawnRightWall();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
-
                         }
                         if (gestureCompletionData.gestureName == "Left Fire Wall")
                         {
@@ -526,7 +517,6 @@ public class GestureEventProcessor : MonoBehaviour
                             Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         if (gestureCompletionData.gestureName == "Left Reload" && isTouchingElement && isGunSpawnedRight && !hasAmmo)
@@ -538,7 +528,6 @@ public class GestureEventProcessor : MonoBehaviour
                             Debug.Log("Reload Successfully Casted. Current Ammo Left: " + currentGunAmmo);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
@@ -552,7 +541,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunLeft.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
@@ -566,7 +554,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunRight.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Air Shield
@@ -584,8 +571,6 @@ public class GestureEventProcessor : MonoBehaviour
                         if ((gestureCompletionData.gestureName == "Left Hit" || gestureCompletionData.gestureName == "Right Hit") && isTouchingElement)
                         {
                             Debug.Log("Hit Successfully Casted");
-
-
                         }
                         //Casts Water Shield
                         if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
@@ -594,7 +579,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             unNetworkSpellmanager.spawnLeftWall();
                             CurrentElement.destroyThis();
-
                         }
                         if (gestureCompletionData.gestureName == "Right Water Shield" && isTouchingElement)
                         {
@@ -602,7 +586,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             unNetworkSpellmanager.spawnRightWall();
                             CurrentElement.destroyThis();
-
                         }
                         break;
                 }
