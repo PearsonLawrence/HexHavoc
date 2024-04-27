@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class MatchManager : NetworkBehaviour
@@ -22,6 +23,9 @@ public class MatchManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<bool> isRoundReset = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     [HideInInspector] public NetworkVariable<bool> resetRound = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    [HideInInspector] public NetworkVariable<bool> playerOneReplay = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<bool> playerTwoReplay = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -42,10 +46,14 @@ public class MatchManager : NetworkBehaviour
     public PillarLogic hostPillar, guestPillar;
 
     public bool playerOneReady, playerTwoReady;
+    public bool playerOneRematch, playerTwoRematch;
+
     private bool playerOneOrb, playerTwoOrb;
     public bool matchGoing = false;
 
     [SerializeField] private List<PillarLogic> pillarLogicList;
+    [SerializeField] private List<PillarLogic> matchEndPillarLogicList;
+
     [SerializeField] private List<ReadyButton> readyButtonList;
     [SerializeField] private List<HealthBar> healthBars;
 
@@ -165,7 +173,6 @@ public class MatchManager : NetworkBehaviour
             Debug.Log("both set and ready"); // DisableChooseOrbs();
             foreach (PillarLogic t in pillarLogicList)
             {
-                
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
             tronMove.MoveJumboTronClientRpc();
@@ -191,6 +198,12 @@ public class MatchManager : NetworkBehaviour
 
         if(playerOneReady && playerTwoReady)
         {
+            playerTwoReady = true;
+            playerOneReady = true;
+
+            pOneWinTally = 0;
+            pTwoWinTally = 0;
+
             playerOneSpellManager.ActivateChooseOrbsClientRpc();
             playerTwoSpellManager.ActivateChooseOrbsClientRpc();
 
@@ -199,12 +212,56 @@ public class MatchManager : NetworkBehaviour
 
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void DeclareRematchServerRpc(ulong clientId)
+    {
+        foreach (PillarLogic t in matchEndPillarLogicList)
+        {
+            t.MovePillarClientRpc(pillarDirection.TOSTART);
+        }
+
+        foreach (PillarLogic t in pillarLogicList)
+        {
+            t.MovePillarClientRpc(pillarDirection.TOSTART);
+        }
+
+        if (clientId == 0)
+        {
+            playerOneRematch = true;
+            Debug.Log("P1");
+        }
+        if (clientId == 1)
+        {
+            playerTwoRematch = true;
+            Debug.Log("P2");
+        }
+
+        if (playerOneRematch && playerTwoRematch)
+        {
+
+            playerOneRematch = false;
+            playerTwoRematch= false;
+
+            pOneWinTally= 0;
+            pTwoWinTally= 0;
+
+            playerOneOrb = false;
+            playerTwoOrb = false;
+
+            playerOneSpellManager.ActivateChooseOrbsClientRpc();
+            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+
+            ReadyButtonOffClientRpc();
+        }
+    }
+
     [ClientRpc]
     private void ReadyButtonOffClientRpc()
     {
         foreach (ReadyButton t in readyButtonList)
         {
             t.gameObject.SetActive(false);
+            t.matchStarted = true;
         }
     }
     
@@ -230,7 +287,7 @@ public class MatchManager : NetworkBehaviour
             pTwoWinTally += 1;
             if(pTwoWinTally == 2)
             {
-                DeclareWinner(clientId);
+                GameOver();
             }
             else
             {
@@ -255,7 +312,7 @@ public class MatchManager : NetworkBehaviour
             pOneWinTally += 1;
             if (pOneWinTally == 2)
             {
-                DeclareWinner(clientId);
+                GameOver();
             }
             else
             {
@@ -290,9 +347,25 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void DeclareWinner(ulong loserClientId)
+    public void GameOver()
     {
+        /*foreach (PillarLogic t in pillarLogicList)
+        {
+            t.MovePillarClientRpc(pillarDirection.TOSTART);
+        }*/
 
+        foreach (PillarLogic t in matchEndPillarLogicList)
+        {
+            t.MovePillarClientRpc(pillarDirection.TOEND);
+        }
+
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(true);
+        }
+
+        //To-Do
+        //move players back to the pillar
     }
 
     public IEnumerator delayReset()
@@ -316,5 +389,10 @@ public class MatchManager : NetworkBehaviour
         {
             //t.UpdateHealthBarServerRpc();
         }
+    }
+
+    public void ResetGame()
+    {
+        
     }
 }
