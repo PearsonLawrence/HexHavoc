@@ -56,6 +56,8 @@ public class SpellManager : NetworkBehaviour
 
     AudioManager audioManager;
 
+    public Vector3 earthDirection;
+
     public float spawnProjectileDistance = 2, spawnWallDistance = 2;
     public void SetElementType(elementType elementType)
     {
@@ -284,7 +286,15 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(LeftHandPos.forward);
+            if (elementSpeicalization.Value != elementType.EARTH)
+            {
+                projectile.SetDirection(RightHandPos.forward);
+            }
+
+            if (elementSpeicalization.Value == elementType.EARTH)
+            {
+                projectile.SetDirection(earthDirection);
+            }
             //projectile.SetDirection(Vector3.forward);
         }
         else
@@ -353,8 +363,18 @@ public class SpellManager : NetworkBehaviour
 
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
-            projectile.SetDirection(RightHandPos.forward);
-           // projectile.SetDirection(Vector3.forward);
+
+            if (elementSpeicalization.Value != elementType.EARTH)
+            {
+                projectile.SetDirection(RightHandPos.forward);
+            }
+
+            if (elementSpeicalization.Value == elementType.EARTH)
+            {
+                projectile.SetDirection(earthDirection);
+            }
+
+            // projectile.SetDirection(Vector3.forward);
         }
         else
         {

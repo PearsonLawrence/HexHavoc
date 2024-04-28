@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3809071847138164723}
   - component: {fileID: 6279361182061902461}
   - component: {fileID: 2801337029160327403}
+  - component: {fileID: -6678518172767889869}
   m_Layer: 0
   m_Name: AirElement
   m_TagString: Element
@@ -202,6 +203,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6678518172767889869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7339516745300400681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45af2b55c3e5b634d85888d85d9bad7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: 1
 --- !u!1001 &8161027272937777595
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -215,16 +215,6 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DeclareRematchServerRpc(ulong clientId)
     {
-        foreach (PillarLogic t in matchEndPillarLogicList)
-        {
-            t.MovePillarClientRpc(pillarDirection.TOSTART);
-        }
-
-        foreach (PillarLogic t in pillarLogicList)
-        {
-            t.MovePillarClientRpc(pillarDirection.TOSTART);
-        }
-
         if (clientId == 0)
         {
             playerOneRematch = true;
@@ -247,6 +237,17 @@ public class MatchManager : NetworkBehaviour
 
             playerOneOrb = false;
             playerTwoOrb = false;
+
+            foreach (PillarLogic t in matchEndPillarLogicList)
+            {
+                t.MovePillarClientRpc(pillarDirection.TOSTART);
+                t.gameObject.SetActive(false);
+            }
+
+            foreach (PillarLogic t in pillarLogicList)
+            {
+                t.MovePillarClientRpc(pillarDirection.TOSTART);
+            }
 
             playerOneSpellManager.ActivateChooseOrbsClientRpc();
             playerTwoSpellManager.ActivateChooseOrbsClientRpc();
@@ -356,6 +357,7 @@ public class MatchManager : NetworkBehaviour
 
         foreach (PillarLogic t in matchEndPillarLogicList)
         {
+            t.gameObject.SetActive(true);
             t.MovePillarClientRpc(pillarDirection.TOEND);
         }
 

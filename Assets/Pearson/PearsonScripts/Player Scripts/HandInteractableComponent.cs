@@ -61,6 +61,16 @@ public class HandInteractableComponent : NetworkBehaviour
                         isHolding = true;
                         gestureEP.isTouchingElement = true;
                     }
+
+                    if (!isSelecting)
+                    {
+                        SpellClassifier spell = other.gameObject.GetComponent<SpellClassifier>();
+
+                        if(spell.element == SpellClassifier.ElementType.EARTH)
+                        {
+                            Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
+                        }
+                    }
                 }
                 break;
             case "PlayerHand":

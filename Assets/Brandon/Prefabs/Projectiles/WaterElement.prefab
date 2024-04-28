@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5043010565013547153}
   - component: {fileID: -5805524950779113897}
   - component: {fileID: 4639974977665746374}
+  - component: {fileID: 7620197523364846014}
   m_Layer: 0
   m_Name: WaterElement
   m_TagString: Element
@@ -202,6 +203,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7620197523364846014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6948161024997151174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45af2b55c3e5b634d85888d85d9bad7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: 2
 --- !u!1001 &6481895364428314560
 PrefabInstance:
   m_ObjectHideFlags: 0
