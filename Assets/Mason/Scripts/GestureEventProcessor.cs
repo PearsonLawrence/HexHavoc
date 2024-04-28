@@ -53,7 +53,7 @@ public class GestureEventProcessor : MonoBehaviour
     {
         gc = new GestureCombinations(2);
         #if UNITY_EDITOR // this will happen when using the Unity Editor:
-        int error = gc.loadFromFile($"StreamingAssets/Gestures/1and2HandGestures.dat");
+        int error = gc.loadFromFile("StreamingAssets/Gestures/1and2HandGestures.dat");
         #else // this will happen in stand-alone build:
         int error = gc.loadFromFile(Application.streamingAssetsPath + "/Gestures/1and2HandGestures.dat");
         #endif

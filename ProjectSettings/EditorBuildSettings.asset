@@ -26,13 +26,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Brandon/Scenes/newBrandon.unity
     guid: 7147b10741c289a43ba2c6321f05426c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Pearson/Scenes/Dojo.unity
     guid: ea9bd0fc17b94ee419b8fcaf9cb795d5
   - enabled: 0
     path: Assets/Brandon/Scenes/Dojo.unity
     guid: dd1ec5d9bc1d7374fb14686be470194e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mason/Scenes/Dojo_Mason.unity
     guid: d959df2a43e005e44ba2af3408115eb7
   m_configObjects:
