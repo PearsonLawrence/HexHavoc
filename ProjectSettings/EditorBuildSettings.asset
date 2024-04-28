@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Brandon/Scenes/Dojo.unity
     guid: dd1ec5d9bc1d7374fb14686be470194e
+  - enabled: 0
+    path: Assets/Mason/Scenes/Dojo_Mason.unity
+    guid: d959df2a43e005e44ba2af3408115eb7
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9103ac44796fbf0409b9d797d8d79312, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c72f4077f9b401a458273958990973fc, type: 2}

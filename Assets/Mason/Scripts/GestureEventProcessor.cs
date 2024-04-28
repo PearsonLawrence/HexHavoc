@@ -42,7 +42,7 @@ public class GestureEventProcessor : MonoBehaviour
     public SpellSpawner spellSpawner;
     public UnNetworkedSpellManager unNetworkSpellmanager;
     public UnNetworkPlayer unNetworkPlayer;
-    private GestureRecognition gr;
+    private GestureCombinations gc;
 
     public DestroyManager CurrentElement;
     public GameObject AirGunLeft, AirGunRight;
@@ -51,8 +51,16 @@ public class GestureEventProcessor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gr = new GestureRecognition();
-        gr.loadFromFile(Application.streamingAssetsPath + "/1and2HandedGestures.dat");
+        gc = new GestureCombinations(2);
+        #if UNITY_EDITOR // this will happen when using the Unity Editor:
+        int error = gc.loadFromFile("StreamingAssets/Gestures/1and2HandGestures.dat");
+        #else // this will happen in stand-alone build:
+        int error = gc.loadFromFile(Application.streamingAssetsPath + "/Gestures/1and2HandGestures.dat");
+        #endif
+        /*if (error != null)
+        {
+            throw new Exception(GestureRecognition.getErrorMessage(error) + " at: " + Application.streamingAssetsPath + "/1and2HandGestures.dat");
+        }*/
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxBowAmmo;
         currentGunAmmo = maxAmmo;
