@@ -6,6 +6,7 @@ using UnityEngine;
 public class ReadyButton : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool matchStarted = false;
     void Start()
     {
         
@@ -17,25 +18,53 @@ public class ReadyButton : MonoBehaviour
         
     }
 
+    public void SetMatchStarted(bool temp)
+    {
+        matchStarted = temp;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("NetworkHand"))
         {
-            Debug.Log("Touched sensually");
-            NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
-            NetworkPlayer networkPlayer = temp.parentObj;
-            if (networkPlayer)
+            if (!matchStarted)
             {
-                Debug.Log("touched2");
+                Debug.Log("Touched sensually");
+                NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
+                NetworkPlayer networkPlayer = temp.parentObj;
+                if (networkPlayer)
+                {
+                    Debug.Log("touched2");
+                }
+                if (temp)
+                {
+                    Debug.Log("touchable");
+                }
+                if (networkPlayer)
+                {
+                    MatchManager.Instance.DeclareReadyServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
+                }
             }
-            if(temp)
+
+            if (matchStarted)
             {
-                Debug.Log("touchable");
+                Debug.Log("Touched sensually");
+                NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
+                NetworkPlayer networkPlayer = temp.parentObj;
+                if (networkPlayer)
+                {
+                    Debug.Log("touched2");
+                }
+                if (temp)
+                {
+                    Debug.Log("touchable");
+                }
+                if (networkPlayer)
+                {
+                    MatchManager.Instance.DeclareReadyServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
+                }
             }
-            if (networkPlayer)
-            {
-                MatchManager.Instance.DeclareReadyServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
-            } 
+           
         }
     }
 }
