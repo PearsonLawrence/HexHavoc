@@ -189,13 +189,13 @@ public class LobbyUIManager : MonoBehaviour
     {
         lobbyUpdateTimer -= Time.deltaTime;
 
-        if(unNetworkPlayer != null)
+        /*if(unNetworkPlayer != null)
         {
             if (unNetworkPlayer.isConnected)
             {
                 gameLobby.DeleteLobby(gameLobby.getJoinedLobby().Id);
             }
-        }
+        }*/
 
         if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
         {
