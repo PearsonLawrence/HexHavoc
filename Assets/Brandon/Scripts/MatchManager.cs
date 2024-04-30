@@ -35,6 +35,8 @@ public class MatchManager : NetworkBehaviour
 
     public NetworkVariable<bool> isGameStarting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    public Vector3 earthProjectileDirection;
+
     public List <TMP_Text> roundNumbers;
 
     private SpellManager playerOneSpellManager;
@@ -228,6 +230,7 @@ public class MatchManager : NetworkBehaviour
 
         if (playerOneRematch && playerTwoRematch)
         {
+            isGameStarting.Value = true;
 
             playerOneRematch = false;
             playerTwoRematch= false;
@@ -366,8 +369,8 @@ public class MatchManager : NetworkBehaviour
             t.gameObject.SetActive(true);
         }
 
-        //To-Do
-        //move players back to the pillar
+        isRoundReset.Value = true;
+
     }
 
     public IEnumerator delayReset()

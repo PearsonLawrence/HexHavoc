@@ -56,7 +56,7 @@ public class SpellManager : NetworkBehaviour
 
     AudioManager audioManager;
 
-    public Vector3 earthDirection;
+    MatchManager matchManager;
 
     public float spawnProjectileDistance = 2, spawnWallDistance = 2;
     public void SetElementType(elementType elementType)
@@ -77,6 +77,8 @@ public class SpellManager : NetworkBehaviour
     {
         //ActivateChooseOrbs();
         audioManager = AudioManager.Instance;
+
+        matchManager = MatchManager.Instance;
     }
 
     public override void OnNetworkSpawn()
@@ -246,6 +248,7 @@ public class SpellManager : NetworkBehaviour
                 break;
             case elementType.EARTH:
                 desiredProjectile = earthSpearPrefab;
+                spawnPosition = LeftHandPos.position;
                 break;
 
         }
@@ -293,7 +296,7 @@ public class SpellManager : NetworkBehaviour
 
             if (elementSpeicalization.Value == elementType.EARTH)
             {
-                projectile.SetDirection(earthDirection);
+                projectile.SetDirection(matchManager.earthProjectileDirection);
             }
             //projectile.SetDirection(Vector3.forward);
         }
@@ -340,6 +343,7 @@ public class SpellManager : NetworkBehaviour
                 break;
             case elementType.EARTH:
                 desiredProjectile = earthSpearPrefab;
+                spawnPosition = RightHandPos.position;
                 break;
 
         }
@@ -371,7 +375,7 @@ public class SpellManager : NetworkBehaviour
 
             if (elementSpeicalization.Value == elementType.EARTH)
             {
-                projectile.SetDirection(earthDirection);
+                projectile.SetDirection(matchManager.earthProjectileDirection);
             }
 
             // projectile.SetDirection(Vector3.forward);

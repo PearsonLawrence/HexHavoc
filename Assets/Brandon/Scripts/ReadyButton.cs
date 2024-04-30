@@ -61,7 +61,7 @@ public class ReadyButton : MonoBehaviour
                 }
                 if (networkPlayer)
                 {
-                    MatchManager.Instance.DeclareReadyServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
+                    MatchManager.Instance.DeclareRematchServerRpc(networkPlayer.GetComponent<NetworkObject>().OwnerClientId);
                 }
             }
            

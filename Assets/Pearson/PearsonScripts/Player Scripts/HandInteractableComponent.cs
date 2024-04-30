@@ -15,6 +15,8 @@ public class HandInteractableComponent : NetworkBehaviour
     public GestureEventProcessor gestureEP;
     public bool isTPTrigger;
     public bool isInteractableItem;
+
+    private MatchManager matchManager;
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -69,6 +71,8 @@ public class HandInteractableComponent : NetworkBehaviour
                         if(spell.element == SpellClassifier.ElementType.EARTH)
                         {
                             Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
+
+                            matchManager.earthProjectileDirection = directionBetween;
                         }
                     }
                 }
@@ -153,7 +157,7 @@ public class HandInteractableComponent : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        matchManager = MatchManager.Instance;
     }
 
     // Update is called once per frame
