@@ -19,12 +19,19 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private int currentLobbyCount;
     [SerializeField] private int maxDisplayLobbies;
     [SerializeField] private GameObject player;
+    [SerializeField] private UnNetworkPlayer unNetworkPlayer;
     [SerializeField] private PillarLogic HostPillar, GuestPillar;
     [SerializeField] private GameObject tpPos1;
     [SerializeField] private PlatformDialComponent platDial;
     [SerializeField] private float lobbyUpdateTime = 5;
     private float lobbyUpdateTimer;
     bool isJoin, isClient;
+
+    public void Start()
+    {
+        unNetworkPlayer = player.GetComponent<UnNetworkPlayer>();
+    }
+
     public PlatformDialComponent getPlatformDial()
     {
         return platDial;
@@ -167,21 +174,28 @@ public class LobbyUIManager : MonoBehaviour
 
     public void doJoin()
     {
-        UnNetworkPlayer temp = player.GetComponent<UnNetworkPlayer>();
         player.transform.position = tpPos1.transform.position;
         player.transform.rotation = tpPos1.transform.rotation;
-        gameLobby.JoinSelectedLobby(temp);
-        temp.isJoining = true;
+        gameLobby.JoinSelectedLobby(unNetworkPlayer);
+        unNetworkPlayer.isJoining = true;
         isJoin = true;
         isClient = true;
-        temp.TPRealm.SetActive(true);
-        temp.currentPillar = GuestPillar;
-        temp.matchPillar = GuestPillar;
+        unNetworkPlayer.TPRealm.SetActive(true);
+        unNetworkPlayer.currentPillar = GuestPillar;
+        unNetworkPlayer.matchPillar = GuestPillar;
     }
 
     private void Update()
     {
         lobbyUpdateTimer -= Time.deltaTime;
+
+        if(unNetworkPlayer != null)
+        {
+            if (unNetworkPlayer.isConnected)
+            {
+                gameLobby.DeleteLobby(gameLobby.getJoinedLobby().Id);
+            }
+        }
 
         if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
         {

@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -541,6 +542,10 @@ public class GameLobbyComponent : MonoBehaviour
         HandleCurrentLobbyPollForUpdates();
         //textTemp.text = tempCode; //update the lobby code UI
        
+    }
+    public async void DeleteLobby(string LobbyID)
+    {
+            await LobbyService.Instance.DeleteLobbyAsync(LobbyID);
     }
 
 }

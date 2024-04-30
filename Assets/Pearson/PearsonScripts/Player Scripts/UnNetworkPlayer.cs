@@ -30,7 +30,8 @@ public class UnNetworkPlayer : MonoBehaviour
     public GameObject TPRealm;
     void Start()
     {
-        manager = MatchManager.Instance;
+        manager = MatchManager.Instance; 
+        
     }
 
     public void setSpellManagerProcessors()
