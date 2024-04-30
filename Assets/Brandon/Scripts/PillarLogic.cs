@@ -30,7 +30,7 @@ public class PillarLogic : NetworkBehaviour
 
     public float moveDuration = 5f;
     private bool isMoving = false;
-
+    public bool isMainPillar;
     public GameObject playerPoint;
     // Start is called before the first frame update
     void Start()
@@ -179,20 +179,26 @@ public class PillarLogic : NetworkBehaviour
             endPos = endPosition.position;
         }
 
-        while (elapsedTime < moveDuration)
+        float distance = Vector3.Distance(transform.position, endPos);
+        while (distance >= .05f)
         {
-            float t = elapsedTime / moveDuration;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
+            distance = Vector3.Distance(transform.position, endPos);
+            //float t = elapsedTime / moveDuration;
+            transform.position = Vector3.MoveTowards(transform.position, endPos, Time.deltaTime * 10);
             
-            elapsedTime += Time.deltaTime;
+            //elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         transform.position = endPos;
         isMoving = false;
-
-        if(matchManager.isGameStarting.Value)
-            matchManager.DisableIsGameStartingServerRPC();
+        if(isMainPillar)
+        {
+            matchManager.isGameStarting.Value = false;
+            Debug.Log("Start set false");
+        }
+        /*if (matchManager.isGameStarting.Value)
+            matchManager.DisableIsGameStartingServerRPC();*/
     }
 
     [ClientRpc]

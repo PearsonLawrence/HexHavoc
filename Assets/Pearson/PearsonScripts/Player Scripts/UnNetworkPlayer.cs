@@ -34,7 +34,7 @@ public class UnNetworkPlayer : MonoBehaviour
         
     }
 
-    public void setSpellManagerProcessors()
+    /*public void setSpellManagerProcessors()
     {
         Debug.Log("Err2: " + spellmanager);
         foreach(GestureEventProcessor processor in processors)
@@ -42,7 +42,7 @@ public class UnNetworkPlayer : MonoBehaviour
            processor.spellmanager = spellmanager;
             Debug.Log("Err*: " + processor.spellmanager);
         }
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -76,23 +76,39 @@ public class UnNetworkPlayer : MonoBehaviour
                     
                     if(isConnected)
                     {
-                        if (isTeleported)
+                        
+                        if (manager.resetRound.Value || manager.isGameStarting.Value)
+                        {
+                            transform.position = matchPillar.playerPoint.transform.position;
+                            transform.rotation = matchPillar.playerPoint.transform.rotation;
+                        }
+                        else if (isTeleported)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
                             offset.transform.position = currentPillar.playerPoint.transform.position;
 
                             isTeleported = false;
                         }
-                        else if (manager.resetRound.Value)
-                        {
-                            transform.position = matchPillar.playerPoint.transform.position;
-                            transform.rotation = matchPillar.playerPoint.transform.rotation;
-                        }
-                        else if (manager.isGameStarting.Value)
+                        /*else if (manager.isGameStarting.Value)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
                             transform.rotation = currentPillar.playerPoint.transform.rotation;
                             //offset.transform.position = currentPillar.playerPoint.transform.position;
+                        }*/
+                    }
+                    else
+                    {
+                        if (isTeleported)
+                        {
+                            transform.position = currentPillar.playerPoint.transform.position;
+                            Vector3 temp = new Vector3(currentPillar.playerPoint.transform.position.x, currentPillar.playerPoint.transform.position.y, currentPillar.playerPoint.transform.position.z);
+                            offset.transform.position = currentPillar.playerPoint.transform.position;
+
+                            transform.forward = currentPillar.playerPoint.transform.position;
+                            offset.transform.forward = transform.forward;
+
+                            isTeleported = false;
+
                         }
                     }
                 }

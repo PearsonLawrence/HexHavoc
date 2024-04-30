@@ -33,7 +33,7 @@ public class PortalTeleportComponent : MonoBehaviour
                 temp.parentUnNetworkObj.currentPillar = tpToPillar;
                 temp.parentUnNetworkObj.isTeleported = true;
                 temp.parentUnNetworkObj.gameObject.transform.forward = tpToPillar.playerPoint.transform.forward;
-                temp.parentUnNetworkObj.isArena = (temp.parentUnNetworkObj.isArena) ? false : true;
+                //temp.parentUnNetworkObj.isArena = (temp.parentUnNetworkObj.isArena) ? false : true;
                 fromArea.SetActive(false);
             }
             else

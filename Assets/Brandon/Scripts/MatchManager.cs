@@ -148,10 +148,9 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DisableIsGameStartingServerRPC()
     {
-        if(isGameStarting.Value)
-        {
-            isGameStarting.Value = false;
-        } 
+         isGameStarting.Value = false;
+
+        Debug.Log("Rpc false called");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -171,6 +170,7 @@ public class MatchManager : NetworkBehaviour
         if(playerOneOrb && playerTwoOrb)
         {
             isGameStarting.Value = true;
+            Debug.Log("Start Set It True");
             Debug.Log("both set and ready"); // DisableChooseOrbs();
             foreach (PillarLogic t in pillarLogicList)
             {
@@ -178,8 +178,8 @@ public class MatchManager : NetworkBehaviour
             }
             tronMove.MoveJumboTronClientRpc();
             matchGoing = true;
-            playerOneNetwork.MovePlayerToStartClientRpc();
-            playerTwoNetwork.MovePlayerToStartClientRpc();
+            //playerOneNetwork.MovePlayerToStartClientRpc();
+            //playerTwoNetwork.MovePlayerToStartClientRpc();
         }
     }
 
@@ -230,7 +230,7 @@ public class MatchManager : NetworkBehaviour
         if (playerOneRematch && playerTwoRematch)
         {
             isGameStarting.Value = true;
-
+            Debug.Log("Rematch Set It True");
             playerOneRematch = false;
             playerTwoRematch= false;
 

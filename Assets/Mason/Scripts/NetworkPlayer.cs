@@ -128,7 +128,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerXr = xr.GetComponent<UnNetworkPlayer>();
             playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
-            playerXr.setSpellManagerProcessors();
+            //playerXr.setSpellManagerProcessors();
 
             playerXr.isJoining = false;
             playerXr.isConnected = true;
@@ -149,7 +149,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerXr = xr.GetComponent<UnNetworkPlayer>();
             playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
-            playerXr.setSpellManagerProcessors();
+            //playerXr.setSpellManagerProcessors();
 
             playerXr.isJoining = false;
             playerXr.isConnected = true;
@@ -161,7 +161,7 @@ public class NetworkPlayer : NetworkBehaviour
 
 
     }
-
+    /*
     [ClientRpc]
     public void MovePlayerToStartClientRpc()
     {
@@ -169,7 +169,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             StartCoroutine(MoveCorutine());
         }
-    }
+    }*/
 
     IEnumerator MoveCorutine()
     {

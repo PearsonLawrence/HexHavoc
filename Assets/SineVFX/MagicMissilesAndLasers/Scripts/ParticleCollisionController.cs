@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParticleCollisionController : MonoBehaviour
 {
-
+    /*
     public MetaAudioController mac;
     public bool big;
 
@@ -28,5 +28,5 @@ public class ParticleCollisionController : MonoBehaviour
             mac.EmitParticleExplosion(colEvents[i].intersection, big);
         }
 
-    }
+    }*/
 }
