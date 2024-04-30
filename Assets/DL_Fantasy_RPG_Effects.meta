@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DL_Fantasy_RPG_Effects.meta
 guid: b6e2c8174ec369e45a2600244a4e20e7
+========
+guid: 94cc7c48524e62c46899181ebe212797
+>>>>>>>> Mason_MVP:Assets/GestureRecognition/Plugins/x86.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
