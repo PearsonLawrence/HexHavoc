@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
+public enum tronDirection
+{
+    TOSTART,
+    TOEND
+}
 public class TronMove : NetworkBehaviour
 {
     // Start is called before the first frame update
@@ -25,20 +29,19 @@ public class TronMove : NetworkBehaviour
         if(moveTron)
         {
             moveTron = false;
-            MoveJumboTronClientRpc();
         }
     }
 
     [ClientRpc]
-    public void MoveJumboTronClientRpc()
+    public void MoveJumboTronClientRpc(tronDirection direction)
     {
         if (!isMoving)
         {
-            StartCoroutine(MoveCoroutine());
+            StartCoroutine(MoveCoroutine(direction));
         }
     }
 
-    private IEnumerator MoveCoroutine()
+    private IEnumerator MoveCoroutine(tronDirection direction)
     {
         isMoving = true;
         float elapsedTime = 0f;
@@ -46,6 +49,17 @@ public class TronMove : NetworkBehaviour
         Vector3 startPos = startPosition.position;
         Vector3 endPos = endPosition.position;
 
+
+        if (direction == tronDirection.TOSTART)
+        {
+            startPos = endPosition.position;
+            endPos = startPosition.position;
+        }
+        else
+        {
+            startPos = startPosition.position;
+            endPos = endPosition.position;
+        }
 
         while (elapsedTime < moveDuration)
         {

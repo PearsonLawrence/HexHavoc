@@ -92,11 +92,6 @@ public class MatchManager : NetworkBehaviour
         {
             isRoundReset.Value = false;
         }
-        if (testJumbo)
-        {
-            testJumbo = false;
-            tronMove.MoveJumboTronClientRpc();
-        }
     }
 
     // Called to register a player
@@ -176,7 +171,7 @@ public class MatchManager : NetworkBehaviour
             {
                 t.MovePillarClientRpc(pillarDirection.TOEND);
             }
-            tronMove.MoveJumboTronClientRpc();
+            tronMove.MoveJumboTronClientRpc(tronDirection.TOEND);
             matchGoing = true;
             playerOneNetwork.MovePlayerToStartClientRpc();
             playerTwoNetwork.MovePlayerToStartClientRpc();
@@ -367,6 +362,8 @@ public class MatchManager : NetworkBehaviour
         {
             t.gameObject.SetActive(true);
         }
+
+        tronMove.MoveJumboTronClientRpc(tronDirection.TOSTART);
 
         isRoundReset.Value = true;
 

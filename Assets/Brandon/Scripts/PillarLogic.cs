@@ -36,6 +36,9 @@ public class PillarLogic : NetworkBehaviour
     void Start()
     {
         matchManager = MatchManager.Instance;
+
+        endPosition.position = endPosition.position + new Vector3(0f, Random.Range(-50f, 50f), 0f);
+
     }
 
     // Update is called once per frame
@@ -183,7 +186,7 @@ public class PillarLogic : NetworkBehaviour
         {
             float t = elapsedTime / moveDuration;
             transform.position = Vector3.Lerp(startPos, endPos, t);
-            
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -191,7 +194,7 @@ public class PillarLogic : NetworkBehaviour
         transform.position = endPos;
         isMoving = false;
 
-        if(matchManager.isGameStarting.Value)
+        if (matchManager.isGameStarting.Value)
             matchManager.DisableIsGameStartingServerRPC();
     }
 
