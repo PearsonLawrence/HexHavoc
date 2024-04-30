@@ -26,10 +26,11 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private float lobbyUpdateTime = 5;
     private float lobbyUpdateTimer;
     bool isJoin, isClient;
-
+    public MatchManager manager;
     public void Start()
     {
         unNetworkPlayer = player.GetComponent<UnNetworkPlayer>();
+        manager = MatchManager.Instance;
     }
 
     public PlatformDialComponent getPlatformDial()
@@ -189,18 +190,24 @@ public class LobbyUIManager : MonoBehaviour
     {
         lobbyUpdateTimer -= Time.deltaTime;
 
-        if(unNetworkPlayer != null)
+       if (MatchManager.Instance.joinedPlayerCount.Value >= 2)
         {
-            if (unNetworkPlayer.isConnected)
+            if(gameLobby)
             {
-                gameLobby.DeleteLobby(gameLobby.getJoinedLobby().Id);
+                if(gameLobby.getJoinedLobby() != null)
+                {
+                    gameLobby.DeleteLobby(gameLobby.getJoinedLobby().Id);
+                    if (gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
+                    {
+                        this.gameObject.SetActive(false);
+                    }
+                }
             }
-        }
 
-        if(gameLobby.getIsLobbyStart()) //if lobby started then disable this UI related to lobby
-        {
-            this.gameObject.SetActive(false);
         }
+        
+
+        
         /*
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitPoint;

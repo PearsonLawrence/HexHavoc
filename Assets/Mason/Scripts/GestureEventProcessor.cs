@@ -57,10 +57,7 @@ public class GestureEventProcessor : MonoBehaviour
         #else // this will happen in stand-alone build:
         int error = gc.loadFromFile(Application.streamingAssetsPath + "/1and2HandedGestures.dat");
         #endif
-        if (error != null)
-        {
-            throw new Exception(GestureRecognition.getErrorMessage(error));
-        }
+        
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxBowAmmo;
         currentGunAmmo = maxAmmo;
