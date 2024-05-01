@@ -111,7 +111,7 @@ public class GestureEventProcessor : MonoBehaviour
             return;
         }
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
-        if (gestureCompletionData.similarity >= 0.7) {
+        if (gestureCompletionData.similarity >= 0.9) {
             //Casts Element Spawn (for Earth, Water, and Air)
             if (gestureCompletionData.gestureName == "Right Element Spawn" && !isElementSpawned && !isGunSpawnedRight && !isBowSpawnedRight)
             {
