@@ -198,8 +198,8 @@ public class MatchManager : NetworkBehaviour
 
         if(playerOneReady && playerTwoReady)
         {
-            playerTwoReady = true;
-            playerOneReady = true;
+            playerTwoReady = false;
+            playerOneReady = false;
 
             pOneWinTally = 0;
             pTwoWinTally = 0;
@@ -208,8 +208,12 @@ public class MatchManager : NetworkBehaviour
             playerTwoSpellManager.ActivateChooseOrbsClientRpc();
 
             ReadyButtonOffClientRpc();
-        }
 
+            foreach (ReadyButton t in readyButtonList)
+            {
+                t.matchStarted = true;
+            }
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -250,10 +254,10 @@ public class MatchManager : NetworkBehaviour
                 t.MovePillarClientRpc(pillarDirection.TOSTART);
             }
 
-            playerOneSpellManager.ActivateChooseOrbsClientRpc();
-            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
-
-            ReadyButtonOffClientRpc();
+            foreach (ReadyButton t in readyButtonList)
+            {
+                t.matchStarted = true;
+            }
         }
     }
 
@@ -263,7 +267,6 @@ public class MatchManager : NetworkBehaviour
         foreach (ReadyButton t in readyButtonList)
         {
             t.gameObject.SetActive(false);
-            t.matchStarted = true;
         }
     }
     [ClientRpc]
@@ -276,7 +279,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     //updates the player health variable across network using network variable
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
     {
         //Debug.Log($"UpdatePlayerHealthServerRpc - ClientID: {clientId}, Health: ");
