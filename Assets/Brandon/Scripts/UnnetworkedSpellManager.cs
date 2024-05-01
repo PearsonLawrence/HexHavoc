@@ -47,9 +47,6 @@ public class UnNetworkedSpellManager : MonoBehaviour
     private int earthShotCount = 0;
 
     AudioManager audioManager;
-    public Vector3 spellDirection;
-    public GestureEventProcessor gestureEp;
-    private MatchManager matchInstance;
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
@@ -66,7 +63,6 @@ public class UnNetworkedSpellManager : MonoBehaviour
 
     private void Start()
     {
-        matchInstance = MatchManager.Instance;
         //ActivateChooseOrbs();
         audioManager = AudioManager.Instance;
     }
@@ -176,44 +172,6 @@ public class UnNetworkedSpellManager : MonoBehaviour
         }
     }
 
-    public void SpawnHitProjectile()
-    {
-        // Define the distance in front of the player where the fireball will spawn
-        float spawnDistance = 2f;
-
-        // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = gestureEp.CurrentElement.transform.position;
-        //Vector3 spawnPosition = Vector3.zero;
-
-        switch (elementSpeicalization)
-        {
-            case elementType.WATER:
-                desiredProjectile = waterShotPrefab;
-                break;
-            case elementType.EARTH:
-                desiredProjectile = earthSpearPrefab;
-                if (earthShotCount == 4)
-                {
-                    earthShotCount = 0;
-                }
-                else
-                {
-                    earthShotCount++;
-                }
-                break;
-        }
-
-
-        ProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, gestureEp.CurrentElement.transform.rotation).GetComponent<ProjectileComponent>();
-
-        projectile.SetDirection(spellDirection);
-       
-            //projectile.SetDirection(Vector3.forward);
-        
-        // Add the fireball to the list of casted spells
-        castedSpells.Add(projectile.transform);
-
-    }
     public void SpawnLeftProjectile()
     {
         // Define the distance in front of the player where the fireball will spawn
@@ -257,9 +215,12 @@ public class UnNetworkedSpellManager : MonoBehaviour
 
         ProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<ProjectileComponent>();
 
-        projectile.SetDirection(LeftHandPos.forward);
+        projectile.SetDirection(RightHandPos.forward);
 
-       
+        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
+
+        projectile.SetDirection(RightHandPos.forward);
+        
         /*if (networkObject != null)
         {
             networkObject.Spawn(); // Spawn the object on the network
@@ -328,7 +289,9 @@ public class UnNetworkedSpellManager : MonoBehaviour
         ProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, RightHandPos.rotation).GetComponent<ProjectileComponent>();
 
         projectile.SetDirection(RightHandPos.forward);
-        
+        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
+        projectile.SetDirection(RightHandPos.forward);
+
         /*if (networkObject != null)
         {
             networkObject.Spawn(); // Spawn the object on the network

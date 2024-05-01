@@ -21,7 +21,7 @@ public class NetworkPlayer : NetworkBehaviour
     public GameObject headObj;
     public PillarLogic currentPillar;
     public Renderer[] meshToDisable;
-    public UnNetworkPlayer playerXr;
+    private UnNetworkPlayer playerXr;
     public bool isMoving;
     public float moveDuration = 5;
 
@@ -44,12 +44,14 @@ public class NetworkPlayer : NetworkBehaviour
                 item.enabled = false;
             }
            
+            left.parentObj = this;
+            right.parentObj = this;
             //GameObject temp = Camera.main.gameObject;
             //temp.transform.parent = headObj.transform;
             //temp.transform.position = Vector3.zero;
             //temp.transform.rotation = Quaternion.identity;
         }
-        //PlacePlayers();
+        PlacePlayers();
 
 
     }
@@ -77,14 +79,14 @@ public class NetworkPlayer : NetworkBehaviour
         //body.position = VRRigReferences.Singleton.body.position;
         //body.rotation = VRRigReferences.Singleton.body.rotation;
 
-        if (leftHand && left) leftHand.position = left.gameObject.transform.position;
-        if (leftHand && left) leftHand.forward = left.gameObject.transform.forward;
+        if (leftHand) leftHand.position = playerXr.interactleft.gameObject.transform.position;
+        if (leftHand) leftHand.rotation = playerXr.interactleft.gameObject.transform.rotation;
 
-        if (rightHand && right) rightHand.position = right.gameObject.transform.position;
-        if (rightHand && right) rightHand.forward = right.gameObject.transform.forward;
+        if (rightHand) rightHand.position = playerXr.interactRight.gameObject.transform.position;
+        if (rightHand) rightHand.rotation = playerXr.interactRight.gameObject.transform.rotation;
 
-        //leftHandSpell.gripProperty = VRRigReferences.Singleton.leftGripProperty;
-        //rightHandSpell.gripProperty = VRRigReferences.Singleton.rightGripProperty;
+        leftHandSpell.gripProperty = VRRigReferences.Singleton.leftGripProperty;
+        rightHandSpell.gripProperty = VRRigReferences.Singleton.rightGripProperty;
 
         if (MatchManager.Instance.isRoundReset.Value)
         {
@@ -97,16 +99,18 @@ public class NetworkPlayer : NetworkBehaviour
     [ServerRpc]
     private void RegisterPlayerOnServerRpc(ulong clientId)
     {
+        MatchManager.Instance.RegisterPlayer(clientId, spellManager, this);
+
         if (GetComponent<NetworkObject>().OwnerClientId == 0)
         {
+
             MatchManager.Instance.playerOneNetwork = this;
         }
         else if(GetComponent<NetworkObject>().OwnerClientId == 1)
         {
+
             MatchManager.Instance.playerTwoNetwork = this;
         }
-        MatchManager.Instance.RegisterPlayer(clientId);
-
     }
     public void PlacePlayers()
     {
@@ -124,12 +128,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerXr = xr.GetComponent<UnNetworkPlayer>();
             playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
-            playerXr.gestureEP.spellmanager = GetComponent<SpellManager>();
-            left = playerXr.interactleft;
-            right = playerXr.interactRight;
-            left.parentObj = this;
-            right.parentObj = this;
-            // playerXr.setSpellManagerProcessors();
+            //playerXr.setSpellManagerProcessors();
 
             playerXr.isJoining = false;
             playerXr.isConnected = true;
@@ -150,12 +149,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerXr = xr.GetComponent<UnNetworkPlayer>();
             playerXr.currentPillar = playerXr.matchPillar;
             playerXr.spellmanager = GetComponent<SpellManager>();
-            playerXr.gestureEP.spellmanager = GetComponent<SpellManager>();
-            // playerXr.setSpellManagerProcessors();
-            left = playerXr.interactleft;
-            right = playerXr.interactRight;
-            left.parentObj = this;
-            right.parentObj = this;
+            //playerXr.setSpellManagerProcessors();
 
             playerXr.isJoining = false;
             playerXr.isConnected = true;

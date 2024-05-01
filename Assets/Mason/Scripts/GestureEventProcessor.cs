@@ -345,20 +345,10 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WATER:
                         //Casts Hit (for Water and Earth)
-                        if (gestureCompletionData.gestureName == "Left Hit"  && isTouchingElement)
+                        if ((gestureCompletionData.gestureName == "Left Hit" || gestureCompletionData.gestureName == "Right Hit") && isTouchingElement)
                         {
                             Debug.Log("Hit Successfully Casted");
-                            spellmanager.fireLeftProjectile();
-                            isElementSpawned = false;
-                            CurrentElement.destroyThis();
 
-                        }
-                        if ( gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
-                        {
-                            Debug.Log("Hit Successfully Casted");
-                            spellmanager.fireRightProjectile();
-                            isElementSpawned = false;
-                            CurrentElement.destroyThis();
 
                         }
                         //Casts Water Shield
@@ -599,19 +589,11 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WATER:
                         //Casts Hit (for Water and Earth)
-                        if (gestureCompletionData.gestureName == "Left Hit"&& isTouchingElement)
+                        if ((gestureCompletionData.gestureName == "Left Hit" || gestureCompletionData.gestureName == "Right Hit") && isTouchingElement)
                         {
-                            unNetworkSpellmanager.SpawnLeftProjectile();
                             Debug.Log("Hit Successfully Casted");
-                            isElementSpawned = false;
-                            CurrentElement.destroyThis();
-                        }
-                        if (gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
-                        {
-                            unNetworkSpellmanager.SpawnRightProjectile();
-                            Debug.Log("Hit Successfully Casted");
-                            isElementSpawned = false;
-                            CurrentElement.destroyThis();
+
+
                         }
                         //Casts Water Shield
                         if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)

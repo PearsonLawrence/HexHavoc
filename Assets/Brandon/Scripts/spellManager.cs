@@ -50,9 +50,7 @@ public class SpellManager : NetworkBehaviour
 
     [HideInInspector] public NetworkVariable<bool> setSpecialization = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector] public NetworkVariable<bool> setIsOrbDisabled = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [HideInInspector] public NetworkVariable<Vector3> spellDirection = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
-    public NetworkVariable<elementType> elementSpeicalization = new NetworkVariable<elementType>(elementType.WIND, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [HideInInspector] public NetworkVariable<elementType> elementSpeicalization = new NetworkVariable<elementType>(elementType.WIND, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     private NetworkVariable<int> earthShotCount = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
@@ -61,7 +59,6 @@ public class SpellManager : NetworkBehaviour
     MatchManager matchManager;
 
     public float spawnProjectileDistance = 2, spawnWallDistance = 2;
-    public GestureEventProcessor gestureEp;
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
@@ -82,7 +79,6 @@ public class SpellManager : NetworkBehaviour
         audioManager = AudioManager.Instance;
 
         matchManager = MatchManager.Instance;
-        gestureEp = matchManager.XRUnNetwork.gestureEP;
     }
 
     public override void OnNetworkSpawn()
@@ -143,13 +139,6 @@ public class SpellManager : NetworkBehaviour
     {
         Debug.Log("RPCFIREBALL");
         SpawnRightProjectile();
-    }
-    [ServerRpc]
-    public void RequestSpawnHitProjectileServerRpc()
-    {
-
-        Debug.Log("RPCFIREHIT");
-        SpawnHitProjectile();
     }
 
     public void SpawnProjectile()
@@ -237,79 +226,6 @@ public class SpellManager : NetworkBehaviour
         }
     }
 
-    public void SpawnHitProjectile()
-    {
-        // Define the distance in front of the player where the fireball will spawn
-        float spawnDistance = 2f;
-
-        // Calculate the spawn position based on the player's position and forward direction
-        Vector3 spawnPosition = gestureEp.CurrentElement.transform.position;
-        //Vector3 spawnPosition = Vector3.zero;
-
-        switch (elementSpeicalization.Value)
-        {
-            case elementType.FIRE:
-                desiredProjectile = fireballPrefab;
-                break;
-            case elementType.WATER:
-                desiredProjectile = waterShotPrefab;
-                break;
-            case elementType.WIND:
-                desiredProjectile = windBlastPrefab;
-                break;
-            case elementType.EARTH:
-                desiredProjectile = earthSpearPrefab;
-                break;
-
-        }
-
-        // Instantiate the fireball at the calculated spawn position
-        NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, gestureEp.CurrentElement.transform.rotation).GetComponent<NetworkedProjectileComponent>();
-
-        NetworkObject networkObject = projectile.GetComponent<NetworkObject>();
-        if (networkObject != null)
-        {
-            networkObject.Spawn(); // Spawn the object on the network
-
-            projectile.setOwner(this.gameObject); // Now safe to set the owner
-
-            projectile.earthShot.Value = earthShotCount.Value;
-
-           // projectile.handToFollow = spellDirection;
-
-            //Debug.Log(this.gameObject);
-
-            // Additional initialization as needed
-            Vector3 playerForward = Camera.main.transform.forward;
-
-
-            if (elementSpeicalization.Value == elementType.EARTH)
-            {
-                projectile.SetDirection(spellDirection.Value);
-            }
-
-            // projectile.SetDirection(Vector3.forward);
-        }
-        else
-        {
-            Debug.LogError("NetworkObject not found on the fireball prefab.");
-        }
-
-        // Add the fireball to the list of casted spells
-        castedSpells.Add(projectile.transform);
-
-        // Set the parent in the fireball component
-        NetworkedProjectileComponent Projectile = projectile.GetComponent<NetworkedProjectileComponent>();
-        if (Projectile != null)
-        {
-            Projectile.parent = this;
-        }
-        else
-        {
-            Debug.LogError("fireball component not found on the fireball prefab.");
-        }
-    }
-
     public void SpawnLeftProjectile()
     {
         // Define the distance in front of the player where the fireball will spawn
@@ -317,7 +233,6 @@ public class SpellManager : NetworkBehaviour
 
         // Calculate the spawn position based on the player's position and forward direction
         Vector3 spawnPosition = LeftHandPos.position + LeftHandPos.forward * spawnProjectileDistance;
-
         //Vector3 spawnPosition = Vector3.zero;
 
         switch (elementSpeicalization.Value)
@@ -352,6 +267,7 @@ public class SpellManager : NetworkBehaviour
 
         // Instantiate the fireball at the calculated spawn position
 
+
         NetworkedProjectileComponent projectile = Instantiate(desiredProjectile, spawnPosition, LeftHandPos.rotation).GetComponent<NetworkedProjectileComponent>();
 
 
@@ -372,12 +288,17 @@ public class SpellManager : NetworkBehaviour
             //Debug.Log(this.gameObject);
 
             // Additional initialization as needed
+            Vector3 playerForward = Camera.main.transform.forward;
+            if (elementSpeicalization.Value != elementType.EARTH)
+            {
+                projectile.SetDirection(RightHandPos.forward);
+            }
 
-            //projectile.SetDirection(Vector3.forward);
             if (elementSpeicalization.Value == elementType.EARTH)
             {
-                projectile.SetDirection(spellDirection.Value);
+                projectile.SetDirection(matchManager.earthProjectileDirection);
             }
+            //projectile.SetDirection(Vector3.forward);
         }
         else
         {
@@ -447,10 +368,14 @@ public class SpellManager : NetworkBehaviour
             // Additional initialization as needed
             Vector3 playerForward = Camera.main.transform.forward;
 
+            if (elementSpeicalization.Value != elementType.EARTH)
+            {
+                projectile.SetDirection(RightHandPos.forward);
+            }
 
             if (elementSpeicalization.Value == elementType.EARTH)
             {
-                projectile.SetDirection(spellDirection.Value);
+                projectile.SetDirection(matchManager.earthProjectileDirection);
             }
 
             // projectile.SetDirection(Vector3.forward);
@@ -603,20 +528,6 @@ public class SpellManager : NetworkBehaviour
         else
         {
             RequestSpawnLeftProjectileServerRpc();
-        }
-    }
-    public void fireHitProjectile()
-    {
-        //TODO: Clearify test and refactor 
-        Debug.Log("Fire hit projectile");
-        RequestSpawnHitProjectileServerRpc(); //Spawns fireball from rpc over network
-        if (IsServer)
-        {
-            SpawnHitProjectile();
-        }
-        else
-        {
-            RequestSpawnHitProjectileServerRpc();
         }
     }
 
