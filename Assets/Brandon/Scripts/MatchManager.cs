@@ -190,6 +190,7 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DeclareReadyServerRpc(ulong clientId)
     {
+        
         if(clientId == 0)
         {
             playerOneReady = true;
@@ -250,6 +251,9 @@ public class MatchManager : NetworkBehaviour
             playerOneOrb = false;
             playerTwoOrb = false;
 
+            playerOneHealth.Value = 100;
+            playerTwoHealth.Value = 100;
+
             foreach (PillarLogic t in matchEndPillarLogicList)
             {
                 t.MovePillarClientRpc(pillarDirection.TOSTART);
@@ -261,10 +265,6 @@ public class MatchManager : NetworkBehaviour
                 t.MovePillarClientRpc(pillarDirection.TOSTART);
             }
 
-            foreach (ReadyButton t in readyButtonList)
-            {
-                t.matchStarted = true;
-            }
         }
     }
 
@@ -399,6 +399,13 @@ public class MatchManager : NetworkBehaviour
             t.gameObject.SetActive(true);
             t.MovePillarClientRpc(pillarDirection.TOEND);
         }
+
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.matchStarted = false;
+        }
+
+
 
         ReadyButtonOnClientRpc();
 

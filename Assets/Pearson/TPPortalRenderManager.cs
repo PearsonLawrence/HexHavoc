@@ -5,6 +5,7 @@ using UnityEngine;
 public class TPPortalRenderManager : MonoBehaviour
 {
     public GameObject PortalHolder;
+    public GameObject LookPoint;
     public List<GameObject> PortalParts;
     public GameObject LeftHand;
     public GameObject RightHand;
@@ -24,7 +25,7 @@ public class TPPortalRenderManager : MonoBehaviour
         transform.forward = direction2;
 
         Vector3 NewScale = new Vector3(MaxSize * DistancePercentage, MaxSize * (DistancePercentage / 2), MaxSize * DistancePercentage);
-
+        
         for (int i = 0; i < PortalParts.Count; i++)
         {
 
@@ -37,6 +38,7 @@ public class TPPortalRenderManager : MonoBehaviour
     {
         isUpdating = true;
         PortalHolder.SetActive(true);
+        LookPoint.SetActive(true);
     }
 
     public void resetThis()
@@ -47,5 +49,6 @@ public class TPPortalRenderManager : MonoBehaviour
             PortalParts[i].transform.localScale = Vector3.zero;
         }
         PortalHolder.SetActive(false);
+        LookPoint.SetActive(false);
     }
 }

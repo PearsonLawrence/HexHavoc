@@ -11,6 +11,7 @@ public class GestureEventProcessor : MonoBehaviour
 {
     public ParticleSystem UpBowParticleLeft, UpBowParticleRight;
     public ParticleSystem DownBowParticleLeft, DownBowParticleRight;
+    public GameObject LeftBowIndicator, RightBowIndicator;
     public InputActionProperty leftTriggerProperty;
     public InputActionProperty rightTriggerProperty;
     public bool isHandsTouching = false;
@@ -69,6 +70,8 @@ public class GestureEventProcessor : MonoBehaviour
         DownBowParticleRight.Stop();
         UpBowParticleLeft.Stop();
         DownBowParticleLeft.Stop();
+        LeftBowIndicator.SetActive(false);
+        RightBowIndicator.SetActive(false);
     }
 
     //Update is called once per frame
@@ -97,7 +100,7 @@ public class GestureEventProcessor : MonoBehaviour
             FireRightGun();
             hasShotRight = true;
         }
-        if (currentGunAmmo == 0)
+        if (currentGunAmmo == 0 && !isBowSpawnedLeft && !isBowSpawnedRight)
         {
             hasAmmo = false;
         }
@@ -111,7 +114,7 @@ public class GestureEventProcessor : MonoBehaviour
             return;
         }
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
-        if (gestureCompletionData.similarity >= 0.9) {
+        if (gestureCompletionData.similarity >= 0.5) {
             //Casts Element Spawn (for Earth, Water, and Air)
             if (gestureCompletionData.gestureName == "Right Element Spawn" && !isElementSpawned && !isGunSpawnedRight && !isBowSpawnedRight)
             {
@@ -141,6 +144,7 @@ public class GestureEventProcessor : MonoBehaviour
                             hasAmmo = true;
                             UpBowParticleLeft.Play();
                             DownBowParticleLeft.Play();
+                            LeftBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
@@ -155,6 +159,7 @@ public class GestureEventProcessor : MonoBehaviour
                             hasAmmo = true;
                             UpBowParticleRight.Play();
                             DownBowParticleRight.Play();
+                            RightBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
@@ -189,6 +194,8 @@ public class GestureEventProcessor : MonoBehaviour
                                 DownBowParticleRight.Stop();
                                 UpBowParticleLeft.Stop();
                                 DownBowParticleLeft.Stop();
+                                LeftBowIndicator.SetActive(false);
+                                RightBowIndicator.SetActive(false);
                                 //Destroy(BowGameObject);
                             }
                         }
@@ -229,6 +236,8 @@ public class GestureEventProcessor : MonoBehaviour
                                 DownBowParticleRight.Stop();
                                 UpBowParticleLeft.Stop();
                                 DownBowParticleLeft.Stop();
+                                LeftBowIndicator.SetActive(false);
+                                RightBowIndicator.SetActive(false);
                                 //Destroy(BowGameObject);
                             }
                         }
@@ -395,6 +404,7 @@ public class GestureEventProcessor : MonoBehaviour
                             hasAmmo = true;
                             UpBowParticleLeft.Play();
                             DownBowParticleLeft.Play();
+                            LeftBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
@@ -409,6 +419,7 @@ public class GestureEventProcessor : MonoBehaviour
                             hasAmmo = true;
                             UpBowParticleRight.Play();
                             DownBowParticleRight.Play();
+                            RightBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
@@ -443,6 +454,8 @@ public class GestureEventProcessor : MonoBehaviour
                                 DownBowParticleRight.Stop();
                                 UpBowParticleLeft.Stop();
                                 DownBowParticleLeft.Stop();
+                                LeftBowIndicator.SetActive(false);
+                                RightBowIndicator.SetActive(false);
                                 //Destroy(BowGameObject);
                             }
                         }
@@ -483,6 +496,8 @@ public class GestureEventProcessor : MonoBehaviour
                                 DownBowParticleRight.Stop();
                                 UpBowParticleLeft.Stop();
                                 DownBowParticleLeft.Stop();
+                                LeftBowIndicator.SetActive(false);
+                                RightBowIndicator.SetActive(false);
                                 //Destroy(BowGameObject);
                             }
                         }

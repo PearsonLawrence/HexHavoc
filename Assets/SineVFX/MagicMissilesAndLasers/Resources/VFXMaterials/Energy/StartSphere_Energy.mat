@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: StartSphere_Energy
   m_Shader: {fileID: 4800000, guid: efa3cc4b281984c42a3cc46e2efe45cf, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: 2cffe6d882e1c6144ad4df9e31b6c756, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -22,56 +22,9 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Noise01:
-        m_Texture: {fileID: 2800000, guid: 1746d72c8cbcebf4ebe6ab93898e2f61, type: 3}
-        m_Scale: {x: 1, y: 2}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTest:
-        m_Texture: {fileID: 2800000, guid: 1746d72c8cbcebf4ebe6ab93898e2f61, type: 3}
-        m_Scale: {x: 1, y: 3}
-        m_Offset: {x: 0, y: 0}
-    - _OffsetNoise:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Ramp:
-        m_Texture: {fileID: 2800000, guid: 20f612a8a5ba48e41a77369c653467f6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpaceTex:
-        m_Texture: {fileID: 2800000, guid: 649d863e755637344b00b7a077175acc, type: 3}
-        m_Scale: {x: 1, y: 2}
-        m_Offset: {x: 0, y: 0}
-    - _node_406:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _node_7918:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _node_842:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
-    m_Floats:
-    - _Cutoff: 0.5
-    - _DistortionFresnelExp: 0.21
-    - _DistortionPower: 0.43
-    - _FinalPower: 2.6
-    - _OffsetAdd: 4.25
-    - _OffsetPower: 0.13
-    - _OpacityPower: 4
-    - _ScrollSpeed: 0.5
-    - _node_1750: 2.08
-    - _node_1819: 0.12
+    m_Floats: []
     m_Colors:
     - _Color: {r: 0.36356357, g: 0.8113208, b: 0.44039768, a: 1}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
