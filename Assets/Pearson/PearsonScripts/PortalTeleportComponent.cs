@@ -13,7 +13,7 @@ public class PortalTeleportComponent : MonoBehaviour
     [SerializeField] private GameObject fromArea;
     public bool isTutorialGate;
     public bool isArenaGate;
-
+    public GameObject spiritGuide;
     public GameObject getTpPoint()
     {
         return tpPoint;
@@ -26,7 +26,8 @@ public class PortalTeleportComponent : MonoBehaviour
     {
         if(other.CompareTag("PlayerHand"))
         {
-            if(isArenaGate)
+            if (spiritGuide) spiritGuide.SetActive(false);
+            if (isArenaGate)
             {
                 toArea.SetActive(true);
                 HandInteractableComponent temp = other.GetComponent<HandInteractableComponent>();

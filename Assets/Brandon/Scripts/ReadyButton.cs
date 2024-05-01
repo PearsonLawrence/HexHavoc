@@ -29,6 +29,7 @@ public class ReadyButton : MonoBehaviour
         {
             if (!matchStarted)
             {
+                Camera.main.gameObject.GetComponent<BackgroundMusic>().PlayArenaMusic();
                 Debug.Log("Touched sensually");
                 NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
                 NetworkPlayer networkPlayer = temp.parentObj;
@@ -51,6 +52,7 @@ public class ReadyButton : MonoBehaviour
                 Debug.Log("Touched sensually");
                 NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();
                 NetworkPlayer networkPlayer = temp.parentObj;
+                Camera.main.gameObject.GetComponent<BackgroundMusic>().ReturnToMainMenu();
                 if (networkPlayer)
                 {
                     Debug.Log("touched2");

@@ -7,11 +7,12 @@ public class BackgroundMusic : MonoBehaviour
     public AudioClip arenaMusicClip;
     public float fadeDuration = 2.0f;
 
-    private AudioSource mainMenuMusicSource;
-    private AudioSource arenaMusicSource;
-
+    public AudioSource mainMenuMusicSource;
+    public AudioSource arenaMusicSource;
+    public float maxSound;
     private void Start()
     {
+        /*
         mainMenuMusicSource = gameObject.AddComponent<AudioSource>();
         mainMenuMusicSource.clip = mainMenuMusicClip;
         mainMenuMusicSource.loop = true;
@@ -21,7 +22,7 @@ public class BackgroundMusic : MonoBehaviour
         arenaMusicSource = gameObject.AddComponent<AudioSource>();
         arenaMusicSource.clip = arenaMusicClip;
         arenaMusicSource.loop = true;
-        arenaMusicSource.playOnAwake = false;
+        arenaMusicSource.playOnAwake = false;*/
     }
 
     public void PlayArenaMusic()
@@ -38,7 +39,7 @@ public class BackgroundMusic : MonoBehaviour
 
     private IEnumerator FadeOut(AudioSource audioSource, float duration)
     {
-        float startVolume = audioSource.volume;
+        float startVolume = maxSound;
         float startTime = Time.time;
 
         while (Time.time < startTime + duration)
@@ -56,12 +57,12 @@ public class BackgroundMusic : MonoBehaviour
         audioSource.Play();
         audioSource.volume = 0f;
 
-        while (audioSource.volume < 1f)
+        while (audioSource.volume < maxSound)
         {
             audioSource.volume += Time.deltaTime / duration;
             yield return null;
         }
 
-        audioSource.volume = 1f;
+        audioSource.volume =  maxSound;
     }
 }
