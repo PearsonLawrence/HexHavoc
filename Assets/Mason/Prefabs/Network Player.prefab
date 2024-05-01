@@ -280,7 +280,6 @@ GameObject:
   - component: {fileID: 5003784469846811384}
   - component: {fileID: 2480523304205031251}
   - component: {fileID: 5305203051586598904}
-  - component: {fileID: 884191184874812920}
   - component: {fileID: 8196293139342366404}
   - component: {fileID: 8182086617851991718}
   - component: {fileID: 1372254918716490274}
@@ -357,28 +356,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &884191184874812920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2930572510356264868}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a04bc543a537ad44aedb6396b3241e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentInteractableItem: {fileID: 0}
-  lobbyManager: {fileID: 0}
-  isSelecting: 0
-  isHolding: 0
-  parentObj: {fileID: 4436169089915246429}
-  parentUnNetworkObj: {fileID: 0}
-  spellManager: {fileID: 0}
-  gestureEP: {fileID: 0}
-  isTPTrigger: 0
-  isInteractableItem: 0
 --- !u!135 &8196293139342366404
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -452,7 +429,6 @@ GameObject:
   - component: {fileID: 6590611006965177226}
   - component: {fileID: 4424036918452286260}
   - component: {fileID: 3060264747778968668}
-  - component: {fileID: 4727385082615059723}
   - component: {fileID: 6273179062021268637}
   - component: {fileID: 391625152485726001}
   m_Layer: 0
@@ -549,28 +525,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4727385082615059723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3141107870537888508}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a04bc543a537ad44aedb6396b3241e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentInteractableItem: {fileID: 0}
-  lobbyManager: {fileID: 0}
-  isSelecting: 0
-  isHolding: 0
-  parentObj: {fileID: 4436169089915246429}
-  parentUnNetworkObj: {fileID: 0}
-  spellManager: {fileID: 0}
-  gestureEP: {fileID: 0}
-  isTPTrigger: 0
-  isInteractableItem: 0
 --- !u!54 &6273179062021268637
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -671,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2951058855
+  GlobalObjectIdHash: 2889401433
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -697,8 +651,8 @@ MonoBehaviour:
   rightHand: {fileID: 8941643027808587316}
   leftHandSpell: {fileID: 7022101944330830390}
   rightHandSpell: {fileID: 6703322781682952735}
-  left: {fileID: 4727385082615059723}
-  right: {fileID: 884191184874812920}
+  left: {fileID: 0}
+  right: {fileID: 0}
   xr: {fileID: 0}
   headObj: {fileID: 5193422471277711794}
   currentPillar: {fileID: 0}
@@ -782,6 +736,8 @@ MonoBehaviour:
     m_InternalValue: 0
   spawnProjectileDistance: 2
   spawnWallDistance: 2
+  spellDirection: {x: 0, y: 0, z: 0}
+  gestureEp: {fileID: 0}
 --- !u!114 &1260485457294168857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,12 +775,12 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 2
+  m_Radius: 0.37
+  m_Height: 1.73
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!114 &905829413675451845
@@ -840,6 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportationRayPrefab: {fileID: 0}
+  gestureEventProcessor: {fileID: 0}
   xr: {fileID: 0}
 --- !u!1 &5193422471277711794
 GameObject:

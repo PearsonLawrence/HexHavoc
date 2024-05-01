@@ -100,7 +100,7 @@ public class MatchManager : NetworkBehaviour
     }
 
     // Called to register a player
-    public void RegisterPlayer(ulong clientId, SpellManager spellManager, NetworkPlayer playerNetwork)
+    public void RegisterPlayer(ulong clientId)
     {
         // You can perform additional logic here based on the spawned player
         Debug.Log($"Player registered: {clientId}");
@@ -121,24 +121,23 @@ public class MatchManager : NetworkBehaviour
 
         if(clientId == 0)
         {
-
-            playerOneSpellManager = spellManager;
-            playerOneNetwork = playerNetwork;
+            playerOneSpellManager = playerOneNetwork.getSpellManager();
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
                 Debug.Log("Local Player Registered");
                 XRUnNetwork.spellmanager = playerOneSpellManager;
+                XRUnNetwork.unSpellManager.elementSpeicalization = playerOneSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager; 
             }
             joinedPlayerCount.Value++; 
         }
         else if (clientId == 1)
         {
-            playerTwoSpellManager = spellManager;
-            playerTwoNetwork = playerNetwork;
+            playerTwoSpellManager = playerTwoNetwork.getSpellManager();
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
                 XRUnNetwork.spellmanager = playerTwoSpellManager;
+                XRUnNetwork.unSpellManager.elementSpeicalization = playerTwoSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
             }
             joinedPlayerCount.Value++;
@@ -267,7 +266,15 @@ public class MatchManager : NetworkBehaviour
             t.matchStarted = true;
         }
     }
-    
+    [ClientRpc]
+    private void ReadyButtonOnClientRpc()
+    {
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(true);
+        }
+    }
+
     //updates the player health variable across network using network variable
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerHealthServerRpc(ulong clientId, int damage)
@@ -363,10 +370,7 @@ public class MatchManager : NetworkBehaviour
             t.MovePillarClientRpc(pillarDirection.TOEND);
         }
 
-        foreach (ReadyButton t in readyButtonList)
-        {
-            t.gameObject.SetActive(true);
-        }
+        ReadyButtonOnClientRpc();
 
         isRoundReset.Value = true;
 

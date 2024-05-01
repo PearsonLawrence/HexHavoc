@@ -28,21 +28,21 @@ public class UnNetworkPlayer : MonoBehaviour
     public GestureEventProcessor gestureEP;
     public TPPortalRenderManager portalRenderManager;
     public GameObject TPRealm;
+    public UnNetworkedSpellManager unSpellManager;
     void Start()
     {
+        unSpellManager = GetComponent<UnNetworkedSpellManager>();
         manager = MatchManager.Instance; 
         
     }
-
-    /*public void setSpellManagerProcessors()
+    
+    public void setSpellManagerProcessors()
     {
-        Debug.Log("Err2: " + spellmanager);
         foreach(GestureEventProcessor processor in processors)
         {
            processor.spellmanager = spellmanager;
-            Debug.Log("Err*: " + processor.spellmanager);
         }
-    }*/
+    }
 
     // Update is called once per frame
     void Update()

@@ -24,7 +24,7 @@ public class ProjectileComponent : UnNetworkedSpellComponent
     {
         // Movement logic remains unchanged
         Debug.Log("In movemnet");
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += moveDirection * speed * Time.deltaTime;
         lifeTime -= Time.deltaTime;
         if (lifeTime < 0)
         {
@@ -34,7 +34,7 @@ public class ProjectileComponent : UnNetworkedSpellComponent
 
     public void SetDirection(Vector3 direction)
     {
-        moveDirection = direction.normalized;
+        moveDirection = direction;
     }
 
     public void DoImpact()

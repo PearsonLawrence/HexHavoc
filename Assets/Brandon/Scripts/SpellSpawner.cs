@@ -152,7 +152,7 @@ public class SpellSpawner : MonoBehaviour
         while (elapsedTime < 1)
         {
             float t = elapsedTime / 1;
-            movePrefab.position = Vector3.Lerp(start, end, t);
+            if(movePrefab) movePrefab.position = Vector3.Lerp(start, end, t);
 
             elapsedTime += Time.deltaTime;
             yield return null;

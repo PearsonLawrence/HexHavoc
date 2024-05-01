@@ -150,7 +150,7 @@ public class NetworkedProjectileComponent : SpellComponent
 
     public void SetDirection(Vector3 direction)
     {
-        moveDirection = direction.normalized;
+        moveDirection = direction;
         dontMove = false;
     }
 

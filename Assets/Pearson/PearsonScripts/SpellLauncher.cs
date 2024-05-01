@@ -29,7 +29,7 @@ public class SpellLauncher : NetworkBehaviour //Network behavior to allow transm
     void Update()
     {
         if (!IsOwner) return;
-
+        /*
         float triggerValue = gripProperty.action.ReadValue<float>(); //Get the value of the motion controllers grip to launch spells
             //TODO: Switch to gesture based casting
         
@@ -68,7 +68,7 @@ public class SpellLauncher : NetworkBehaviour //Network behavior to allow transm
                     //spellManager.fireWall(transform); //Calls a firewall rpc across the network at transform location
                     break;
             }
-        }
+        }*/
 
 
     }

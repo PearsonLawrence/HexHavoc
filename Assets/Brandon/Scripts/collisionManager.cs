@@ -81,7 +81,8 @@ public class collisionManager : NetworkBehaviour
             }
 
             GameObject spellOwner = spell.getOwner();
-
+            SpellManager tempOwnerManager = spellOwner.GetComponent<SpellManager>();
+            /*
             if (other.CompareTag("PlayerHand"))
             {
                 Debug.Log("hit with hamd");
@@ -135,9 +136,10 @@ public class collisionManager : NetworkBehaviour
                 }
 
             }
-
+            */
             if (other.CompareTag("PlayerBody"))
             {
+                if (spellOwner == other.gameObject) return;
                 //Debug.Log("hit player");
                 switch (spell.spellType)
                 {
