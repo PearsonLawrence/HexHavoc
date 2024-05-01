@@ -576,6 +576,7 @@ public class SpellManager : NetworkBehaviour
         {
             Debug.LogError("NetworkObject or WallSpell component not found on the wall prefab.");
         }
+
     }
 
     //Function to be called when spawning a fireball on the network
