@@ -30,7 +30,10 @@ public class ElementSelect : SpellComponent
             //Debug.Log("isplayer");
             //playerSpellManager = other.GetComponent<SpellManager>();
             if(networkPlayer)
+            {
                 networkPlayer.getSpellManager().SetElementType(elementtype);
+                networkPlayer.playerXr.unSpellManager.elementSpeicalization = elementtype;
+            }
         }
     }
 }

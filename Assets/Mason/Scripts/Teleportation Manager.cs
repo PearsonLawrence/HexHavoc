@@ -10,12 +10,11 @@ public class TeleportationManager : MonoBehaviour
 
     private GameObject teleportationRay;
     private Transform playerHead;
-    private GestureEventProcessor gestureEventProcessor;
+    public GestureEventProcessor gestureEventProcessor;
     public XROrigin xr;
     // Start is called before the first frame update
     void Start()
     {
-        gestureEventProcessor = GetComponent<GestureEventProcessor>();
         playerHead = Camera.main.transform;
 
         if (playerHead == null)

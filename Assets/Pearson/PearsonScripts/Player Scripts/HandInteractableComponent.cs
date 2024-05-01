@@ -15,7 +15,7 @@ public class HandInteractableComponent : NetworkBehaviour
     public GestureEventProcessor gestureEP;
     public bool isTPTrigger;
     public bool isInteractableItem;
-
+    public bool isLeft;
     private MatchManager matchManager;
     public void OnTriggerStay(Collider other)
     {
@@ -64,17 +64,6 @@ public class HandInteractableComponent : NetworkBehaviour
                         gestureEP.isTouchingElement = true;
                     }
 
-                    if (!isSelecting)
-                    {
-                        SpellClassifier spell = other.gameObject.GetComponent<SpellClassifier>();
-
-                        if(spell.element == SpellClassifier.ElementType.EARTH)
-                        {
-                            Vector3 directionBetween = (this.gameObject.transform.position - other.gameObject.transform.position).normalized;
-
-                            matchManager.earthProjectileDirection = directionBetween;
-                        }
-                    }
                 }
                 break;
             case "PlayerHand":
@@ -93,18 +82,52 @@ public class HandInteractableComponent : NetworkBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PortalLobby"))
+        string tag = other.tag;
+        switch(tag)
         {
-            lobbyManager.doJoin();
-        }
+            case "PortalLobby":
+                lobbyManager.doJoin();
+                break;
+            case "TpPortal":
+                PortalTeleportComponent temp = other.gameObject.GetComponent<PortalTeleportComponent>();
+                parentUnNetworkObj.currentPillar = temp.getTpToPillar();
+                if (temp.isTutorialGate) parentUnNetworkObj.isTutorial = (parentUnNetworkObj.isTutorial) ? false : true;
+                if (temp.isArenaGate) parentUnNetworkObj.isArena = (parentUnNetworkObj.isArena) ? false : true;
+                break;
+            case "Element":
+                if (!isSelecting)
+                {
+                    SpellClassifier spell = other.gameObject.GetComponent<SpellClassifier>();
 
-        if(other.CompareTag("TpPortal"))
-        {
-           PortalTeleportComponent temp = other.gameObject.GetComponent<PortalTeleportComponent>();
-            parentUnNetworkObj.currentPillar = temp.getTpToPillar();
-            if (temp.isTutorialGate) parentUnNetworkObj.isTutorial = (parentUnNetworkObj.isTutorial) ? false : true;
-            if (temp.isArenaGate) parentUnNetworkObj.isArena = (parentUnNetworkObj.isArena) ? false : true;
+                    if (spell.element == SpellClassifier.ElementType.EARTH)
+                    {
+                        Vector3 directionBetween = -(this.gameObject.transform.position - other.gameObject.transform.position).normalized;
+
+                        if (parentUnNetworkObj.spellmanager)
+                        {
+                            parentUnNetworkObj.spellmanager.spellDirection.Value = directionBetween;
+
+                            if (isLeft)
+                                parentUnNetworkObj.spellmanager.fireLeftProjectile();
+                            else
+                                parentUnNetworkObj.spellmanager.fireRightProjectile();
+                            Debug.Log("HAND SLAP");
+                        }
+                        else
+                        {
+                            parentUnNetworkObj.unSpellManager.spellDirection = directionBetween;
+                            Debug.Log("dir : " + directionBetween + " : managerDir : " + parentUnNetworkObj.unSpellManager.spellDirection);
+                            parentUnNetworkObj.unSpellManager.SpawnHitProjectile();
+                            Debug.Log("HAND SLAP UNNETWORK");
+                        }
+
+                        parentUnNetworkObj.gestureEP.isElementSpawned = false;
+                        Destroy(other.gameObject, .01f);
+                    }
+                }
+                break;
         }
+        
     }
     public void release()
     {
