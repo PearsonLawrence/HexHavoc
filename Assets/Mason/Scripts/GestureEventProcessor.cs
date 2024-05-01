@@ -47,16 +47,16 @@ public class GestureEventProcessor : MonoBehaviour
     public DestroyManager CurrentElement;
     public GameObject AirGunLeft, AirGunRight;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
         gc = new GestureCombinations(2);
-        #if UNITY_EDITOR // this will happen when using the Unity Editor:
+#if UNITY_EDITOR // this will happen when using the Unity Editor:
         int error = gc.loadFromFile("StreamingAssets/Gestures/1and2HandGestures.dat");
-        #else // this will happen in stand-alone build:
+#else // this will happen in stand-alone build:
         int error = gc.loadFromFile(Application.streamingAssetsPath + "/Gestures/1and2HandGestures.dat");
-        #endif
+#endif
         /*if (error != null)
         {
             throw new Exception(GestureRecognition.getErrorMessage(error) + " at: " + Application.streamingAssetsPath + "/1and2HandGestures.dat");
@@ -111,7 +111,7 @@ public class GestureEventProcessor : MonoBehaviour
             return;
         }
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
-        if (gestureCompletionData.similarity >= 0.9) {
+        if (gestureCompletionData.similarity >= 1.3) {
             //Casts Element Spawn (for Earth, Water, and Air)
             if (gestureCompletionData.gestureName == "Right Element Spawn" && !isElementSpawned && !isGunSpawnedRight && !isBowSpawnedRight)
             {
@@ -128,7 +128,7 @@ public class GestureEventProcessor : MonoBehaviour
             if (spellmanager)
             {
                 if (spellmanager.elementSpeicalization.Value != unNetworkSpellmanager.elementSpeicalization) unNetworkSpellmanager.elementSpeicalization = spellmanager.elementSpeicalization.Value;
-                
+
                 switch (spellmanager.elementSpeicalization.Value)
                 {
                     case elementType.FIRE:
@@ -345,7 +345,7 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WATER:
                         //Casts Hit (for Water and Earth)
-                        if (gestureCompletionData.gestureName == "Left Hit"  && isTouchingElement)
+                        if (gestureCompletionData.gestureName == "Left Hit" && isTouchingElement)
                         {
                             Debug.Log("Hit Successfully Casted");
                             spellmanager.fireLeftProjectile();
@@ -353,7 +353,7 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
 
                         }
-                        if ( gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
+                        if (gestureCompletionData.gestureName == "Right Hit" && isTouchingElement)
                         {
                             Debug.Log("Hit Successfully Casted");
                             spellmanager.fireRightProjectile();
@@ -599,7 +599,7 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WATER:
                         //Casts Hit (for Water and Earth)
-                        if (gestureCompletionData.gestureName == "Left Hit"&& isTouchingElement)
+                        if (gestureCompletionData.gestureName == "Left Hit" && isTouchingElement)
                         {
                             unNetworkSpellmanager.SpawnLeftProjectile();
                             Debug.Log("Hit Successfully Casted");
@@ -633,6 +633,13 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                 }
             }
+        }
+        else {
+            Debug.Log("Gesture Failed to Cast");
+        }
+
+        if (gestureCompletionData.similarity >= 0.7)
+        {
             //Casts Teleport
             if (gestureCompletionData.gestureName == "Teleport")
             {
@@ -641,8 +648,9 @@ public class GestureEventProcessor : MonoBehaviour
                 isTeleportGestureRecognized = true;
             }
         }
-        else {
-            Debug.Log("Gesture Failed to Cast");
+        else
+        {
+            Debug.Log("Teleport Gesture Failed to Cast");
         }
     }
 
