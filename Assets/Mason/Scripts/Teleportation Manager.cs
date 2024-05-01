@@ -12,6 +12,7 @@ public class TeleportationManager : MonoBehaviour
     private Transform playerHead;
     public GestureEventProcessor gestureEventProcessor;
     public XROrigin xr;
+    public AudioSource tpsource;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +62,8 @@ public class TeleportationManager : MonoBehaviour
                 {
                     var component = xr.GetComponent<UnNetworkPlayer>();
                     component.currentPillar = pillarLogic;
-                    component.isTeleported = true; ;
+                    component.isTeleported = true;
+                    tpsource.Play();
                 }
             }
         }

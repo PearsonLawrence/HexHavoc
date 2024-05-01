@@ -10,25 +10,65 @@ public class healthVignetteController : MonoBehaviour
 
     public bool test = false;
     private float currentHealth;
-
+    public GameObject audio;
+    public float currentMatchHealth, lastHealth;
+    private MatchManager instanceMatch;
+    public bool player1;
     void Update(){
+        if(player1)
+        {
+            currentMatchHealth = instanceMatch.playerOneHealth.Value;
+        }
+        else
+        {
+            currentMatchHealth = instanceMatch.playerTwoHealth.Value;
+        }
+
+        if(currentMatchHealth != lastHealth && currentMatchHealth < lastHealth)
+        {
+            float difference = lastHealth - currentMatchHealth;
+
+            TakeDamage(difference);
+            lastHealth = currentMatchHealth;
+        }
+        if (currentMatchHealth == 100)
+            lastHealth = 100;
+
         if(test){
-            TakeDamage(5);
+            TakeDamage(20);
     }
-        if(healthBarImage. < 255){
-            color.a = Mathf.Lerp(color.a, 255, Time.deltaTime * changeSpeed);
+        if(healthBarImage.color.a > 0){
+            Color tempColor = new Color(healthBarImage.color.r, healthBarImage.color.g, healthBarImage.color.b, 0);
+            healthBarImage.color = Color.Lerp(healthBarImage.color, tempColor, Time.deltaTime * changeSpeed);
         }
     }
     
     void Start()
     {
         currentHealth = maxHealth;
+        instanceMatch = MatchManager.Instance;
+        lastHealth = maxHealth;
     }
 
     public void TakeDamage(float amount)
     {
-        float percentAmount = amount/maxHealth;
-        color.a -= percentAmount;
+        float adjust = amount * 2.5f;
+        float percentAmount = adjust / maxHealth;
+        // Calculate the percentage of remaining health
+        float healthPercentage = currentHealth / maxHealth;
+
+        // Map health percentage to alpha value range (0 to 1)
+        float alpha = percentAmount * (maxAlpha / 255f);
+        Color tempColor = new Color(0, 0, 0, alpha);
+        healthBarImage.color += (healthBarImage.color.a < 240) ? tempColor : new Color(0,0,0);
+
+        Color clampColor = new Color(healthBarImage.color.r, healthBarImage.color.g, healthBarImage.color.b, 240);
+        healthBarImage.color = (healthBarImage.color.a >= 240) ? clampColor : healthBarImage.color;
+        test = false;
+
+
+        GameObject temp = Instantiate(audio, Camera.main.transform.position, Quaternion.identity);
+        Destroy(temp, 2);
         //currentHealth -= amount;
         //UpdateVignette();
 

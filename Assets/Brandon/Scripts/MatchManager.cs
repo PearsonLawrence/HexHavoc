@@ -74,6 +74,7 @@ public class MatchManager : NetworkBehaviour
     public Transform gameSpawnPosition2;
     public UnNetworkPlayer XRUnNetwork;
 
+    public healthVignetteController vin;
     void Awake()
     {
         // Ensure there is only one instance of the MatchManager
@@ -130,7 +131,8 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log("Local Player Registered");
                 XRUnNetwork.spellmanager = playerOneSpellManager;
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerOneSpellManager.elementSpeicalization.Value;
-                XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager; 
+                XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
+                vin.player1 = true;
             }
             joinedPlayerCount.Value++; 
         }
@@ -142,6 +144,7 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.spellmanager = playerTwoSpellManager;
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerTwoSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
+                vin.player1 = false;
             }
             joinedPlayerCount.Value++;
         }
@@ -313,11 +316,13 @@ public class MatchManager : NetworkBehaviour
         Debug.Log("Calling update health");
         if (clientId == 0)
         {
-            playerOneHealth.Value -= damage;
+            playerOneHealth.Value -= damage; 
+            
         }
         else if(clientId == 1)
         {
             playerTwoHealth.Value -= damage;
+            
         }
 
         Debug.Log("Player1 Health:" + playerOneHealth.Value + " Player2 Health " + playerTwoHealth.Value);
