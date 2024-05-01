@@ -38,6 +38,9 @@ public class MatchManager : NetworkBehaviour
 
     public List <TMP_Text> roundNumbers;
 
+    public GameObject playerOneTable;
+    public GameObject playerTwoTable;
+
     private SpellManager playerOneSpellManager;
     private SpellManager playerTwoSpellManager;
 
@@ -159,12 +162,14 @@ public class MatchManager : NetworkBehaviour
         if (clientId == 0)
         {
             playerOneOrb = true;
-            playerOneSpellManager.DisableChooseOrbsClientRpc();
+            //playerOneSpellManager.DisableChooseOrbsClientRpc();
+            playerOneTable.gameObject.SetActive(false);
         }
         if(clientId == 1)
         {
             playerTwoOrb = true;
-            playerTwoSpellManager.DisableChooseOrbsClientRpc();
+            //playerTwoSpellManager.DisableChooseOrbsClientRpc();
+            playerTwoTable.gameObject.SetActive(false);
         }
         if(playerOneOrb && playerTwoOrb)
         {
@@ -204,8 +209,11 @@ public class MatchManager : NetworkBehaviour
             pOneWinTally = 0;
             pTwoWinTally = 0;
 
-            playerOneSpellManager.ActivateChooseOrbsClientRpc();
-            playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+            //playerOneSpellManager.ActivateChooseOrbsClientRpc();
+            //playerTwoSpellManager.ActivateChooseOrbsClientRpc();
+
+            playerOneTable.gameObject.SetActive(true);
+            playerTwoTable.gameObject.SetActive(true);
 
             ReadyButtonOffClientRpc();
 
