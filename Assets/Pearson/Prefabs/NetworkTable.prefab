@@ -622,7 +622,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Touch orb to select element to study
+  m_text: Touch orb to select element
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e6775d263c14c9644955fd43ab6aeea3, type: 2}
   m_sharedMaterial: {fileID: 6907967229203294300, guid: e6775d263c14c9644955fd43ab6aeea3, type: 2}

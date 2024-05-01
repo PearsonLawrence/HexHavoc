@@ -163,13 +163,13 @@ public class MatchManager : NetworkBehaviour
         {
             playerOneOrb = true;
             //playerOneSpellManager.DisableChooseOrbsClientRpc();
-            playerOneTable.gameObject.SetActive(false);
+            TableOffPlayerOneClientRpc();
         }
         if(clientId == 1)
         {
             playerTwoOrb = true;
             //playerTwoSpellManager.DisableChooseOrbsClientRpc();
-            playerTwoTable.gameObject.SetActive(false);
+            TableOffPlayerTwoClientRpc();
         }
         if(playerOneOrb && playerTwoOrb)
         {
@@ -211,9 +211,8 @@ public class MatchManager : NetworkBehaviour
 
             //playerOneSpellManager.ActivateChooseOrbsClientRpc();
             //playerTwoSpellManager.ActivateChooseOrbsClientRpc();
-
-            playerOneTable.gameObject.SetActive(true);
-            playerTwoTable.gameObject.SetActive(true);
+            TableOnPlayerOneClientRpc();
+            TableOnPlayerTwoClientRpc();
 
             ReadyButtonOffClientRpc();
 
@@ -284,6 +283,26 @@ public class MatchManager : NetworkBehaviour
         {
             t.gameObject.SetActive(true);
         }
+    }
+    [ClientRpc]
+    private void TableOffPlayerOneClientRpc()
+    {
+        playerOneTable.gameObject.SetActive(false);
+    }
+    [ClientRpc]
+    private void TableOnPlayerOneClientRpc()
+    {
+        playerOneTable.gameObject.SetActive(true);
+    }
+    [ClientRpc]
+    private void TableOffPlayerTwoClientRpc()
+    {
+        playerTwoTable.gameObject.SetActive(false);
+    }
+    [ClientRpc]
+    private void TableOnPlayerTwoClientRpc()
+    {
+        playerTwoTable.gameObject.SetActive(true);
     }
 
     //updates the player health variable across network using network variable
