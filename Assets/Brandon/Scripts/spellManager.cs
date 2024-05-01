@@ -582,7 +582,7 @@ public class SpellManager : NetworkBehaviour
     public void fireRightProjectile()
     {
         //TODO: Clearify test and refactor 
-        RequestSpawnRightProjectileServerRpc(); //Spawns fireball from rpc over network
+        //RequestSpawnRightProjectileServerRpc(); //Spawns fireball from rpc over network
         if (IsServer)
         {
             SpawnRightProjectile();
@@ -595,7 +595,7 @@ public class SpellManager : NetworkBehaviour
     public void fireLeftProjectile()
     {
         //TODO: Clearify test and refactor 
-        RequestSpawnLeftProjectileServerRpc(); //Spawns fireball from rpc over network
+        //RequestSpawnLeftProjectileServerRpc(); //Spawns fireball from rpc over network
         if (IsServer)
         {
             SpawnLeftProjectile();
@@ -609,7 +609,7 @@ public class SpellManager : NetworkBehaviour
     {
         //TODO: Clearify test and refactor 
         Debug.Log("Fire hit projectile");
-        RequestSpawnHitProjectileServerRpc(); //Spawns fireball from rpc over network
+        //RequestSpawnHitProjectileServerRpc(); //Spawns fireball from rpc over network
         if (IsServer)
         {
             SpawnHitProjectile();
