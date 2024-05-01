@@ -1,34 +1,39 @@
 using UnityEngine;
 using System.Collections;
 
-public class backgroundMusic : MonoBehaviour
+public class BackgroundMusic : MonoBehaviour
 {
-    public AudioSource mainMenuMusic;
-    public AudioSource arenaMusic;
+    public AudioClip mainMenuMusicClip;
+    public AudioClip arenaMusicClip;
     public float fadeDuration = 2.0f;
+
+    private AudioSource mainMenuMusicSource;
+    private AudioSource arenaMusicSource;
 
     private void Start()
     {
-        // Start playing main menu music
-        mainMenuMusic.Play();
+        mainMenuMusicSource = gameObject.AddComponent<AudioSource>();
+        mainMenuMusicSource.clip = mainMenuMusicClip;
+        mainMenuMusicSource.loop = true;
+        mainMenuMusicSource.playOnAwake = false;
+        mainMenuMusicSource.Play();
+        
+        arenaMusicSource = gameObject.AddComponent<AudioSource>();
+        arenaMusicSource.clip = arenaMusicClip;
+        arenaMusicSource.loop = true;
+        arenaMusicSource.playOnAwake = false;
     }
 
     public void PlayArenaMusic()
     {
-        // Fade out main menu music
-        StartCoroutine(FadeOut(mainMenuMusic, fadeDuration));
-
-        // Fade in arena music
-        StartCoroutine(FadeIn(arenaMusic, fadeDuration));
+        StartCoroutine(FadeOut(mainMenuMusicSource, fadeDuration));
+        StartCoroutine(FadeIn(arenaMusicSource, fadeDuration));
     }
 
     public void ReturnToMainMenu()
     {
-        // Stop arena music and fade it out
-        StartCoroutine(FadeOut(arenaMusic, fadeDuration));
-
-        // Fade in main menu music
-        StartCoroutine(FadeIn(mainMenuMusic, fadeDuration));
+        StartCoroutine(FadeOut(arenaMusicSource, fadeDuration));
+        StartCoroutine(FadeIn(mainMenuMusicSource, fadeDuration));
     }
 
     private IEnumerator FadeOut(AudioSource audioSource, float duration)
