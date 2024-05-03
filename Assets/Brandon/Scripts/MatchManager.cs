@@ -101,6 +101,10 @@ public class MatchManager : NetworkBehaviour
             testJumbo = false;
             tronMove.MoveJumboTronClientRpc();
         }
+        if(resetRound.Value || isGameStarting.Value)
+        {
+            XRUnNetwork.gestureEP.isElementSpawned = false;
+        }
     }
 
     // Called to register a player
@@ -477,6 +481,7 @@ public class MatchManager : NetworkBehaviour
         {
             foreach (TMP_Text t in roundNumbers)
             {
+
                 t.text = "player1 wins";
             }
         }

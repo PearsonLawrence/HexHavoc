@@ -660,6 +660,7 @@ MonoBehaviour:
   - {fileID: 6560990260122394351}
   - {fileID: 5305203051586598904}
   - {fileID: 1519052043362592640}
+  playerXr: {fileID: 0}
   isMoving: 0
   moveDuration: 5
   spellManager: {fileID: 7280809711919498369}
@@ -732,11 +733,12 @@ MonoBehaviour:
     m_InternalValue: 0
   setIsOrbDisabled:
     m_InternalValue: 0
+  spellDirection:
+    m_InternalValue: {x: 0, y: 0, z: 0}
   elementSpeicalization:
     m_InternalValue: 0
   spawnProjectileDistance: 2
   spawnWallDistance: 2
-  spellDirection: {x: 0, y: 0, z: 0}
   gestureEp: {fileID: 0}
 --- !u!114 &1260485457294168857
 MonoBehaviour:
@@ -798,6 +800,7 @@ MonoBehaviour:
   teleportationRayPrefab: {fileID: 0}
   gestureEventProcessor: {fileID: 0}
   xr: {fileID: 0}
+  tpsource: {fileID: 0}
 --- !u!1 &5193422471277711794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,13 +1148,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7379728286452354369}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07896368, y: 0, z: 0, w: 0.99687755}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0201, y: -0.0236, z: 0}
   m_LocalScale: {x: 0.20120539, y: 0.19445832, z: 0.2017545}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6527613182462552203}
-  m_LocalEulerAnglesHint: {x: 9.058, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1765461448477509730
 SphereCollider:
   m_ObjectHideFlags: 0
