@@ -232,6 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spell: {fileID: 5898506706925222375}
   isSpell: 1
+  DamageAmount: 20
 --- !u!82 &5257817880002433084
 AudioSource:
   m_ObjectHideFlags: 0

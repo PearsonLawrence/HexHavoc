@@ -39,6 +39,7 @@ public class UnNetworkedSpellManager : MonoBehaviour
     public List<Transform> chooseOrbs;
 
     public elementType elementSpeicalization;
+    public elementType lastSpecialization;
     public bool setSpecialization = false;
     public bool setIsOrbDisabled = false;
     public float spawnWallDistance = 2;
@@ -50,6 +51,8 @@ public class UnNetworkedSpellManager : MonoBehaviour
     public Vector3 spellDirection;
     public GestureEventProcessor gestureEp;
     private MatchManager matchInstance;
+    public Material earthMat, airMat, fireMat, waterMat;
+    public SkinnedMeshRenderer handLeft, handRight;
     public void SetElementType(elementType elementType)
     {
         Debug.Log("In set");
@@ -73,7 +76,31 @@ public class UnNetworkedSpellManager : MonoBehaviour
 
     void Update()
     {
+        if(lastSpecialization != elementSpeicalization)
+        {
+            lastSpecialization = elementSpeicalization;
+            switch (elementSpeicalization)
+            {
+                case elementType.FIRE:
+                    handLeft.material = fireMat;
+                    handRight.material = fireMat;
+                    break;
+                case elementType.WATER:
+                    handLeft.material = waterMat;
+                    handRight.material = waterMat;
+                    break;
+                case elementType.WIND:
+                    handLeft.material = airMat;
+                    handRight.material = airMat;
+                    break;
+                case elementType.EARTH:
+                    handLeft.material = earthMat;
+                    handRight.material = earthMat;
+                    break;
 
+            }
+
+        }
     }
 
 

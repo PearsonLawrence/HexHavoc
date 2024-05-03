@@ -18,7 +18,7 @@ public class collisionManager : NetworkBehaviour
     GameObject tempSpellOwner;
 
     HandInteractableComponent hand;
-
+    public int DamageAmount;
     public SpellComponent getSpell()
     {
         return spell;
@@ -156,17 +156,17 @@ public class collisionManager : NetworkBehaviour
                         {
                             case elementType.FIRE:
                                 Debug.Log("Player hit with Fireball");
-                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
+                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, DamageAmount);
                                 break;
 
                             case elementType.WATER:
                                 Debug.Log("Player hit with Water Shot");
-                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
+                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, DamageAmount);
                                 break;
 
                             case elementType.WIND:
                                 Debug.Log("Player hit with Wind Blast");
-                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
+                                matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, DamageAmount);
                                 break;
 
                             case elementType.EARTH:
@@ -174,19 +174,19 @@ public class collisionManager : NetworkBehaviour
                                switch (spell.earthShot.Value)
                                 {
                                     case 0:
-                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 15);
+                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 50);
                                         break;
                                     case 1:
-                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 20);
+                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 50);
                                         break;
                                     case 2:
-                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 25);
+                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 50);
                                         break;
                                     case 3:
-                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 30);
+                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 50);
                                         break;
                                     case 4:
-                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 35);
+                                        matchManager.UpdatePlayerHealthServerRpc(networkObject.OwnerClientId, 50);
                                         break;
                                 }
                                 break;

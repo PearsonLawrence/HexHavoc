@@ -180,8 +180,8 @@ MonoBehaviour:
     m_InternalValue: 0
   elementtype: 0
   parent: {fileID: 0}
-  speed: 20
-  maxspeed: 20
+  speed: 27
+  maxspeed: 27
   amplitude: 2
   lifeTime: 3
   maxlifeTime: 4
@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spell: {fileID: 5898506706925222375}
   isSpell: 1
+  DamageAmount: 5
 --- !u!54 &4549273619693395890
 Rigidbody:
   m_ObjectHideFlags: 0

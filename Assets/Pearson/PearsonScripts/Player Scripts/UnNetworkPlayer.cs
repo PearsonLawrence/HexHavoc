@@ -23,6 +23,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isConnected;
     public bool isJoining;
     public bool isStarting;
+    public bool hasPlayedAudio;
     public TutorialManager tutorialManager;
     public GameObject offset;
     public MatchManager manager;
@@ -30,6 +31,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public TPPortalRenderManager portalRenderManager;
     public GameObject TPRealm;
     public UnNetworkedSpellManager unSpellManager;
+    public AudioSource introAudio;
     void Start()
     {
         unSpellManager = GetComponent<UnNetworkedSpellManager>();
@@ -78,7 +80,16 @@ public class UnNetworkPlayer : MonoBehaviour
                     if(isConnected)
                     {
                         
-                        if (manager.resetRound.Value || manager.isGameStarting.Value)
+                        if(!hasPlayedAudio)
+                        {
+                            introAudio.Play();
+                            hasPlayedAudio = true;
+                        }
+                        if (manager.resetRound.Value)
+                        {
+                            transform.position = matchPillar.playerPoint.transform.position;
+                        }
+                        else if (manager.isGameStarting.Value)
                         {
                             transform.position = matchPillar.playerPoint.transform.position;
                             transform.rotation = matchPillar.playerPoint.transform.rotation;

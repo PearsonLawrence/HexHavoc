@@ -139,7 +139,6 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerOneSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
                 vin.player1 = true;
-                introAudio.Play();
             }
             joinedPlayerCount.Value++;
         }
@@ -152,7 +151,6 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerTwoSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
                 vin.player1 = false;
-                introAudio.Play();
             }
             joinedPlayerCount.Value++;
         }
@@ -221,7 +219,10 @@ public class MatchManager : NetworkBehaviour
 
             pOneWinTally = 0;
             pTwoWinTally = 0;
+            roundCount.Value = 1;
 
+            playerOneHealth.Value = 100;
+            playerTwoHealth.Value = 100;
             //playerOneSpellManager.ActivateChooseOrbsClientRpc();
             //playerTwoSpellManager.ActivateChooseOrbsClientRpc();
             TableOnPlayerOneClientRpc();
@@ -236,7 +237,7 @@ public class MatchManager : NetworkBehaviour
 
             foreach (TMP_Text t in roundNumbers)
             {
-                t.text = "round " + roundCount.Value.ToString();
+                t.text = "round 1";// + roundCount.Value.ToString();
             }
         }
     }
@@ -268,6 +269,8 @@ public class MatchManager : NetworkBehaviour
             playerOneOrb = false;
             playerTwoOrb = false;
 
+            playerOneHealth.Value = 100;
+            playerTwoHealth.Value = 100;
             ResetHealthServerRpc();
             ResetRoundCountClientRpc();
 
@@ -278,28 +281,28 @@ public class MatchManager : NetworkBehaviour
                 t.MovePillarClientRpc(pillarDirection.TOSTART);
             }
 
+            foreach (TMP_Text t in roundNumbers)
+            {
+
+                t.text = "round 1";
+            }
         }
     }
 
     [ClientRpc]
     private void PlayIntroductionArenaClientRPC()
     {
-        CountAudio.Stop();
         introAudio.Play();
-        StartAudio.Stop();
     }
     [ClientRpc]
     private void PlayCountDownClientRPC()
     {
         CountAudio.Play();
-        introAudio.Stop();
-        StartAudio.Stop();
+       
     }
     [ClientRpc]
     private void PlayStartAudioClientRPC()
     {
-        CountAudio.Stop();
-        introAudio.Stop();
         StartAudio.Play();
     }
     [ClientRpc]
@@ -439,7 +442,7 @@ public class MatchManager : NetworkBehaviour
 
     public IEnumerator delayReset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
 
         resetRound.Value = false;
         playerOneHealth.Value = 100;
@@ -450,10 +453,15 @@ public class MatchManager : NetworkBehaviour
     {
         playerOneNetwork.PlacePlayers();
         playerTwoNetwork.PlacePlayers();
-
+        
         playerOneHealth.Value = 100;
         playerTwoHealth.Value = 100;
 
+        foreach (TMP_Text t in roundNumbers)
+        {
+
+            t.text = "round 1";
+        }
         foreach (HealthBar t in healthBars)
         {
             //t.UpdateHealthBarServerRpc();
@@ -531,7 +539,11 @@ public class MatchManager : NetworkBehaviour
 
     IEnumerator CountDown()
     {
-        for (int i = 3; i > 0; i--)
+        if(!CountAudio.isPlaying)
+        {
+            CountAudio.Play();
+        }
+        for (int i = 6; i > 0; i--)
         {
             foreach (TMP_Text t in roundNumbers)
             {

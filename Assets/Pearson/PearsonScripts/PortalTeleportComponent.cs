@@ -14,6 +14,7 @@ public class PortalTeleportComponent : MonoBehaviour
     public bool isTutorialGate;
     public bool isArenaGate;
     public GameObject spiritGuide;
+    public AudioSource audioDoor;
     public GameObject getTpPoint()
     {
         return tpPoint;
@@ -24,9 +25,11 @@ public class PortalTeleportComponent : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerHand"))
+        if (other.CompareTag("PlayerHand"))
         {
             if (spiritGuide) spiritGuide.SetActive(false);
+
+
             if (isArenaGate)
             {
                 toArea.SetActive(true);
@@ -58,7 +61,7 @@ public class PortalTeleportComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioDoor = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

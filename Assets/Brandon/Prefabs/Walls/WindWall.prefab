@@ -126,7 +126,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   lifeTime: 10
   spellsTanked: 0
-  maxSpellsToAbsorb: 3
+  maxSpellsToAbsorb: 2
   explodePrefab: {fileID: 6823302871133167919, guid: 3138a83bedbd6ad4481ba0b061da2eb6, type: 3}
   elementtype: 0
 --- !u!65 &4040539746813223024
