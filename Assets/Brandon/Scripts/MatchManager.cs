@@ -328,7 +328,7 @@ public class MatchManager : NetworkBehaviour
             pTwoWinTally += 1;
             if (pTwoWinTally == 2)
             {
-                GameOver();
+                GameOver(2);
             }
             else
             {
@@ -353,7 +353,7 @@ public class MatchManager : NetworkBehaviour
             pOneWinTally += 1;
             if (pOneWinTally == 2)
             {
-                GameOver();
+                GameOver(1);
             }
             else
             {
@@ -388,11 +388,27 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void GameOver()
+    public void GameOver(ulong clientID)
     {
         ReadyButtonOnClientRpc();
 
         isRoundReset.Value = true;
+
+        if(clientID == 1)
+        {
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = "Player1 Wins";
+            }
+        }
+
+        if(clientID == 2)
+        {
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = "Player2 Wins";
+            }
+        }
 
     }
 
