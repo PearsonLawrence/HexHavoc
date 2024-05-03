@@ -27,7 +27,7 @@ public class ReadyButton : MonoBehaviour
     {
         if (other.gameObject.CompareTag("NetworkHand"))
         {
-            if (!matchStarted)
+            if (matchStarted == false)
             {
                 Camera.main.gameObject.GetComponent<BackgroundMusic>().PlayArenaMusic();
                 Debug.Log("Touched sensually");
@@ -47,7 +47,7 @@ public class ReadyButton : MonoBehaviour
                 }
             }
 
-            if (matchStarted)
+            if (matchStarted == true)
             {
                 Debug.Log("Touched sensually");
                 NetworkHandInteractable temp = other.GetComponent<NetworkHandInteractable>();

@@ -26,7 +26,7 @@ public class MatchManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<bool> playerOneReplay = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<bool> playerTwoReplay = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<int> playerOneHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> playerTwoHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<int> joinedPlayerCount = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -36,7 +36,7 @@ public class MatchManager : NetworkBehaviour
 
     public Vector3 earthProjectileDirection;
 
-    public List <TMP_Text> roundNumbers;
+    public List<TMP_Text> roundNumbers;
 
     public GameObject playerOneTable;
     public GameObject playerTwoTable;
@@ -123,7 +123,7 @@ public class MatchManager : NetworkBehaviour
             Debug.Log("Remote Player Registered");
         }
 
-        if(clientId == 0)
+        if (clientId == 0)
         {
             playerOneSpellManager = playerOneNetwork.getSpellManager();
             if (clientId == NetworkManager.Singleton.LocalClientId)
@@ -134,7 +134,7 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
                 vin.player1 = true;
             }
-            joinedPlayerCount.Value++; 
+            joinedPlayerCount.Value++;
         }
         else if (clientId == 1)
         {
@@ -153,7 +153,7 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DisableIsGameStartingServerRPC()
     {
-         isGameStarting.Value = false;
+        isGameStarting.Value = false;
 
         Debug.Log("Rpc false called");
     }
@@ -168,13 +168,13 @@ public class MatchManager : NetworkBehaviour
             //playerOneSpellManager.DisableChooseOrbsClientRpc();
             TableOffPlayerOneClientRpc();
         }
-        if(clientId == 1)
+        if (clientId == 1)
         {
             playerTwoOrb = true;
             //playerTwoSpellManager.DisableChooseOrbsClientRpc();
             TableOffPlayerTwoClientRpc();
         }
-        if(playerOneOrb && playerTwoOrb)
+        if (playerOneOrb && playerTwoOrb)
         {
             isGameStarting.Value = true;
             Debug.Log("Start Set It True");
@@ -193,19 +193,19 @@ public class MatchManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DeclareReadyServerRpc(ulong clientId)
     {
-        
-        if(clientId == 0)
+
+        if (clientId == 0)
         {
             playerOneReady = true;
             Debug.Log("P1");
         }
-        if(clientId == 1)
+        if (clientId == 1)
         {
             playerTwoReady = true;
             Debug.Log("P2");
         }
 
-        if(playerOneReady && playerTwoReady)
+        if (playerOneReady && playerTwoReady)
         {
             playerTwoReady = false;
             playerOneReady = false;
@@ -246,22 +246,18 @@ public class MatchManager : NetworkBehaviour
             isGameStarting.Value = true;
             Debug.Log("Rematch Set It True");
             playerOneRematch = false;
-            playerTwoRematch= false;
+            playerTwoRematch = false;
 
-            pOneWinTally= 0;
-            pTwoWinTally= 0;
+            pOneWinTally = 0;
+            pTwoWinTally = 0;
 
             playerOneOrb = false;
             playerTwoOrb = false;
 
-            playerOneHealth.Value = 100;
-            playerTwoHealth.Value = 100;
+            ResetHealthServerRpc();
+            ResetRoundCountServerRpc();
 
-            foreach (PillarLogic t in matchEndPillarLogicList)
-            {
-                t.MovePillarClientRpc(pillarDirection.TOSTART);
-                t.gameObject.SetActive(false);
-            }
+            WaitTilTurnOnClientRpc();
 
             foreach (PillarLogic t in pillarLogicList)
             {
@@ -316,13 +312,13 @@ public class MatchManager : NetworkBehaviour
         Debug.Log("Calling update health");
         if (clientId == 0)
         {
-            playerOneHealth.Value -= damage; 
-            
+            playerOneHealth.Value -= damage;
+
         }
-        else if(clientId == 1)
+        else if (clientId == 1)
         {
             playerTwoHealth.Value -= damage;
-            
+
         }
 
         Debug.Log("Player1 Health:" + playerOneHealth.Value + " Player2 Health " + playerTwoHealth.Value);
@@ -330,7 +326,7 @@ public class MatchManager : NetworkBehaviour
         if (playerOneHealth.Value <= 0)
         {
             pTwoWinTally += 1;
-            if(pTwoWinTally == 2)
+            if (pTwoWinTally == 2)
             {
                 GameOver();
             }
@@ -394,24 +390,6 @@ public class MatchManager : NetworkBehaviour
 
     public void GameOver()
     {
-        /*foreach (PillarLogic t in pillarLogicList)
-        {
-            t.MovePillarClientRpc(pillarDirection.TOSTART);
-        }*/
-
-        foreach (PillarLogic t in matchEndPillarLogicList)
-        {
-            t.gameObject.SetActive(true);
-            t.MovePillarClientRpc(pillarDirection.TOEND);
-        }
-
-        foreach (ReadyButton t in readyButtonList)
-        {
-            t.matchStarted = false;
-        }
-
-
-
         ReadyButtonOnClientRpc();
 
         isRoundReset.Value = true;
@@ -441,8 +419,42 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void ResetGame()
+    [ServerRpc]
+    public void ResetHealthServerRpc()
     {
+        playerOneHealth.Value = 100;
+        playerTwoHealth.Value = 100;
+    }
+
+    [ServerRpc]
+    public void ResetRoundCountServerRpc()
+    {
+        roundCount.Value = 1;
+    }
+
+    [ClientRpc]
+    public void WaitTilTurnOnClientRpc()
+    {
+        StartCoroutine(ButtonOffForBit());
+    }
+
+    IEnumerator ButtonOffForBit()
+    {
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(false);
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.matchStarted = false;
+        }
         
+        foreach (ReadyButton t in readyButtonList)
+        {
+            t.gameObject.SetActive(true);
+        }
     }
 }
