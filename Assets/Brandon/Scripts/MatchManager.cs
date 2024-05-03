@@ -55,6 +55,8 @@ public class MatchManager : NetworkBehaviour
     private bool playerOneOrb, playerTwoOrb;
     public bool matchGoing = false;
 
+    public AudioSource introAudio, StartAudio, CountAudio;
+
     [SerializeField] private List<PillarLogic> pillarLogicList;
     [SerializeField] private List<PillarLogic> matchEndPillarLogicList;
 
@@ -137,6 +139,7 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerOneSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerOneSpellManager;
                 vin.player1 = true;
+                introAudio.Play();
             }
             joinedPlayerCount.Value++;
         }
@@ -149,6 +152,7 @@ public class MatchManager : NetworkBehaviour
                 XRUnNetwork.unSpellManager.elementSpeicalization = playerTwoSpellManager.elementSpeicalization.Value;
                 XRUnNetwork.gestureEP.spellmanager = playerTwoSpellManager;
                 vin.player1 = false;
+                introAudio.Play();
             }
             joinedPlayerCount.Value++;
         }
@@ -191,6 +195,7 @@ public class MatchManager : NetworkBehaviour
             matchGoing = true;
             //playerOneNetwork.MovePlayerToStartClientRpc();
             //playerTwoNetwork.MovePlayerToStartClientRpc();
+            PlayStartAudioClientRPC();
         }
     }
 
@@ -264,7 +269,7 @@ public class MatchManager : NetworkBehaviour
             playerTwoOrb = false;
 
             ResetHealthServerRpc();
-            ResetRoundCountServerRpc();
+            ResetRoundCountClientRpc();
 
             WaitTilTurnOnClientRpc();
 
@@ -276,6 +281,27 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    private void PlayIntroductionArenaClientRPC()
+    {
+        CountAudio.Stop();
+        introAudio.Play();
+        StartAudio.Stop();
+    }
+    [ClientRpc]
+    private void PlayCountDownClientRPC()
+    {
+        CountAudio.Play();
+        introAudio.Stop();
+        StartAudio.Stop();
+    }
+    [ClientRpc]
+    private void PlayStartAudioClientRPC()
+    {
+        CountAudio.Stop();
+        introAudio.Stop();
+        StartAudio.Play();
+    }
     [ClientRpc]
     private void ReadyButtonOffClientRpc()
     {
@@ -346,7 +372,7 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
                 StartCoroutine(delayReset());
-
+                PlayCountDownClientRPC();
                 roundCount.Value++;
 
                 CountDownClientRpc();
@@ -441,8 +467,8 @@ public class MatchManager : NetworkBehaviour
         playerTwoHealth.Value = 100;
     }
 
-    [ServerRpc]
-    public void ResetRoundCountServerRpc()
+    [ClientRpc]
+    public void ResetRoundCountClientRpc()
     {
         roundCount.Value = 1;
     }
