@@ -14,6 +14,7 @@ public class SpellSpawner : MonoBehaviour
     public GestureEventProcessor gesture;
 
     public UnNetworkedSpellManager spellManager;
+    public UnNetworkPlayer player;
 
     private int castedWith;
 

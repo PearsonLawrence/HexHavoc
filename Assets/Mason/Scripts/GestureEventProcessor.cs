@@ -28,13 +28,13 @@ public class GestureEventProcessor : MonoBehaviour
     public bool isTouchingElement = false;
     public bool isElementSpawned = false;
 
-    private bool hasAmmo = false;
+    public bool hasAmmo = false;
     private bool hasShotLeft = false;
     private bool hasShotRight = false;
     public int maxAmmo = 5;
     public int maxBowAmmo = 5;
-    private int currentBowAmmo;
-    private int currentGunAmmo;
+    public int currentBowAmmo;
+    public int currentGunAmmo;
     public int reloadCount;
     public int reloadCountMax = 3;
 
@@ -290,7 +290,7 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WIND:
                         //Casts Reload
-                        if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
+                        /*if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
                         {
                             //Refills ammo back to maxAmmo value
                             currentGunAmmo = maxAmmo;
@@ -312,7 +312,7 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
-                        }
+                        }*/
 
                         //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
                         if (gestureCompletionData.gestureName == "Left Bow Spawn" && isTouchingElement && !isGunSpawnedRight && !isGunSpawnedLeft && isElementSpawned)
@@ -550,7 +550,7 @@ public class GestureEventProcessor : MonoBehaviour
                         break;
                     case elementType.WIND:
                         //Casts Reload
-                        if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
+                        /*if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
                         {
                             //Refills ammo back to maxAmmo value
                             currentGunAmmo = maxAmmo;
@@ -572,7 +572,7 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
 
-                        }
+                        }*/
 
                         //Casts Left Gun Spawn (Same gesture name as Left Bow Spawn)
                         if (gestureCompletionData.gestureName == "Left Bow Spawn" && isTouchingElement && !isGunSpawnedRight && !isGunSpawnedLeft && isElementSpawned)

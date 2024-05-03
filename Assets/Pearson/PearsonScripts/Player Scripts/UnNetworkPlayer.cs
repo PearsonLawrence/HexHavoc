@@ -19,6 +19,7 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isArena;
     public bool isTeleported;
     public bool isTutorial;
+    public bool isDojo;
     public bool isConnected;
     public bool isJoining;
     public bool isStarting;

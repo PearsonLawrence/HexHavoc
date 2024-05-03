@@ -126,6 +126,25 @@ public class HandInteractableComponent : NetworkBehaviour
                     }
                 }
                 break;
+            case "PlayerHand":
+                if(gestureEP.isTouchingElement)
+                {
+                    if(gestureEP.isElementSpawned)
+                    {
+                        if ((gestureEP.isTouchingElement && !isLeft && gestureEP.IsGunSpawnedLeft()) || (gestureEP.isTouchingElement && isLeft && gestureEP.IsGunSpawnedRight()))
+                        {
+                            gestureEP.currentGunAmmo = gestureEP.maxAmmo;
+                            gestureEP.hasAmmo = true;
+                            gestureEP.reloadCount++;
+                            Debug.Log("Reload Successfully Casted. Current Ammo Left: " + gestureEP.currentGunAmmo);
+                            gestureEP.isElementSpawned = false;
+                            gestureEP.CurrentElement.destroyThis();
+                            
+                        }
+                    }
+                    
+                }
+                break;
         }
         
     }
