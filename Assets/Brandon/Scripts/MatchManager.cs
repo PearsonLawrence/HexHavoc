@@ -224,6 +224,11 @@ public class MatchManager : NetworkBehaviour
             {
                 t.matchStarted = true;
             }
+
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = "round " + roundCount.Value.ToString();
+            }
         }
     }
 
@@ -340,6 +345,8 @@ public class MatchManager : NetworkBehaviour
 
                 roundCount.Value++;
 
+                CountDownClientRpc();
+
                 foreach (TMP_Text t in roundNumbers)
                 {
                     t.text = "round " + roundCount.Value.ToString();
@@ -362,6 +369,8 @@ public class MatchManager : NetworkBehaviour
                 Debug.Log(playerOneHealth.Value);
                 Debug.Log(playerTwoHealth.Value);
                 StartCoroutine(delayReset());
+
+                CountDownClientRpc();
 
                 roundCount.Value++;
 
@@ -394,21 +403,7 @@ public class MatchManager : NetworkBehaviour
 
         isRoundReset.Value = true;
 
-        if(clientID == 1)
-        {
-            foreach (TMP_Text t in roundNumbers)
-            {
-                t.text = "Player1 Wins";
-            }
-        }
-
-        if(clientID == 2)
-        {
-            foreach (TMP_Text t in roundNumbers)
-            {
-                t.text = "Player2 Wins";
-            }
-        }
+        DisplayWinnerClientRpc(clientID);
 
     }
 
@@ -467,10 +462,62 @@ public class MatchManager : NetworkBehaviour
         {
             t.matchStarted = false;
         }
-        
+
         foreach (ReadyButton t in readyButtonList)
         {
             t.gameObject.SetActive(true);
+        }
+    }
+
+
+    [ClientRpc]
+    public void DisplayWinnerClientRpc(ulong clientID) {
+
+        if (clientID == 1)
+        {
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = "player1 wins";
+            }
+        }
+
+        if (clientID == 2)
+        {
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = "player2 wins";
+            }
+        }
+    }
+
+
+    [ClientRpc]
+    public void CountDownClientRpc()
+    {
+        StartCoroutine(CountDown());
+    }
+
+
+    IEnumerator CountDown()
+    {
+        for (int i = 3; i > 0; i--)
+        {
+            foreach (TMP_Text t in roundNumbers)
+            {
+                t.text = i.ToString();
+            }
+            yield return new WaitForSeconds(1f); 
+        }
+
+        foreach (TMP_Text t in roundNumbers)
+        {
+            t.text = "go";
+        }
+        yield return new WaitForSeconds(1f);
+
+        foreach (TMP_Text t in roundNumbers)
+        {
+            t.text = "round " + roundCount.Value.ToString();
         }
     }
 }
