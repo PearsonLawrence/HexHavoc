@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: Assign the element type of the players un-networked spell manager. Also handles toggling back to the main table.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

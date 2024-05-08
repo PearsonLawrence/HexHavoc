@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence
+//Purpose: This component is responsible for rotating based off of directional movement. The lobby pillars are attached as children to this gameobject, so that they rotate around it as it rotates.
+//This handles rotating the selected pillar to the correct position based off the pillar components degree around the center.
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,12 +11,14 @@ public class PlatformDialComponent : MonoBehaviour
     [SerializeField] private GameObject platformRotateObject;
     [SerializeField] private DialFingerPointComponent dialFingerPoint;
 
+    //Directional bools to determine how to rotate and move
     [SerializeField] private bool isMoving, isRight, isLeft, isUp, isDown;
     [SerializeField] private float RotSpeed = 100, pointRotSpeed = 5;
 
     [SerializeField] private LobbyPillarComponent selectedPillar;
     [SerializeField] bool isLobbySelected;
 
+    //--- Getters and setters ---
     public void setSelectedPillar(LobbyPillarComponent pillar)
     {
         selectedPillar = pillar;
@@ -62,26 +67,32 @@ public class PlatformDialComponent : MonoBehaviour
     {
         isDown = val;
     }
+    //--------------------------------//
+
     // Update is called once per frame
     void Update()
     {
+        //If anymovement bool then ismoving
         if (isRight || isLeft || isUp || isDown) isMoving = true;
         else isMoving = false;
 
         Vector3 rot = platformRotateObject.gameObject.transform.eulerAngles;
         
+        //If a pillar has been selected rotate pillar to 0 degree position
         if(selectedPillar)
         {
             if (selectedPillar.getIsSelected())
             {
                 rot.y = selectedPillar.getDegPos();
 
+                //If Pillar is in position then start beginJoin so that pillar moves towards center.
                 if (platformRotateObject.gameObject.transform.eulerAngles.y <= selectedPillar.getDegPos() + .1f && platformRotateObject.gameObject.transform.eulerAngles.y >= selectedPillar.getDegPos() - .1f)
                 {
                     selectedPillar.beginJoin(true);
                 }
             }
         }
+        //If it is moving aka the joystick has been moved then rotate left or right
         else if (isMoving)
         {
             if(isRight)

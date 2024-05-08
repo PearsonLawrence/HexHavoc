@@ -40,6 +40,7 @@ public class PlayerInfoCardComponent : MonoBehaviour
         GameLobby = gamelobby;
     }
    
+        //Stores the player information
     public void setPlayerInfo(Player player)
     {
         if (player == null)

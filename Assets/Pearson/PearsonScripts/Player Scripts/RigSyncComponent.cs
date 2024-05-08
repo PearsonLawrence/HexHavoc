@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: sync the models rig to the players head position and hand position to show over the network.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

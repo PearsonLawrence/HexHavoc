@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: This is a unit test to ensure that the name of the lobby is being set correctly
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

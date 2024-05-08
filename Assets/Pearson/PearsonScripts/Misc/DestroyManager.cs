@@ -1,3 +1,5 @@
+//Author: Pearson Lawrence
+//Purpose: Destroy an object if a bool is set to true.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

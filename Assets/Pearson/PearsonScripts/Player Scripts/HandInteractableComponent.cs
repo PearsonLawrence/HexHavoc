@@ -1,8 +1,11 @@
+//Author: Pearson Lawrence
+//Purpose: This component handles what happens when the player grips their hands. This component is responsible for all object-hand interactions in the game, from grabbing elements to UI objects.
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class HandInteractableComponent : NetworkBehaviour
 {
@@ -17,18 +20,22 @@ public class HandInteractableComponent : NetworkBehaviour
     public bool isInteractableItem;
     public bool isLeft;
     private MatchManager matchManager;
+
+    //If your hand is staying inside of an object
     public void OnTriggerStay(Collider other)
     {
         string tag = other.gameObject.tag;
 
         switch(tag)
         {
+            //If this is the dial finger point
             case "RotatePoint":
                 DialFingerPointComponent point = other.gameObject.GetComponent<DialFingerPointComponent>();
                 if (!isHolding)
                 {
                     if(isSelecting)
                     {
+                        //If is holding update currentInteractable item
                         currentInteractableItem = other.gameObject;
                         isHolding = true;
                         
@@ -43,9 +50,11 @@ public class HandInteractableComponent : NetworkBehaviour
                     }
                 }
                 break;
+                //If the Lobby selector is being held
             case "LobbySelect":
                 if (!isHolding)
                 {
+                    //If is holding update currentInteractable item
                     if (isSelecting)
                     {
                         currentInteractableItem = other.gameObject;
@@ -54,6 +63,7 @@ public class HandInteractableComponent : NetworkBehaviour
                     }
                 }
                 break;
+                //If touching element do same but update gesture event processor
             case "Element":
                 if (!isHolding)
                 {
@@ -66,6 +76,7 @@ public class HandInteractableComponent : NetworkBehaviour
 
                 }
                 break;
+                //If you grip another hand then have the portal render component start working
             case "PlayerHand":
                 if (!isHolding)
                 {
@@ -80,29 +91,37 @@ public class HandInteractableComponent : NetworkBehaviour
         }
 
     }
+
+    //This handles on collision event that are supposed to happen instantly
     public void OnTriggerEnter(Collider other)
     {
         string tag = other.tag;
         switch(tag)
         {
             case "PortalLobby":
+                //If touching a lobby portal then begin join
                 lobbyManager.doJoin();
                 break;
+                //If this is a teleport portal then assign correct variables
             case "TpPortal":
                 PortalTeleportComponent temp = other.gameObject.GetComponent<PortalTeleportComponent>();
                 parentUnNetworkObj.currentPillar = temp.getTpToPillar();
                 if (temp.isTutorialGate) parentUnNetworkObj.isTutorial = (parentUnNetworkObj.isTutorial) ? false : true;
                 if (temp.isArenaGate) parentUnNetworkObj.isArena = (parentUnNetworkObj.isArena) ? false : true;
                 break;
+           
             case "Element":
+                //If touching an element and you are not gripping your hand
                 if (!isSelecting)
                 {
                     SpellClassifier spell = other.gameObject.GetComponent<SpellClassifier>();
 
+                    //Launch earth spell and assign spell directions if the element is of type earth.
                     if (spell.element == SpellClassifier.ElementType.EARTH)
                     {
                         Vector3 directionBetween = -(this.gameObject.transform.position - other.gameObject.transform.position).normalized;
 
+                        //If the player has a spell manager spawn over network
                         if (parentUnNetworkObj.spellmanager)
                         {
                             parentUnNetworkObj.spellmanager.spellDirection.Value = directionBetween;
@@ -113,6 +132,7 @@ public class HandInteractableComponent : NetworkBehaviour
                                 parentUnNetworkObj.spellmanager.fireRightProjectile();
                             Debug.Log("HAND SLAP");
                         }
+                        //If the player does not have a spell manager spawn locally
                         else
                         {
                             parentUnNetworkObj.unSpellManager.spellDirection = directionBetween;
@@ -127,6 +147,7 @@ public class HandInteractableComponent : NetworkBehaviour
                 }
                 break;
             case "PlayerHand":
+                //If you touch tour hand and you are holding an air pistol then reload it.
                 if(gestureEP.isTouchingElement)
                 {
                     if(gestureEP.isElementSpawned)
@@ -148,15 +169,18 @@ public class HandInteractableComponent : NetworkBehaviour
         }
         
     }
+    //On release of an object
     public void release()
     {
         string tag = currentInteractableItem.tag;
         switch (tag)
         {
             case "RotatePoint":
+                //If its the rotate point reset its position
                 currentInteractableItem.transform.localPosition = Vector3.zero;
                 break;
             case "LobbySelect":
+                //If it is the lobby selector then launch it in the forward hand direction
                 Rigidbody tempRB = currentInteractableItem.GetComponent<Rigidbody>();
                 currentInteractableItem = null;
                 if (tempRB)
@@ -168,6 +192,7 @@ public class HandInteractableComponent : NetworkBehaviour
 
                 break;
             case "Element":
+                //If it is an element then make sure it stops moving when you release it
                 Rigidbody tempRB2 = currentInteractableItem.GetComponent<Rigidbody>();
                 currentInteractableItem = null;
                 if (tempRB2)
@@ -188,7 +213,7 @@ public class HandInteractableComponent : NetworkBehaviour
                 DialFingerPointComponent point = other.gameObject.GetComponent<DialFingerPointComponent>();
                 if(point)
                 {
-                    point.doReset();
+                    point.doReset(); //Resets the point values on release
                 }
                 currentInteractableItem = null;
                 break;
@@ -205,13 +230,13 @@ public class HandInteractableComponent : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isHolding)
+        if(isHolding) //If holding then update the objects position to hand position
         {
             if(!isTPTrigger) currentInteractableItem.transform.position = transform.position;
         }
         else
         {
-           if(currentInteractableItem != null)
+           if(currentInteractableItem != null) //If there is no item in hand then release
             {
                 release();
             }

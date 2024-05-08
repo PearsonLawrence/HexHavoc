@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence
+//Purpose: This script is meant to move the lobby pillars towards the player after they have selected a lobby.
+//This also stores the lobby information to provide a lobby code that players can use to join lobbies.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,16 +11,24 @@ using UnityEngine.UIElements;
 
 public class LobbyPillarComponent : MonoBehaviour
 {
-    [SerializeField] private LobbyInfoComponent lobby;
+    //This is the lobby information that is propagated every 15 seconds by unity lobbies system through the LobbyInfoComponent and GameLobbyComponent
+    [SerializeField] private LobbyInfoComponent lobby; 
+
     [SerializeField] private bool isSelected;
     [SerializeField] private bool isOriented;
     [SerializeField] private bool isPosition;
     [SerializeField] private bool isJoined;
+
     [SerializeField] private LobbyUIManager lobbyManager;
-    [SerializeField] private float degPos;
+
+    
+    [SerializeField] private float degPos; //Stores the position that the pillar is on around the center parent object set manually
     [SerializeField] private float moveSpeed = 20f;
+
+    //Delay timers for movement
     [SerializeField] private float pauseTime = 3, pauseTimeEventOne = 2, pauseTimeMax = 3;
 
+    //Sets a bool to true that moves the pillar towards the center
     public void beginJoin(bool oriented)
     {
         if(!isOriented && isSelected)
@@ -28,6 +39,8 @@ public class LobbyPillarComponent : MonoBehaviour
             
         }
     }
+
+    //---Getters and setters---//
     public LobbyInfoComponent getLobbyInfoComponent()
     {
         return lobby;
@@ -76,6 +89,8 @@ public class LobbyPillarComponent : MonoBehaviour
     {
         degPos = deg;
     }
+    //----------------------------//
+
 
     // Start is called before the first frame update
     void Start()
@@ -87,18 +102,22 @@ public class LobbyPillarComponent : MonoBehaviour
     void Update()
     {
         Vector3 newPos = new Vector3(0, .2f, 1f);
+
+        //If a pillar is selected and has not reached the center and is properly oriented then move the pillar to the center
         if (isOriented && isSelected &&!isPosition)
         {
             pauseTime -= Time.deltaTime;
             if(pauseTime <= pauseTimeEventOne)
             {
-                lobby.OpenDoor();
+                lobby.OpenDoor(); //Breaks the stone to show lobby selection
             }
             if(pauseTime <= 0)
             {
+                //Moves towards parents center position based off an offset
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, Time.deltaTime * moveSpeed);
                 if (transform.localPosition.z >= .95 && transform.localPosition.z <= 1 && !isPosition)
                 {
+                    //Once in position it stops.
                     isPosition = true;
                 }
             }

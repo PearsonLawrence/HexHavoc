@@ -14,8 +14,7 @@ public class NetworkPlayer : NetworkBehaviour
     //public Transform body;
     public Transform leftHand;
     public Transform rightHand;
-    public SpellLauncher leftHandSpell;
-    public SpellLauncher rightHandSpell;
+    
     public HandInteractableComponent left, right;
     public XROrigin xr;
     public GameObject headObj;
@@ -26,7 +25,6 @@ public class NetworkPlayer : NetworkBehaviour
     public float moveDuration = 5;
 
     [SerializeField] private SpellManager spellManager;
-    [SerializeField] private PlayerNetwork playerNetwork;
 
     public SpellManager getSpellManager()
     {
@@ -83,8 +81,6 @@ public class NetworkPlayer : NetworkBehaviour
         if (rightHand && right) rightHand.position = right.gameObject.transform.position;
         if (rightHand && right) rightHand.forward = right.gameObject.transform.forward;
 
-        //leftHandSpell.gripProperty = VRRigReferences.Singleton.leftGripProperty;
-        //rightHandSpell.gripProperty = VRRigReferences.Singleton.rightGripProperty;
 
         if (MatchManager.Instance.isRoundReset.Value)
         {

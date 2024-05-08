@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence
+//Purpose: This script is used to assign move values to the PlatformDialComponent utilizing a gameobject drag system
+//to determine which direction to rotate the pillars. This script acts as a joystick.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +9,30 @@ using UnityEngine.UIElements;
 public class DialFingerPointComponent : MonoBehaviour
 {
     private bool isTouching = false;
-    [SerializeField] private PlatformDialComponent dial;
 
+    //Takes in a platform Dial component to directly modify
+    [SerializeField] private PlatformDialComponent dial; 
+
+    //Holding Point to calculate direction
     [SerializeField] private GameObject parent;
+
+    //Movement Indicators
     [SerializeField] private Vector3 offset;
     [SerializeField] private bool isMoving, isRight, isLeft, isUp, isDown;
 
-
+    //Getter
     public bool getIsTouching()
     {
         return isTouching;
     }
 
+    //Setter
     public void setIsTouching(bool val)
     {
         isTouching = val;
     }
 
+    //Reset to inital point with local position
     public void doReset()
     {
         transform.localPosition = Vector3.zero;
@@ -33,39 +43,45 @@ public class DialFingerPointComponent : MonoBehaviour
 
     }
 
+    //If the player is grabbing this call this function that tracks where the ball has moved relative local to the parents position
+    //Modifies the dial component
     public void doPointHold()
     {
+        //If it has been moved
         if (transform.localPosition != Vector3.zero)
         {
-            //Debug.Log(transform.localPosition.x);
+            //If it is dragged right
             if (transform.localPosition.x > .025f)
             {
                 dial.setIsRight(true);
                 dial.setIsLeft(false);
             }
+            //If it is dragged Left
             else if (transform.localPosition.x < -.025f)
             {
                 dial.setIsRight(false);
                 dial.setIsLeft(true);
             }
+            //If it is in the center
             else
             {
                 dial.setIsRight(false);
                 dial.setIsLeft(false);
             }
 
-
-            // Debug.Log(transform.localPosition.z);
+            //If it is dragged up
             if (transform.localPosition.z > .05f)
             {
                 dial.setIsUp(false);
                 dial.setIsDown(true);
             }
+            //If it is dragged down
             else if (transform.localPosition.z < -.05f)
             {
                 dial.setIsUp(true);
                 dial.setIsDown(false);
             }
+            //If it is center
             else
             {
                 dial.setIsUp(false);
@@ -74,6 +90,7 @@ public class DialFingerPointComponent : MonoBehaviour
 
 
         }
+        //If not holding
         else
         {
 
@@ -85,86 +102,6 @@ public class DialFingerPointComponent : MonoBehaviour
         }
         //Debug.Log(dial.getIsDown() + " : " + dial.getIsUp() + " : " + dial.getIsRight() + " : " + dial.getIsLeft());
     }
-    public void MouseTester()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.nearClipPlane + .25f;
-
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePosition);
-       
-        RaycastHit hitPoint;
-        Physics.Raycast(ray, out hitPoint, 1000);
-        //Debug.Log(transform.localPosition);
-        
-        if(hitPoint.collider != null && isTouching == false)
-        {
-            if (hitPoint.collider == this.GetComponent<Collider>() && Input.GetMouseButton(0))
-            {
-                isTouching = true;
-            }
-        }
-
-        if (isTouching == true)
-        {
-            transform.position = worldPos;
-        }
-        if (isTouching == true && !Input.GetMouseButton(0)) isTouching = false;
-
-        if (isTouching == false) transform.localPosition = Vector3.zero;
-
-        if(transform.localPosition != Vector3.zero)
-        {
-            //Debug.Log(transform.localPosition.x);
-            if (transform.localPosition.x > .025f)
-            {
-                dial.setIsRight(true);
-                dial.setIsLeft(false);
-            }
-            else if(transform.localPosition.x < -.025f)
-            {
-                dial.setIsRight(false);
-                dial.setIsLeft(true);
-            }
-            else
-            {
-                dial.setIsRight(false);
-                dial.setIsLeft(false);
-            }
-
-
-           // Debug.Log(transform.localPosition.z);
-            if (transform.localPosition.z > .05f)
-            {
-                dial.setIsUp(false);
-                dial.setIsDown(true);
-            }
-            else if (transform.localPosition.z < -.05f)
-            {
-                dial.setIsUp(true);
-                dial.setIsDown(false);
-            }
-            else
-            {
-                dial.setIsUp(false);
-                dial.setIsDown(false);
-            }
-
-           
-        }
-        else
-        {
-            
-            dial.setIsRight(false);
-            dial.setIsLeft(false);
-            dial.setIsUp(false);
-            dial.setIsDown(false);
-            
-        }
-        //Debug.Log(dial.getIsDown() + " : " + dial.getIsUp() + " : " + dial.getIsRight() + " : " + dial.getIsLeft());
-        
-    }
-
     public void Update()
     {
        // MouseTester();

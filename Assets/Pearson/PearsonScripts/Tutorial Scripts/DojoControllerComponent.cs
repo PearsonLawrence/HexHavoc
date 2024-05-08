@@ -1,3 +1,6 @@
+//Author: Pearson Lawrence
+//Purpose: Control what is currently being displayed in the dojo area. From toggling the elemental display or the animation displays.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

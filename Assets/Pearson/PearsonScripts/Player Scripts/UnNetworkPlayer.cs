@@ -1,3 +1,7 @@
+//Author: Pearson Lawrence
+//Purpose: This component handles the player teleportation and a variety of other things that control the game state.
+//This controls assigning grip values for the hands as well as ensuring that rendering the hand portal works.
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,7 +28,6 @@ public class UnNetworkPlayer : MonoBehaviour
     public bool isJoining;
     public bool isStarting;
     public bool hasPlayedAudio;
-    public TutorialManager tutorialManager;
     public GameObject offset;
     public MatchManager manager;
     public GestureEventProcessor gestureEP;
@@ -53,10 +56,12 @@ public class UnNetworkPlayer : MonoBehaviour
         float triggerValue = leftGripProperty.action.ReadValue<float>();
         float triggerValue2 = rightGripProperty.action.ReadValue<float>();
 
+        //Teleportation
         if(currentPillar)
         {
             if(!isArena)
             {
+                //If it is not the arena area teleport normally. By taking the players current pillar that is set through other scripts. If the bool is set to true then player will teleport to specified pillar tp point
                 if (isTeleported)
                 {
                     transform.position = currentPillar.playerPoint.transform.position;
@@ -74,26 +79,30 @@ public class UnNetworkPlayer : MonoBehaviour
             }
             else
             {
+                //If the player is not currently joining over relay
                 if (!isJoining)
                 {
-                    
+                    //And the player is connected over relay
                     if(isConnected)
                     {
-                        
+                        //Play spirit guide entrence audio once
                         if(!hasPlayedAudio)
                         {
                             introAudio.Play();
                             hasPlayedAudio = true;
                         }
+                        //If the round is being reset then teleport to start pillar
                         if (manager.resetRound.Value)
                         {
                             transform.position = matchPillar.playerPoint.transform.position;
                         }
+                        //If the game is starting attach to current pillar so the player moves with it
                         else if (manager.isGameStarting.Value)
                         {
                             transform.position = matchPillar.playerPoint.transform.position;
                             transform.rotation = matchPillar.playerPoint.transform.rotation;
                         }
+                        //If the player teleports and the other two conditions are not met then teleport the player to the new pillar set through teleportation manager
                         else if (isTeleported)
                         {
                             transform.position = currentPillar.playerPoint.transform.position;
@@ -108,6 +117,7 @@ public class UnNetworkPlayer : MonoBehaviour
                             //offset.transform.position = currentPillar.playerPoint.transform.position;
                         }*/
                     }
+                    //If you are not connected and you are not joining then teleport nornally
                     else
                     {
                         if (isTeleported)
@@ -128,6 +138,7 @@ public class UnNetworkPlayer : MonoBehaviour
             }
         }
 
+        //Update trigger values
         if (triggerValue > 0.1f)
         {
             interactleft.isSelecting = true;
@@ -147,8 +158,10 @@ public class UnNetworkPlayer : MonoBehaviour
             interactRight.isHolding = false;
         }
 
+        //If your hands detect that they are interacting with eachother and gripping
         if(interactRight.isTPTrigger && interactleft.isTPTrigger )
         {
+            //Render the portal
             if(!portalRenderManager.isUpdating)
             {
                 portalRenderManager.StartThis();
@@ -161,6 +174,7 @@ public class UnNetworkPlayer : MonoBehaviour
         }
         else
         {
+            //Stop rendering the portal
             if (portalRenderManager.isUpdating)
             {
                 portalRenderManager.resetThis();

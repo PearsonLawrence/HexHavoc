@@ -172,10 +172,12 @@ public class LobbyUIManager : MonoBehaviour
         gameLobby.StartGame();
     }
 
+    //If player is joining then teleport them to the portal realm and assign values so that player connects to lobby
     public void doJoin()
     {
         player.transform.position = tpPos1.transform.position;
         player.transform.rotation = tpPos1.transform.rotation;
+        //Connect the player to the lobby
         gameLobby.JoinSelectedLobby(unNetworkPlayer);
         unNetworkPlayer.isJoining = true;
         isJoin = true;
@@ -241,6 +243,8 @@ public class LobbyUIManager : MonoBehaviour
         }*/
 
     }
+
+    //Creates a lobby and assigns player variables so that the player teleports directly to the arena
     public void doCreate()
     {
         gameLobby.CreateLobby();

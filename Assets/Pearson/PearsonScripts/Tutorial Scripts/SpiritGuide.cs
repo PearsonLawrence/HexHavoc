@@ -18,7 +18,6 @@ public class SpiritGuide : MonoBehaviour
 
     // Start is called before the first frame update
     [SerializeField] private TMP_Text textbox;
-    [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private List<Transform> movepoints;
     [SerializeField] private List<string> TextPrompts;
     [SerializeField] private List<string> Stage1TextPrompts;
@@ -45,10 +44,7 @@ public class SpiritGuide : MonoBehaviour
     {
         return finishedCurrentPrompt;
     }
-    public TutorialManager GetTutorialManager()
-    {
-        return tutorialManager;
-    }
+   
     void Start()
     {
         
@@ -256,45 +252,6 @@ public class SpiritGuide : MonoBehaviour
 
     void tutorialStates()
     {
-        switch (tutorialManager.getCurrentStage())
-        {
-            case 0:
-                Stage1();
-                break;
-
-            case 1:
-                Stage2();
-                break;
-
-            case 2:
-                Stage3();
-                break;
-
-            case 3:
-                Stage4();
-                break;
-
-            case 4:
-                Stage5();
-                break;
-
-            case 5:
-                Stage6();
-                break;
-
-            case 6:
-                Stage7();
-                break;
-
-            case 7:
-                Stage8();
-                break;
-
-            case 8:
-                Stage9();
-                break;
-
-        }
     }
 
     // Update is called once per frame
