@@ -1,3 +1,6 @@
+//Author: Brandon Yu
+//Purpose: This script is used to handle the collisions of unnetworked spells. Behaves the same as the regular collision manager example on local clients
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

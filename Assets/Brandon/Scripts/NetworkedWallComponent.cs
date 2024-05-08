@@ -1,6 +1,5 @@
 //Author: Brandon(Ri) Yu
-//Purpose: This script is attached to the wall gameobject and gives it its logic. It creates a timer til it is
-//destroyed along with keeling track of how many spells it has blocked.
+//Purpose: This script contians the logic for all networked walls within the arena. how many hits each wall has tanked and how long it will stay in the battle feild is controlled here
 
 using System.Collections;
 using System.Collections.Generic;

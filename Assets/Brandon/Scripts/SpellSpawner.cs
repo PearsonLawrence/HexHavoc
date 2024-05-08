@@ -1,3 +1,7 @@
+//Author: Brandon Yu
+//Purpose: This will spawn the unnetworked element that is used in the gestures. For example if the user is a wind elemetn specilization the wind elemenent would be spawned. This element then would be
+//used in the guesture manager to either spawn a netowrked windwall or a networked wind shot in spellManager.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

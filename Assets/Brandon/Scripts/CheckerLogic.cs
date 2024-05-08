@@ -1,3 +1,6 @@
+//Author: Brandon Yu
+//Purpose: nieche system that allows a empty game object to be paced with this script on it to check of there is a player. Not yet really implemetned would have been used to check for palyers on the pillar and such.
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

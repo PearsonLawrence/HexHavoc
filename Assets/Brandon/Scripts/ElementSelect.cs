@@ -1,3 +1,7 @@
+//Author: Brandon Yu
+//Purpose: This script allows the players to select their element at the begining of the game
+//This will be attached to the element orbs and based on which on the player selects their elemental specilzation will be set to it.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

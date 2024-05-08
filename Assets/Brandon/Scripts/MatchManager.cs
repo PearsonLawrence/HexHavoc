@@ -1,6 +1,7 @@
 //Author: Brandon Yu
-//Purpose: This script will keep track of teh clients/players that are in the game along with their respective 
-//health manager. Keeps track of winner and loser of rounds along with storeing intial spawn locations
+//Purpose: This script will handle everyhting that takes place in the match. It will first register players when they connect via relay. Then it will enable the ready button, followed by enableing the elemental selectors.
+//after players have choosen thier element the script will call all the pillars to move back and the jumbotron to come down. Then player healths will be updated within the updateHealthFuntion inside this sciprt. This script will
+//track who wins and loses a round along with enableing a rematch system after a player reaches two wins. Finally this script will control the in-game announcer.
 
 using System.Collections;
 using System.Collections.Generic;
