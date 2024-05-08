@@ -1,5 +1,4 @@
-//Developed by Mason Smith
-//Made to test if mouse clicks work. Not a mandatory script.
+//Developed by Mason Smith. Made to test if mouse clicks work. Script is Obsolete.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

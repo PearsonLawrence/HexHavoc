@@ -1,5 +1,4 @@
-//Developed by Mason Smith
-//Made to implement Animator over the network
+//Developed by Mason Smith. Made to implement Animator over the network
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
