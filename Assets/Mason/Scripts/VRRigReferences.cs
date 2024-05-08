@@ -1,5 +1,4 @@
-//Developed by Mason Smith and Pearson Lawrence
-//Made to provide implementation of VROrigin object to the Network Player prefab.
+//Developed by Mason Smith and Pearson Lawrence. Made to provide implementation of VROrigin object to the Network Player prefab.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

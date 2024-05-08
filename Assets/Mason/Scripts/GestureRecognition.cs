@@ -1,4 +1,5 @@
-﻿/*
+﻿//Imported from MiVRy by Mason Smith. No changes made to script, used in GestureEventProcessor.cs.
+/*
  * MiVRy - 3D gesture recognition library.
  * Version 2.10
  * Copyright (c) 2024 MARUI-PlugIn (inc.)

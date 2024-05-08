@@ -52,16 +52,14 @@ public class GestureEventProcessor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Loads gesture file for reference in editor and build runtime
         gc = new GestureCombinations(2);
 #if UNITY_EDITOR // this will happen when using the Unity Editor:
         int error = gc.loadFromFile("StreamingAssets/Gestures/1and2HandGestures.dat");
 #else // this will happen in stand-alone build:
         int error = gc.loadFromFile(Application.streamingAssetsPath + "/Gestures/1and2HandGestures.dat");
 #endif
-        /*if (error != null)
-        {
-            throw new Exception(GestureRecognition.getErrorMessage(error) + " at: " + Application.streamingAssetsPath + "/1and2HandGestures.dat");
-        }*/
+
         //Sets current ammo to max ammo when bow/gun is spawned
         currentBowAmmo = maxBowAmmo;
         currentGunAmmo = maxAmmo;
@@ -79,27 +77,31 @@ public class GestureEventProcessor : MonoBehaviour
     {
         bool triggerValue = leftTriggerProperty.action.IsPressed();
         bool triggerValue2 = rightTriggerProperty.action.IsPressed();
-        //Prevents gun from firing multiple times on trigger hold
-
-
+        //Prevents Left Gun from firing multiple times on trigger hold
         if (!triggerValue && hasShotLeft)
         {
             hasShotLeft = false;
         }
+        //Shoots Left Gun
         else if (triggerValue && isGunSpawnedLeft && !hasShotLeft)
         {
             FireLeftGun();
             hasShotLeft = true;
         }
+
+        //Prevents Right Gun from firing multiple times on trigger hold
         if (!triggerValue2 && hasShotRight)
         {
             hasShotRight = false;
         }
+        //Fires Right Gun
         else if (triggerValue2 && isGunSpawnedRight && !hasShotRight)
         {
             FireRightGun();
             hasShotRight = true;
         }
+
+        //Prevents gun from firing when no ammo
         if (currentGunAmmo == 0 && !isBowSpawnedLeft && !isBowSpawnedRight)
         {
             hasAmmo = false;
@@ -115,7 +117,7 @@ public class GestureEventProcessor : MonoBehaviour
         }
         //Specifies how similar gestures made in game must be to pre-recorded gesture samples
         if (gestureCompletionData.similarity >= 0.5) {
-            //Casts Element Spawn (for Earth, Water, and Air)
+            //Casts Element Spawn (for Earth, Water, Fire, and Air)
             if (gestureCompletionData.gestureName == "Right Element Spawn" && !isElementSpawned && !isGunSpawnedRight && !isBowSpawnedRight)
             {
                 isElementSpawned = true;
@@ -256,8 +258,6 @@ public class GestureEventProcessor : MonoBehaviour
                             spellmanager.fireRightWall();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
-
                         }
                         if (gestureCompletionData.gestureName == "Left Fire Wall")
                         {
@@ -289,6 +289,7 @@ public class GestureEventProcessor : MonoBehaviour
                         }
                         break;
                     case elementType.WIND:
+                        //Reworked reload mechanic for air gun, keeping commented out for future work on project
                         //Casts Reload
                         /*if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
                         {
@@ -325,7 +326,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunLeft.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
@@ -339,7 +339,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunRight.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Air Shield
@@ -370,6 +369,7 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
 
                         }
+                        
                         //Casts Water Shield
                         if (gestureCompletionData.gestureName == "Left Water Shield" && isTouchingElement)
                         {
@@ -385,7 +385,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             spellmanager.fireRightWall();
                             CurrentElement.destroyThis();
-
                         }
                         break;
                 }
@@ -407,7 +406,6 @@ public class GestureEventProcessor : MonoBehaviour
                             LeftBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Right Bow Spawn
@@ -422,7 +420,6 @@ public class GestureEventProcessor : MonoBehaviour
                             RightBowIndicator.SetActive(true);
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
                         }
 
                         //Casts Left Arrow Draw
@@ -516,8 +513,6 @@ public class GestureEventProcessor : MonoBehaviour
                             unNetworkSpellmanager.spawnRightWall();
                             isElementSpawned = false;
                             CurrentElement.destroyThis();
-
-
                         }
                         if (gestureCompletionData.gestureName == "Left Fire Wall")
                         {
@@ -549,6 +544,7 @@ public class GestureEventProcessor : MonoBehaviour
                         }
                         break;
                     case elementType.WIND:
+                        //Reworked reload mechanic for air gun, keeping commented out for future work on project
                         //Casts Reload
                         /*if (gestureCompletionData.gestureName == "Right Reload" && isTouchingElement && isGunSpawnedLeft && !hasAmmo)
                         {
@@ -585,7 +581,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunLeft.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Right Gun Spawn (Same gesture name as Right Bow Spawn)
@@ -599,7 +594,6 @@ public class GestureEventProcessor : MonoBehaviour
                             CurrentElement.destroyThis();
                             AirGunRight.SetActive(true);
                             reloadCount = 0;
-
                         }
 
                         //Casts Air Shield
@@ -643,7 +637,6 @@ public class GestureEventProcessor : MonoBehaviour
                             isElementSpawned = false;
                             unNetworkSpellmanager.spawnRightWall();
                             CurrentElement.destroyThis();
-
                         }
                         break;
                 }
@@ -735,6 +728,7 @@ public class GestureEventProcessor : MonoBehaviour
         return isTouchingElement;
     }
 
+    //Checks if Player has ammo in bow/gun
     public bool HasAmmo()
     {
         return hasAmmo;

@@ -18,6 +18,7 @@ public class TeleportationManager : MonoBehaviour
     {
         playerHead = Camera.main.transform;
 
+        //Checks if Player Camera Reference is set in TeleportationManager
         if (playerHead == null)
         {
             Debug.Log("Player Camera Reference not set in TeleportationManager");
@@ -26,6 +27,7 @@ public class TeleportationManager : MonoBehaviour
 
     void Update()
     {
+        //Checks to see if Teleport gesture has been recoginized
         if (gestureEventProcessor.IsTeleportGestureRecognized())
         {
             Teleport();
@@ -51,8 +53,10 @@ public class TeleportationManager : MonoBehaviour
         //Calculates ray's starting position at player's head during the gesture
         Vector3 rayStartPosition = playerHead.position;
 
+        //Draws rays in editor for testing
         Debug.DrawRay(rayStartPosition, rayDirection*1000, Color.red, 30);
 
+        //If raycast hits pillar, teleport to that pillar
         if (Physics.Raycast(rayStartPosition, rayDirection, out hit, 1000))
         {
             if (hit.collider.gameObject.CompareTag("Pillar"))
