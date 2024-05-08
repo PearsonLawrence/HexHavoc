@@ -1,6 +1,6 @@
 //Auhtor: Brandon(Ri) Yu
-//purpose: This is the the script that is attached onto the fireball gameobject. It gives the firball its logic
-//like its movement and despawning
+//purpose: This is the logic for all networked projectiles within the arena. Based on a bool set in the inpsector each element will behave slightly differently. 
+//The direction and physics for all the projectiles live here along with the destruction of the spell.
 
 using System.Collections;
 using System.Xml.Linq;

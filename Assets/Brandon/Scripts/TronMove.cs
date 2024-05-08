@@ -1,3 +1,6 @@
+//Author: Brandon Yu
+//Purpose: This script is used to lower the jumbotron down when the match starts
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

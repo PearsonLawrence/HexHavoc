@@ -1,3 +1,6 @@
+//Author: Brandon
+//Purpose: This script will spawn unnetwokred local projectiles and walls based on which hand called the spell
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

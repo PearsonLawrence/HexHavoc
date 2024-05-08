@@ -1,3 +1,6 @@
+//Author: Brandon
+//Purpose: Contains the logic for unnnetowkred walls
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

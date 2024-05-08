@@ -1,3 +1,6 @@
+//Author: Brandon yu
+//purpose: This is the script that contians the logic for spells that aren't spawned over the network i.e the ones in the dojo and tutorial
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

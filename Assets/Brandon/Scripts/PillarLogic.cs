@@ -1,3 +1,7 @@
+//Author: Brandon
+//Purpose: This script contains all the logic that the pillars within the arena need. It holds if a player is currently on the pillar, along with how the 
+//pillar should move when the match starts and ends
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;

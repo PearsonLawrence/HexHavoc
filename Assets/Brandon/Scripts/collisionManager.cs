@@ -1,6 +1,6 @@
 //Author:Brandon(Ri) Yu
-//Purpose: Detect collsions within the game and determining what hit what. i.e a fireball hit the player or
-//a fireball hitting the wall
+//Purpose: This is the detection script to check what spells hit. This is attached to spells and uses TAGS to check what it hit. Depending on waht is hit different logic will happen, i.e hitting a player
+// would make the player take damage equal to the spell the script is attached to.
 
 using System.Collections;
 using System.Collections.Generic;

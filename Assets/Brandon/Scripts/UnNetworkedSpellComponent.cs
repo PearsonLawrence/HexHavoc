@@ -1,3 +1,6 @@
+//Author: Brandon Yu
+//Purpose: Sets the owner of unnetworked spells along with retriveing the owner when called.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
