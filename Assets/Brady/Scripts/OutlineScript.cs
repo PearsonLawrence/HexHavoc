@@ -1,3 +1,5 @@
+//written by braden turner
+//used to create a wall hack type of outline on the player (we decieded it might be 2 OP)
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,3 +1,6 @@
+//Written by Braden Turner
+//Used to add a flash of red on the player screen when hit by a spell, to show the player theyve taken damage
+
 using UnityEngine;
 using UnityEngine.UI;
 
