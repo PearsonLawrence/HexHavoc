@@ -1,7 +1,9 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 //Made By Braden
+//initual main menu system used for the first demo
 public class MainMenuManager : MonoBehaviour
 {
     public GameObject mainMenuPanel;

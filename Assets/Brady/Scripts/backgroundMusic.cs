@@ -1,3 +1,5 @@
+//written by braden turner
+// used to play main menu music on start, and areana music when in the areana
 using UnityEngine;
 using System.Collections;
 

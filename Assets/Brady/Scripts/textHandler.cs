@@ -1,3 +1,5 @@
+//Written by braden Turner
+//a script to allow the player to touch a collide box and to display and cycle through text
 using UnityEngine;
 
 public class textHandler : MonoBehaviour

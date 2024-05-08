@@ -1,3 +1,5 @@
+//written by braden turner
+//a script to change the healthbar on the jumbotron to reflect the players health in match
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
